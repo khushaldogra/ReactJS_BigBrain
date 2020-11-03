@@ -18,10 +18,10 @@ const Login = () => {
         console.log(password)
         fetch('http://localhost:5005/admin/auth/login', {
             method:'post',
-            body: {
+            body: JSON.stringify({
                 'email' : email,
                 'password' : password,
-            }, 
+            }), 
             headers: {
                 'Content-Type' : 'application/json',
             },
