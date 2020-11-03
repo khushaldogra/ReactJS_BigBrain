@@ -26,11 +26,11 @@ const Login = () => {
                 'Content-Type' : 'application/json',
             },
 
-        }).then(res=>res.json()).then(data => {
+        })
+        .then(res=>res.json())
+        .then(data => {
             history.push('/home')
         })
-
-  
     }
 
     return(
@@ -55,7 +55,7 @@ const Login = () => {
           </Button>
         </Segment>
       </Form>
-            
+          
         </div>
     )
 }
