@@ -1,9 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button } from 'semantic-ui-react'
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const Homepage = () => {
     const history = useHistory()
+    const location = useLocation()
+
+    // stop logged out user from accessing home page
+    useEffect(() => {
+        if (!localStorage["token"]) {
+            // alert("Invalid token")
+            history.push('/')
+        }
+    },[location])
+
     return (
         <div>
             Home page
@@ -13,3 +23,5 @@ const Homepage = () => {
 }
 
 export default Homepage;
+
+// landing page - login - home/dashboard - pages

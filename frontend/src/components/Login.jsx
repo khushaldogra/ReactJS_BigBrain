@@ -1,8 +1,7 @@
 import React,{useState} from 'react';
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
-
-// const api = new API('http://localhost:5005');
+import config from '../config'
 
 const Login = () => {
     const history = useHistory()
@@ -11,11 +10,8 @@ const Login = () => {
     const [password, setPassword] = useState('')
 
     const handlerOnsubmit = () => {
-        // login api - use axios ?
         // fetch - body
-        console.log(email)
-        console.log(password)
-        fetch('http://localhost:5005/admin/auth/login', {
+        fetch(config.basePath+'/admin/auth/login', {
             method:'post',
             body: JSON.stringify({
                 'email' : email,
@@ -34,6 +30,8 @@ const Login = () => {
             if (data.error) {
               throw Error(data.error);
             }
+            // *****
+            localStorage.setItem("token", data['token'])
             history.push('/home')
         })
         .catch(err => {

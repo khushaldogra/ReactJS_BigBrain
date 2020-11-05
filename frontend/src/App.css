@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+
+#home-component {
+  background-color: rgb(136,199,71);
+}
+
+/* homecomponent ui segment propclass */

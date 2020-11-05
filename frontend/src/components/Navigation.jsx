@@ -1,7 +1,43 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useHistory } from 'react-router-dom';
+import {Button} from 'semantic-ui-react';
+import config from '../config'
 
 function Navigation() {
+    const location = useLocation()
+    const history = useHistory()
+    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage["token"]);
+    
+    const handleLogout = () => {
+        // call API to logout
+        fetch(config.basePath + '/admin/auth/logout', {
+            method: 'post',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : "Bearer " + localStorage["token"]
+            },
+        })
+        .then(res=> {
+          return res.json()
+        })
+        .then(data => {
+            if (data.error) {
+              throw Error(data.error);
+            }
+            localStorage.removeItem("token")
+            //redirect to home
+            history.push('/')
+        })
+        .catch(err => {
+          alert(err.message)
+        })
+
+    }
+
+
+    useEffect(() => {
+        setIsLoggedIn(!!localStorage["token"])
+    },[location])
     return (
         // Links to the path
         <ul>
@@ -15,6 +51,8 @@ function Navigation() {
                     Home
                 </Link>
             </li>
+            {!isLoggedIn?
+            <>
             <li>
                 <Link to="/login">
                     Login
@@ -25,6 +63,12 @@ function Navigation() {
                     Register
                 </Link>
             </li>
+            </>
+            :
+            <li>
+                <Button onClick={handleLogout}>Logout</Button>
+            </li>
+            }
         </ul>
     )
 }
