@@ -1,9 +1,8 @@
 import React,{useState} from 'react';
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
-import API from '../api';
 import { useHistory } from 'react-router-dom';
 
-const api = new API('http://localhost:5005');
+// const api = new API('http://localhost:5005');
 
 const Login = () => {
     const history = useHistory()
@@ -27,9 +26,18 @@ const Login = () => {
             },
 
         })
-        .then(res=>res.json())
+        .then(res=> {
+          // if(res.status !== 200) 
+          return res.json()
+        })
         .then(data => {
+            if (data.error) {
+              throw Error(data.error);
+            }
             history.push('/home')
+        })
+        .catch(err => {
+          alert(err.message)
         })
     }
 
