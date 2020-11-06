@@ -25,7 +25,7 @@ function Navigation() {
               throw Error(data.error);
             }
             localStorage.removeItem("token")
-            //redirect to home
+            //redirect to landing page
             history.push('/')
         })
         .catch(err => {
@@ -47,8 +47,8 @@ function Navigation() {
                 </Link>
             </li>
             <li>
-                <Link to="/home">
-                    Home
+                <Link to="/dashboard">
+                    Dashboard
                 </Link>
             </li>
             {!isLoggedIn?

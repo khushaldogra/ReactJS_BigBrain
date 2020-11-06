@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Button,
   Container,
@@ -45,6 +46,15 @@ const HomepageHeading = () => (
   )
 
 const Landing = () => {
+    const history = useHistory()
+    
+    const linkRegister = () => {
+      history.push('/register')
+    }
+    const linkLogin = () => {
+      history.push('/login')
+    }
+
     return (
         <Visibility
           once={false}
@@ -56,8 +66,8 @@ const Landing = () => {
             vertical
           >
               {/* Move to css file */}
-            <Button floated={"right"} style={{margin: "0 1% 0 0"}}>Register</Button>
-            <Button floated={"right"} style={{margin: "0 1% 0 0"}}>Log in</Button>
+            <Button floated={"right"} style={{margin: "0 1% 0 0"}} onClick={linkRegister}>Register</Button>
+            <Button floated={"right"} style={{margin: "0 1% 0 0"}} onClick={linkLogin}>Log in</Button>
             <HomepageHeading/>
           </Segment>
         </Visibility>
