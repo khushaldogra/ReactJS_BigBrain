@@ -6,9 +6,8 @@
         "jest": true
     },
     "extends": [
-        "plugin:react/recommended"
-        // uncomment this later ***
-        // "airbnb"
+        "plugin:react/recommended",
+        "airbnb"
     ],
     "parserOptions": {
         "ecmaFeatures": {
