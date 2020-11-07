@@ -81,16 +81,11 @@ const Dashboard = () => {
                     <CardTemplate key={index} user_info={id}></CardTemplate>
                 ))}
             </Card.Group>
-            <br />
-            <Input type='text' placeholder='Enter name of new quiz' action onChange={(e, { value }) => setQuizname(value)}>
+            <br/>
+            {/* Is action necessary? *** */}
+            <Input type='text' placeholder='Enter name of new quiz' action onChange={(e,{value}) => setQuizname(value)}>
                 <input />
                 <Button type='submit' onClick={addQuiz}>New Quiz</Button>
-            </Input>
-            <br />
-            <br />
-            <Input type='text' placeholder='Enter quiz to delete'>
-                <input />
-                <Button type='submit'>Delete Quiz</Button>
             </Input>
         </div>
     )
