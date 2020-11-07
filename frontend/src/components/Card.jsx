@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Card, Icon, Image, Label } from 'semantic-ui-react'
 import PropTypes from 'prop-types';
 import config from '../config';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 const CardTemplate = (props) => {
   const history = useHistory()
