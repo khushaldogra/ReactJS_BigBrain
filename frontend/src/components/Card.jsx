@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Icon, Image } from 'semantic-ui-react'
+import { Card, Image, Button } from 'semantic-ui-react'
 import PropTypes from 'prop-types';
 import config from '../config';
 import { useHistory } from 'react-router-dom';
@@ -36,7 +36,7 @@ const CardTemplate = (props) => {
 
   // get all quizes api - component - state-data - click button - api - add new quiz - added to database - response? (id) - state-data(push resposne) - u cant see card information 
   return(
-    <Card onClick={() => history.push('/card/'+user_info.id)}>
+    <Card >
       <Card.Content>
         <Image
           floated='right'
@@ -48,6 +48,7 @@ const CardTemplate = (props) => {
         <Card.Description>
           Total time to complete: {totaltime}
         </Card.Description>
+        <Button onClick={() => history.push(`/card/${user_info.id}`)}>View</Button>
       </Card.Content>
     </Card>
 )

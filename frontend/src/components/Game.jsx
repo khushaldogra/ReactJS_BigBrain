@@ -1,10 +1,15 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Button } from 'semantic-ui-react';
+import { useParams, useHistory } from 'react-router-dom';
 
 const Game = () => {
-    const {id} = useParams()
-    return(
-        <div>{id}</div>
+    const history = useHistory();
+    const { id } = useParams();
+    return (
+        <div>
+            <Button onClick={() => history.push(`/card/edit/${id}`)}>Edit</Button>
+            {id}
+        </div>
     )
 }
 

@@ -43,3 +43,7 @@
 }
 
 /* homecomponent ui segment propclass */
+
+.edit-game {
+  display: flex;
+}

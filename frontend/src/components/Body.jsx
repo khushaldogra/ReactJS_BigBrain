@@ -5,6 +5,7 @@ import Login from './Login';
 import Dashboard from './Dashboard';
 import Register from './Register';
 import Game from './Game';
+import Edit from './EditGame';
 
 function Body() {
     return (
@@ -22,7 +23,12 @@ function Body() {
             <Route path='/register'>
                 <Register />
             </Route>
-            <Route path='/card/:id' component={Game}/>
+            <Route exact path='/card/:id'>
+                <Game />
+            </Route>
+            <Route exact path='/card/edit/:id'>
+                <Edit />
+            </Route>
         </Switch>
     )
 }
