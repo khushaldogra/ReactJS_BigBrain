@@ -3,6 +3,7 @@ import { Link, useLocation, useHistory } from 'react-router-dom';
 import {Button} from 'semantic-ui-react';
 import config from '../config'
 
+// change name to header
 function Navigation() {
     const location = useLocation()
     const history = useHistory()

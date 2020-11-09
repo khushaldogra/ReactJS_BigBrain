@@ -2,15 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom';
 import CardTemplate from './Card'
 import config from '../config'
-import { Button, Card, Image } from 'semantic-ui-react'
+import { Button, Card, Image, Header, Modal } from 'semantic-ui-react';
 import { Input } from 'semantic-ui-react'
+import Navigation from './Navigation';
 
 
 const Dashboard = () => {
     const history = useHistory()
     const location = useLocation()
-    const [data, setData] = useState([])
+    const [quizzes, setQuizzes] = useState([])
     const [quizname, setQuizname] = useState("")
+    const [open, setOpen] = useState(false)
+    const [quizActive, setQuizActive] = useState("")
 
     // stop logged out user from accessing Dashboard
     useEffect(() => {
@@ -38,7 +41,7 @@ const Dashboard = () => {
                 console.log(data)
                 // console.log(data["quizzes"][0])
                 // quizzes = data['quizzes'].map((p,i) => renderCards(p,i))
-                setData(data["quizzes"])
+                setQuizzes(data["quizzes"])
             })
             .catch(err => {
                 alert(err.message)
@@ -72,13 +75,21 @@ const Dashboard = () => {
                 alert(err.message)
             })
     }
+
+    // routing props - send session id not through url
+    const handleCopyLink = () => {
+        navigator.clipboard.writeText(window.location.host+'/game/'+quizActive)
+        setOpen(false)
+        alert('link copied')
+    }
+
     return (
         <div>
             <span>Dashboard</span>
             {/* Display cards */}
             <Card.Group>
-                {data.map((id, index) => (
-                    <CardTemplate key={index} user_info={id}></CardTemplate>
+                {quizzes.map((quiz, index) => (
+                    <CardTemplate key={index} quiz_info={quiz} setOpen={setOpen} setQuizActive={setQuizActive}></CardTemplate>
                 ))}
             </Card.Group>
             <br/>
@@ -87,6 +98,28 @@ const Dashboard = () => {
                 <input />
                 <Button type='submit' onClick={addQuiz}>New Quiz</Button>
             </Input>
+            <Modal
+                onClose={() => setOpen(false)}
+                onOpen={() => setOpen(true)}
+                open={open}
+                >
+                <Modal.Header>Select a Photo</Modal.Header>
+                <Modal.Content>
+                    Session ID: {quizActive}
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button color='black' onClick={() => setOpen(false)}>
+                        Close
+                    </Button>
+                    <Button
+                    content="Copy Link"
+                    labelPosition='right'
+                    icon='checkmark'
+                    onClick={handleCopyLink}
+                    positive
+                    />
+                </Modal.Actions>
+            </Modal>
         </div>
     )
 }

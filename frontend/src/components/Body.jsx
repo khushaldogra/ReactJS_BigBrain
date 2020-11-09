@@ -5,7 +5,9 @@ import Login from './Login';
 import Dashboard from './Dashboard';
 import Register from './Register';
 import Game from './Game';
-import Edit from './EditGame';
+import Edit from './Edit';
+
+// change name to navigation
 
 function Body() {
     return (
@@ -23,11 +25,11 @@ function Body() {
             <Route path='/register'>
                 <Register />
             </Route>
-            <Route exact path='/card/:id'>
-                <Game />
-            </Route>
-            <Route exact path='/card/edit/:id'>
+            <Route exact path='/game/edit/:id'>
                 <Edit />
+            </Route>
+            <Route exact path='/game/:id'>
+                <Game/>
             </Route>
         </Switch>
     )
