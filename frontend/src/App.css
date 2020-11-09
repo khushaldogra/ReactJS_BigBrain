@@ -47,3 +47,7 @@
 .edit-game {
   display: flex;
 }
+
+.startButton.ui.button {
+  margin-left: 4%;
+}
