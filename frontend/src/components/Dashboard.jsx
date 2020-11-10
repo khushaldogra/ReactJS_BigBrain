@@ -13,7 +13,9 @@ const Dashboard = () => {
     const [quizzes, setQuizzes] = useState([])
     const [quizname, setQuizname] = useState("")
     const [open, setOpen] = useState(false)
+    const [openResults, setOpenResults] = useState(false)
     const [quizActive, setQuizActive] = useState("")
+    const [currentQuizId, setCurrentQuizId] = useState(0)
 
     // stop logged out user from accessing Dashboard
     useEffect(() => {
@@ -38,7 +40,7 @@ const Dashboard = () => {
                 if (data.error) {
                     throw Error(data.error);
                 }
-                console.log(data)
+                console.log(data["quizzes"])
                 // console.log(data["quizzes"][0])
                 // quizzes = data['quizzes'].map((p,i) => renderCards(p,i))
                 setQuizzes(data["quizzes"])
@@ -78,9 +80,13 @@ const Dashboard = () => {
 
     // routing props - send session id not through url
     const handleCopyLink = () => {
-        navigator.clipboard.writeText(window.location.host+'/game/'+quizActive)
+        navigator.clipboard.writeText(window.location.host+'/game/'+currentQuizId+'/'+quizActive)
         setOpen(false)
         alert('link copied')
+    }
+
+    const redirectResults = () => {
+        history.push('/results/' + quizActive)
     }
 
     return (
@@ -89,7 +95,7 @@ const Dashboard = () => {
             {/* Display cards */}
             <Card.Group>
                 {quizzes.map((quiz, index) => (
-                    <CardTemplate key={index} quiz_info={quiz} setOpen={setOpen} setQuizActive={setQuizActive}></CardTemplate>
+                    <CardTemplate key={index} quiz_info={quiz} setCurrentQuizId={setCurrentQuizId} setOpenResults={setOpenResults} setOpen={setOpen} setQuizActive={setQuizActive}></CardTemplate>
                 ))}
             </Card.Group>
             <br/>
@@ -98,12 +104,13 @@ const Dashboard = () => {
                 <input />
                 <Button type='submit' onClick={addQuiz}>New Quiz</Button>
             </Input>
+            
             <Modal
                 onClose={() => setOpen(false)}
                 onOpen={() => setOpen(true)}
                 open={open}
                 >
-                <Modal.Header>Select a Photo</Modal.Header>
+                <Modal.Header>Game Code</Modal.Header>
                 <Modal.Content>
                     Session ID: {quizActive}
                 </Modal.Content>
@@ -116,6 +123,29 @@ const Dashboard = () => {
                     labelPosition='right'
                     icon='checkmark'
                     onClick={handleCopyLink}
+                    positive
+                    />
+                </Modal.Actions>
+            </Modal>
+
+            <Modal
+                onClose={() => setOpenResults(false)}
+                onOpen={() => setOpenResults(true)}
+                open={openResults}
+                >
+                <Modal.Header>Results</Modal.Header>
+                <Modal.Content>
+                    Would you like to view the results?
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button color='black' onClick={() => setOpenResults(false)}>
+                        Close
+                    </Button>
+                    <Button
+                    content="Yes"
+                    labelPosition='right'
+                    icon='checkmark'
+                    onClick={redirectResults}
                     positive
                     />
                 </Modal.Actions>

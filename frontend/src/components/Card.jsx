@@ -6,10 +6,11 @@ import { useHistory, Link } from 'react-router-dom';
 
 const CardTemplate = (props) => {
   const history = useHistory()
-  const { quiz_info, setOpen, setQuizActive } = props
+  const { quiz_info, setOpen, setQuizActive, setOpenResults, setCurrentQuizId } = props
   const [question, setQuestion] = useState(0)
   const [totaltime, setTotaltime] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [quiz, setQuiz] = useState({})
 
   useEffect(() => {
     fetch(config.basePath+'/admin/quiz/'+quiz_info.id, {
@@ -21,7 +22,10 @@ const CardTemplate = (props) => {
     })
     .then(res=>res.json())
     .then(data=>{
-      console.log(data)
+      if(data.error){
+
+      }
+      setQuiz(data)
       if(data.questions) {
         setQuestion(data.questions.length)
         let time = 0
@@ -30,7 +34,29 @@ const CardTemplate = (props) => {
         });
         setTotaltime(time)
       }  
-      //fetch to check status of quiz
+      console.log(quiz_info)
+      // fetch to check status of quiz
+      // fetch(config.basePath + '/admin/session/' + quiz_info.active + '/status', {
+      //   method : 'get',
+      //   headers : {
+      //     'Authorization' : 'Bearer ' + localStorage['token'],
+      //     'Content-type': 'application/json'
+      //   }
+      // })
+      // .then(res => res.json())
+      // .then(data => {
+      //   if (data.error) {
+      //     throw Error(data.error)
+      //   }
+      //   console.log(data)
+      //   setQuizActive(data.active)
+      // })
+      // .catch(err => {
+      //   alert(err.message)
+      // })
+      if(quiz_info.active != null){
+        setIsPlaying(true)
+      }
     })
   },[])
 
@@ -84,12 +110,14 @@ const CardTemplate = (props) => {
       .then(res => {
         return res.json()
       })
-      .then(quiz => {
-        if (quiz.error) {
-          throw Error(quiz.error)
+      .then(quiz_data => {
+        if (quiz_data.error) {
+          throw Error(quiz_data.error)
         }
+        setQuiz(quiz_data)
         setIsPlaying(true)
-        setQuizActive(quiz.active)
+        setQuizActive(quiz_data.active)
+        setCurrentQuizId(quiz_info.id)
         setOpen(true)
       })
       .catch(err => {
@@ -101,10 +129,30 @@ const CardTemplate = (props) => {
     })
   }
 
+  // check this ***
   const stopQuiz = () => {
       // fetch - stop quiz
-      setIsPlaying(false) // this after successful api call
- 
+      fetch(config.basePath + '/admin/quiz/' + quiz_info.id + '/end', {
+        method: 'post',
+        headers: {
+          'Authorization' : 'Bearer ' + localStorage["token"]
+        }
+      })
+      .then(res => {
+        return res.json()
+      })
+      .then(data => {
+        if (data.error) {
+          throw Error(data.error)
+        }
+        setIsPlaying(false) // this after successful api call
+        setQuizActive(quiz.active)
+
+        setOpenResults(true)
+      })
+      .catch(err => {
+        alert(err.message)
+      })
   }
 
   // get all quizes api - component - state-data - click button - api - add new quiz - added to database - response? (id) - state-data(push resposne) - u cant see card information 
@@ -128,7 +176,7 @@ const CardTemplate = (props) => {
          {/*Padding left style ***  */}
          {isPlaying?
          
-        <Button icon='pause' color='red' size='small' onClick={stopQuiz} />
+        <Button className='startButton' icon='pause' color='red' size='small' onClick={stopQuiz} />
         :
         <Button className='startButton' icon='play' color='green' size='small' onClick={startQuiz} />
          }
@@ -141,6 +189,12 @@ const CardTemplate = (props) => {
 CardTemplate.propTypes = {
   quiz_info : PropTypes.object.isRequired,
   setOpen : PropTypes.func,
-  setQuizActive : PropTypes.func
+  setQuizActive : PropTypes.func,
+  setOpenResults : PropTypes.func,
+  setCurrentQuizId : PropTypes.func
 }
 export default CardTemplate
+
+
+///quizes - data - dashboard
+// quiz - data - card - changes 

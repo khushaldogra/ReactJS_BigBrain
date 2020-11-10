@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import { Button } from 'semantic-ui-react';
 import {
     Button,
@@ -18,8 +18,21 @@ import {
 import { useParams, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+const HomepageHeading = ({ session, id }) => {
+  const [sessionId, setSessionId] = useState(session)
+  const [name, setName] = useState("")
+  const history = useHistory()
 
-const HomepageHeading = ({ code }) => (
+  const playGame = () => {
+    if (sessionId === "" || name === "") {
+      alert("Invalid session ID or name")
+    } else {
+      history.push('/game/'+id+'/' + sessionId + '/playgame')
+    }
+  }
+
+
+  return(
     <Container text color='red'>
       <Header
         as='h1'
@@ -42,8 +55,11 @@ const HomepageHeading = ({ code }) => (
           marginTop: '1.5em',
         }}
       />
-      <Input focus value={code} />
-      <Button primary size='big'> 
+      <Input focus placeholder="Session ID" value={sessionId} onChange={(e,{value}) => setSessionId(value)} />
+      <br /> <br />
+      <Input focus placeholder="Enter name" onChange={(e, {value}) => setName(value)}/>
+      <br /> <br />
+      <Button primary size='big' onClick={playGame}> 
         Play
       </Button>
       {/* <Button primary size='huge'>
@@ -51,11 +67,11 @@ const HomepageHeading = ({ code }) => (
         <Icon name='right arrow' />
       </Button> */}
     </Container>
-  )
+  )}
 
 const Game = () => {
     const history = useHistory();
-    const { id } = useParams();
+    const { id, sessionId } = useParams();
     return (
         <Visibility
           once={false}
@@ -66,14 +82,15 @@ const Game = () => {
             id='home-component'
             vertical
           >
-            <HomepageHeading code={id}/>
+            <HomepageHeading session={sessionId} id={id}/>
           </Segment>
         </Visibility>
     )
 }
 
 HomepageHeading.propTypes = {
-    code : PropTypes.object
+  session : PropTypes.string,
+  id : PropTypes.string
 }
 
 export default Game;
