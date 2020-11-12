@@ -48,21 +48,9 @@ function Register() {
     return (
         <div>
             <Form onSubmit={register}>
-                <Form.Field>
-                    <label>Email
-                        <input type='email' placeholder='Email' value={email} onChange={(e) => { setEmail(e.target.value) }} />
-                    </label>
-                </Form.Field>
-                <Form.Field>
-                    <label>Name
-                        <input type='text' placeholder='Name' value={name} onChange={(e) => { setName(e.target.value) }} />
-                    </label>
-                </Form.Field>
-                <Form.Field>
-                    <label>Password
-                        <input type='password' placeholder='Password' value={password} onChange={(e) => { setPassword(e.target.value) }} />
-                    </label>
-                </Form.Field>
+                <Form.Input label='Email' type='email' placeholder='Email' value={email} onChange={(e) => { setEmail(e.target.value) }} />
+                <Form.Input label='Name' type='text' placeholder='Name' value={name} onChange={(e) => { setName(e.target.value) }} />
+                <Form.Input label='password' type='password' placeholder='Password' value={password} onChange={(e) => { setPassword(e.target.value) }} />
                 <Button type='submit'>Submit</Button>
             </Form>
         </div>

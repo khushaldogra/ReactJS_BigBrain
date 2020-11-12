@@ -5,8 +5,9 @@ import Login from './Login';
 import Dashboard from './Dashboard';
 import Register from './Register';
 import Game from './Game';
-import Edit from './Edit';
+import EditGame from './EditGame';
 import PlayGame from './PlayGame';
+import EditQuestion from './EditQuestion';
 
 // change name to navigation
 
@@ -27,7 +28,10 @@ function Body() {
                 <Register />
             </Route>
             <Route exact path='/game/edit/:id'>
-                <Edit />
+                <EditGame />
+            </Route>
+            <Route exact path='/game/edit/:id/:questionID'>
+                <EditQuestion />
             </Route>
             <Route exact path='/game/:id/:sessionId'>
                 <Game/>

@@ -4,10 +4,10 @@ import config from '../config'
 import QuestionCard from './QuestionCard';
 import { Button, Card } from 'semantic-ui-react'
 
-function Edit() {
+function EditGame() {
     const quizID = useParams().id;
-    let quizName = ''; // useState?
-    let thumbnail = null;
+    const [quizName, setQuizName] = useState('');
+    const [thumbnail, setThumbnail] = useState('');
     const [questions, setQuestions] = useState([]);
     const [questionIDs, setQuestionIDs] = useState(new Set()); // useState?
     const [questionChange, setQuestionChange] = useState(true);
@@ -31,8 +31,8 @@ function Edit() {
                 return res.json();
             })
             .then(json => {
-                quizName = json.name;
-                thumbnail = json.thumbnail;
+                setQuizName(json.name);
+                setThumbnail(json.thumbnail);
                 setQuestions(json.questions);
                 // Update the question id set
                 let existingIDs = new Set();
@@ -40,7 +40,6 @@ function Edit() {
                     existingIDs.add(q.questionID);
                 }
                 setQuestionIDs(existingIDs);
-                console.log(questionIDs);
                 console.log(json);
             })
             .catch(err => {
@@ -56,8 +55,8 @@ function Edit() {
             'time': 0,
             'points': 0,
             'URL': null,
-            'answers': null,
-            'correctAnswer': null,
+            'answers': ['', '', '', '', '', ''],
+            'correctAnswers': [false, false, false, false, false, false],
             'questionID': id
         }
     }
@@ -84,7 +83,7 @@ function Edit() {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json' // FORGOT THIS
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(payload)
         }
@@ -119,4 +118,4 @@ function Edit() {
     )
 }
 
-export default Edit;
+export default EditGame;
