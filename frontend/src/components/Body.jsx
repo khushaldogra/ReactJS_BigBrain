@@ -4,7 +4,8 @@ import Landing from './Landing';
 import Login from './Login';
 import Dashboard from './Dashboard';
 import Register from './Register';
-import Game from './Game';
+import Game from './Game'; // Maybe dont need this
+import JoinGame from './JoinGame';
 import EditGame from './EditGame';
 import PlayGame from './PlayGame';
 import EditQuestion from './EditQuestion';
@@ -39,6 +40,9 @@ function Body() {
             <Route exact path='/game/:id/:sessionId/playgame'>
                 <PlayGame/>
             </Route>
+            {/* <Route exact path='/game/join'>
+                <JoinGame/>
+            </Route> */}
         </Switch>
     )
 }

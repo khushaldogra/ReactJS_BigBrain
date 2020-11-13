@@ -70,7 +70,7 @@ function EditQuestion() {
                 json.question = question;
                 json.time = timeLimit;
                 json.points = points;
-                json.URL = attach;
+                json.URL = attach; // CHANGE THIS INTO A URL THAT CAN ACTUALLY WORK
                 json.answers = answers;
                 json.correctAnswers = correctAnswers;
             }
