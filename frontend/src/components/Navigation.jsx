@@ -52,11 +52,11 @@ function Navigation() {
                     Dashboard
                 </Link>
             </li>
-            {/* <li>
-                <Link to="/game/join">
-                    Join Game
+            <li>
+                <Link to="/results/:id">
+                    Results
                 </Link>
-            </li> */}
+            </li>
             {!isLoggedIn ?
                 <>
                     <li>

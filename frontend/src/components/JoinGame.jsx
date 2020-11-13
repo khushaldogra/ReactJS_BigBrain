@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Header, Input, Button } from 'semantic-ui-react';
 
+// USELESS FOR NOW
 function JoinGame() {
     return (
         <Container text color='red'>

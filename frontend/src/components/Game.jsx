@@ -27,7 +27,7 @@ import config from '../config';
 const HomepageHeading = ({ session, id }) => {
   const [sessionId, setSessionId] = useState(session);
   const [name, setName] = useState("");
-  const [playerId, setPlayerId] = useState('');
+  // const [playerId, setPlayerId] = useState('');
   const history = useHistory();
 
   const joinGame = () => {
@@ -55,8 +55,9 @@ const HomepageHeading = ({ session, id }) => {
         return res.json();
       })
       .then(json => {
-        setPlayerId(json.playerId);
-        history.push(`/game/${id}/${sessionId}/playgame`); // Put playerid in
+        // setPlayerId(json.playerId);
+        console.log(playerId);
+        history.push(`/game/${id}/${sessionId}/playgame/${json.playerId}`); // Put playerid in
       })
       .catch(err => {
         console.log(err);

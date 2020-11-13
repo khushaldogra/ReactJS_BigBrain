@@ -9,12 +9,14 @@ import JoinGame from './JoinGame';
 import EditGame from './EditGame';
 import PlayGame from './PlayGame';
 import EditQuestion from './EditQuestion';
+import GameResults from './GameResults';
 
 // change name to navigation
 
 function Body() {
     return (
         // Routes to a component
+        // Maybe generalize the join game
         <Switch>
             <Route exact path='/'>
                 <Landing />
@@ -37,12 +39,12 @@ function Body() {
             <Route exact path='/game/:id/:sessionId'>
                 <Game/>
             </Route>
-            <Route exact path='/game/:id/:sessionId/playgame'>
+            <Route exact path='/game/:id/:sessionId/playgame/:playerId'>
                 <PlayGame/>
             </Route>
-            {/* <Route exact path='/game/join'>
-                <JoinGame/>
-            </Route> */}
+            <Route exact path='/results/:id'>
+                <GameResults/>
+            </Route>
         </Switch>
     )
 }

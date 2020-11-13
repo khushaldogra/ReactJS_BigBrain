@@ -9,7 +9,7 @@ function EditGame() {
     const [quizName, setQuizName] = useState('');
     const [thumbnail, setThumbnail] = useState('');
     const [questions, setQuestions] = useState([]);
-    const [questionIDs, setQuestionIDs] = useState(new Set()); // useState?
+    const [questionIDs, setQuestionIDs] = useState(new Set());
     const [questionChange, setQuestionChange] = useState(true);
 
     // Fetch questions in quiz

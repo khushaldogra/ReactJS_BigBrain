@@ -195,6 +195,7 @@ function EditQuestion() {
                     <label>Upload Image</label>
                     <input type="file" onChange={(e) => { setAttach(e.target.value) }} />
                 </Form.Field>
+                <Form.Input label='Video URL' type='text' placeholder='URL' onChange={(e) => { setAttach(e.target.value) }} />
                 <Form.Field>
                     <label>Answer 1</label>
                     <Input defaultValue={answers[0]} onChange={(e) => { handleAnswer(e.target.value, 0) }} />
