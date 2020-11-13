@@ -20,6 +20,12 @@ import config from '../config';
 
 const PlayGamepage = ({id, sessionId}) => {
     const [quizdata, setQuizdata] = useState({})
+    // const [currentQn, setCurrentQn] = useState("")
+
+    // if (localStorage["currentQn"]) {
+    //     setCurrentQn(localStorage["currentQn"])
+    // }
+
     useEffect(() => {
         fetch(config.basePath + '/admin/quiz/' + id, {
             method : 'get',
@@ -34,6 +40,7 @@ const PlayGamepage = ({id, sessionId}) => {
         .then(data => {
             console.log(data)
             setQuizdata(data)
+            localStorage.setItem("currentQn", data.questions[0].question)
         })
     },[])
 
@@ -53,7 +60,9 @@ const PlayGamepage = ({id, sessionId}) => {
         <Header
             as='h2'
             // questions here ***
-            // content={quizdata.questions[0].question}
+            // quizdata.questions[0].question
+
+            // content={currentQn}
 
             style={{
             fontSize: '1.7em',
@@ -61,9 +70,9 @@ const PlayGamepage = ({id, sessionId}) => {
             marginTop: '1.5em',
             }}
         />
-        <Button primary size='big'> 
-            Play
-        </Button>
+
+
+
         </Container>
     )}
 
