@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom';
 import CardTemplate from './Card'
 import config from '../config'
-import { Button, Card, Image, Header, Modal } from 'semantic-ui-react';
-import { Input } from 'semantic-ui-react'
-import Navigation from './Navigation';
+import { Button, Card, Image, Modal } from 'semantic-ui-react';
+import { Input } from 'semantic-ui-react';
 
 
 const Dashboard = () => {
@@ -121,7 +120,7 @@ const Dashboard = () => {
           <Button
             content="Copy Link"
             labelPosition='right'
-            icon='checkmark'
+            icon='copy'
             onClick={handleCopyLink}
             positive
           />

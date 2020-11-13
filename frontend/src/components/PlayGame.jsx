@@ -107,3 +107,15 @@ PlayGamepage.propTypes = {
 //  of questions question 1  --- next
 
 // every input from user is state
+
+
+// return {
+//     'type': 'Empty Type',
+//     'question': 'Empty Question',
+//     'time': 0,
+//     'points': 0,
+//     'URL': null,
+//     'answers': ['', '', '', '', '', ''],
+//     'correctAnswers': [false, false, false, false, false, false],
+//     'questionID': id
+//   }

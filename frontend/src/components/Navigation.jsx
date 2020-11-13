@@ -1,81 +1,51 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useHistory } from 'react-router-dom';
-import { Button } from 'semantic-ui-react';
-import config from '../config'
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import Landing from './Landing';
+import Login from './Login';
+import Dashboard from './Dashboard';
+import Register from './Register';
+import Game from './Game'; // Maybe dont need this
+import JoinGame from './JoinGame';
+import EditGame from './EditGame';
+import PlayGame from './PlayGame';
+import EditQuestion from './EditQuestion';
+import GameResults from './GameResults';
 
-// change name to header
+// change name to navigation
+
 function Navigation() {
-  const location = useLocation()
-  const history = useHistory()
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage["token"]);
-
-  const handleLogout = () => {
-    // call API to logout
-    fetch(config.basePath + '/admin/auth/logout', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': "Bearer " + localStorage["token"]
-      },
-    })
-      .then(res => {
-        return res.json()
-      })
-      .then(data => {
-        if (data.error) {
-          throw Error(data.error);
-        }
-        localStorage.removeItem("token")
-        //redirect to landing page
-        history.push('/')
-      })
-      .catch(err => {
-        alert(err.message)
-      })
-
-  }
-
-
-  useEffect(() => {
-    setIsLoggedIn(!!localStorage["token"])
-  }, [location])
   return (
-    // Links to the path
-    <ul>
-      <li>
-        <Link to="/">
-          Landing
-                </Link>
-      </li>
-      <li>
-        <Link to="/dashboard">
-          Dashboard
-                </Link>
-      </li>
-      <li>
-        <Link to="/results/:id">
-          Results
-                </Link>
-      </li>
-      {!isLoggedIn ?
-        <>
-          <li>
-            <Link to="/login">
-              Login
-                </Link>
-          </li>
-          <li>
-            <Link to="/register">
-              Register
-                </Link>
-          </li>
-        </>
-        :
-        <li>
-          <Button onClick={handleLogout}>Logout</Button>
-        </li>
-      }
-    </ul>
+    // Routes to a component
+    // Maybe generalize the join game
+    <Switch>
+      <Route exact path='/'>
+        <Landing />
+      </Route>
+      <Route path='/dashboard'>
+        <Dashboard />
+      </Route>
+      <Route path='/login'>
+        <Login />
+      </Route>
+      <Route path='/register'>
+        <Register />
+      </Route>
+      <Route exact path='/game/edit/:id'>
+        <EditGame />
+      </Route>
+      <Route exact path='/game/edit/:id/:questionID'>
+        <EditQuestion />
+      </Route>
+      <Route exact path='/game/:id/:sessionId'>
+        <Game />
+      </Route>
+      <Route exact path='/game/:id/:sessionId/playgame/:playerId'>
+        <PlayGame />
+      </Route>
+      <Route exact path='/results/:id'>
+        <GameResults />
+      </Route>
+    </Switch>
   )
 }
 
