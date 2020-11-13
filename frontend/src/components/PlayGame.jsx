@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
-    Button,
-    Container,
-    Divider,
-    Grid,
-    Header,
-    Icon,
-    Image,
-    List,
-    Menu,
-    Segment,
-    Sidebar,
-    Visibility,
-    Input
-  } from 'semantic-ui-react'
+  Button,
+  Container,
+  Divider,
+  Grid,
+  Header,
+  Icon,
+  Image,
+  List,
+  Menu,
+  Segment,
+  Sidebar,
+  Visibility,
+  Input
+} from 'semantic-ui-react'
 import PropTypes from 'prop-types';
 import config from '../config';
 
@@ -44,11 +44,11 @@ const PlayGamepage = ({id, sessionId}) => {
         })
     },[])
 
-    return(
-        <Container text color='red'>
-        <Header
-            as='h1'
-            content='BigBrain Game'
+  return (
+    <Container text color='red'>
+      <Header
+        as='h1'
+        content='BigBrain Game'
 
             style={{
             fontSize: '4em',
@@ -78,28 +78,28 @@ const PlayGamepage = ({id, sessionId}) => {
 
 
 const PlayGame = () => {
-    const {id, sessionId} = useParams()
-    return (
-        <Visibility
-          once={false}
-        >
-          <Segment
-            textAlign='center'
-            style={{ minHeight: 700, padding: '1em 0em'}}
-            id='playgame-component'
-            vertical
-          >
-            <PlayGamepage id={id} sessionId={sessionId} />
-          </Segment>
-        </Visibility>
-    )
+  const { id, sessionId } = useParams()
+  return (
+    <Visibility
+      once={false}
+    >
+      <Segment
+        textAlign='center'
+        style={{ minHeight: 700, padding: '1em 0em' }}
+        id='playgame-component'
+        vertical
+      >
+        <PlayGamepage id={id} sessionId={sessionId} />
+      </Segment>
+    </Visibility>
+  )
 }
 
 export default PlayGame;
 
 PlayGamepage.propTypes = {
-    sessionId : PropTypes.string,
-    id : PropTypes.string
+  sessionId: PropTypes.string,
+  id: PropTypes.string
 }
 
 
