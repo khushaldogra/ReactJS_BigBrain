@@ -56,7 +56,7 @@ const HomepageHeading = ({ session, id }) => {
       })
       .then(json => {
         // setPlayerId(json.playerId);
-        console.log(playerId);
+        console.log(json.playerId);
         history.push(`/game/${id}/${sessionId}/playgame/${json.playerId}`); // Put playerid in
       })
       .catch(err => {
