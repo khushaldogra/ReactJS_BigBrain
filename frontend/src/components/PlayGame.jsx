@@ -19,7 +19,9 @@ import PropTypes from 'prop-types';
 import config from '../config';
 
 const PlayGamepage = ({id, sessionId}) => {
-    const [quizdata, setQuizdata] = useState({})
+    const [quizdata, setQuizdata] = useState({
+        questions:[]
+    })
     // const [currentQn, setCurrentQn] = useState("")
 
     // if (localStorage["currentQn"]) {
@@ -57,22 +59,27 @@ const PlayGamepage = ({id, sessionId}) => {
             marginTop: '3em',
             }}
         />
+        {
+        quizdata.questions.map((ques,index) => (
         <Header
+            key={index}
             as='h2'
             // questions here ***
             // quizdata.questions[0].question
 
             // content={currentQn}
 
+            content={ques.name}
             style={{
             fontSize: '1.7em',
             fontWeight: 'normal',
             marginTop: '1.5em',
             }}
         />
+        )
 
-
-
+    )
+    }
         </Container>
     )}
 

@@ -48,18 +48,20 @@ const HomepageHeading = ({ session, id }) => {
     }
     const path = `${config.basePath}/play/join/${sessionId}`;
     fetch(path, options)
+      // ***
       .then(res => {
-        if (!res.ok) {
-          throw res;
-        }
-        return res.json();
+        return res.json()
       })
-      .then(json => {
+      .then(data => {
+        if (data.error) {
+          throw Error(data.error);
+        }
         // setPlayerId(json.playerId);
-        console.log(json.playerId);
-        history.push(`/game/${id}/${sessionId}/playgame/${json.playerId}`); // Put playerid in
+        console.log(data.playerId);
+        history.push(`/game/${id}/${sessionId}/playgame/${data.playerId}`); // Put playerid in
       })
       .catch(err => {
+        alert(err)
         console.log(err);
       })
   }

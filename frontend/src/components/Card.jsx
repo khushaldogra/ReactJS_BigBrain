@@ -30,7 +30,7 @@ const CardTemplate = (props) => {
         setQuestion(data.questions.length)
         let time = 0
         data.questions.forEach(question => {
-          time += question.time
+          time += question.duration
         });
         setTotaltime(time)
       }  
