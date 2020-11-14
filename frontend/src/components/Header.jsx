@@ -52,16 +52,26 @@ function Header() {
           Dashboard
         </Menu.Item>
       </Link>
-      <Link to="/login">
-        <Menu.Item>
-          Login
+      {!isLoggedIn ?
+        <>
+          <Link to="/login">
+            <Menu.Item>
+              Login
+            </Menu.Item>
+          </Link>
+          <Link to="/register">
+            <Menu.Item>
+              Register
+            </Menu.Item>
+          </Link>
+        </>
+        :
+        <Menu.Item
+          onClick={handleLogout}
+        >
+          Logout
         </Menu.Item>
-      </Link>
-      <Link to="/register">
-        <Menu.Item>
-          Register
-        </Menu.Item>
-      </Link>
+      }
     </Menu>
   )
 }
