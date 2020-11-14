@@ -16,7 +16,7 @@ function QuestionCard(props) {
     const newQuestions = [...props.questions];
     let index = 0;
     for (const question of newQuestions) {
-      if (question.questionID === json.questionID) {
+      if (question.questionId === json.questionId) {
         index = newQuestions.indexOf(question);
       }
     }
@@ -58,12 +58,12 @@ function QuestionCard(props) {
   return (
     <Card>
       <Card.Content>
-        <Card.Header content={json.question} />
+        <Card.Header content={json.name} />
         <Card.Meta content={json.type} />
-        {/* <Card.Description content='Some content' /> */}
+        {console.log(json)}
         <Button onClick={deleteQuestion}>Delete Question</Button>
         <Link to={{
-          pathname: `/game/edit/${quizID}/${json.questionID}`,
+          pathname: `/game/edit/${quizID}/${json.questionId}`,
           state: {
             questions: props.questions,
             quizName: props.quizName,

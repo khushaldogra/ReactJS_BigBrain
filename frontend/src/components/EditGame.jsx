@@ -37,7 +37,7 @@ function EditGame() {
         // Update the question id set
         let existingIDs = new Set();
         for (const q of json.questions) {
-          existingIDs.add(q.questionID);
+          existingIDs.add(q.questionId);
         }
         setQuestionIDs(existingIDs);
         console.log(json);
@@ -51,13 +51,25 @@ function EditGame() {
   const emptyQuestion = (id) => {
     return {
       'type': 'Empty Type',
-      'question': 'Empty Question',
-      'time': 0,
+      'name': 'Empty Question',
+      'duration': 0,
       'points': 0,
-      'URL': null,
-      'answers': ['', '', '', '', '', ''],
-      'correctAnswers': [false, false, false, false, false, false],
-      'questionID': id
+      'videolink': '',
+      'answers': [
+        {
+          'answerId': 0,
+          'correct': false,
+          'title': '',
+          'color': null
+        },
+        {
+          'answerId': 1,
+          'correct': false,
+          'title': '',
+          'color': null
+        }
+      ],
+      'questionId': id
     }
   }
 
@@ -106,7 +118,7 @@ function EditGame() {
       <Button onClick={addQuestion}>Add Question</Button>
       <Card.Group>
         {questions.map((q) => (<QuestionCard
-          key={q.questionID}
+          key={q.questionId}
           json={q}
           questionChange={questionChange}
           setQuestionChange={setQuestionChange}

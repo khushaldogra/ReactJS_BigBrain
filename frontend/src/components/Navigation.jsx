@@ -33,7 +33,7 @@ function Navigation() {
       <Route exact path='/game/edit/:id'>
         <EditGame />
       </Route>
-      <Route exact path='/game/edit/:id/:questionID'>
+      <Route exact path='/game/edit/:id/:questionId'>
         <EditQuestion />
       </Route>
       <Route exact path='/game/:id/:sessionId'>

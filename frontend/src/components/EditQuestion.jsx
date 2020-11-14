@@ -1,20 +1,45 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Button, Form, Dropdown, Checkbox, Input } from 'semantic-ui-react'
 import config from '../config';
 import { useParams, useLocation } from 'react-router-dom';
 
+// PROBABLY MOVE THIS TO ANOTHER FILE
+function AnswerInput({ answeridx, answersState, setAnswersState }) {
+  const handleInput = (e) => {
+    let newAnswers = [... answersState];
+    newAnswers[answeridx].title = e.target.value;
+    setAnswersState(newAnswers);
+  }
+
+  const handleCheckbox = () => {
+    let newAnswers = [... answersState];
+    newAnswers[answeridx].correct = !newAnswers[answeridx].correct;
+    setAnswersState(newAnswers);
+  }
+
+  return (
+    <Form.Field>
+      <label>Answer {answeridx + 1}</label>
+      <Input value={answersState[answeridx].title} onChange={handleInput}/>
+      <Checkbox label="Correct Answer" 
+                defaultChecked={answersState[answeridx].correct} 
+                onChange={handleCheckbox}/>
+    </Form.Field>
+  )
+}
+
 function EditQuestion() {
   const location = useLocation();
   const { questions, quizName, thumbnail, questionJSON } = location.state;
-  const { id, questionID } = useParams();
+  const { id, questionId } = useParams();
 
   const [questionType, setQuestionType] = useState(questionJSON.type);
-  const [question, setQuestion] = useState(questionJSON.question);
-  const [timeLimit, setTimeLimit] = useState(questionJSON.time);
+  const [questionName, setQuestionName] = useState(questionJSON.name);
+  const [duration, setDuration] = useState(questionJSON.duration);
   const [points, setPoints] = useState(questionJSON.points);
-  const [attach, setAttach] = useState(questionJSON.URL);
+  const [attach, setAttach] = useState(questionJSON.videolink);
   const [answers, setAnswers] = useState(questionJSON.answers);
-  const [correctAnswers, setCorrectAnswers] = useState(questionJSON.correctAnswers);
 
   const questionTypes = [
     {
@@ -27,7 +52,7 @@ function EditQuestion() {
     },
   ]
 
-  const timeLimits = [
+  const durationList = [
     {
       text: '5',
       value: 5,
@@ -65,14 +90,13 @@ function EditQuestion() {
   const getNewQuestions = () => {
     let newQuestions = [...questions];
     for (let json of newQuestions) {
-      if (json.questionID === parseInt(questionID)) {
+      if (json.questionId === parseInt(questionId)) {
         json.type = questionType;
-        json.question = question;
-        json.time = timeLimit;
+        json.name = questionName;
+        json.duration = duration;
         json.points = points;
-        json.URL = attach; // CHANGE THIS INTO A URL THAT CAN ACTUALLY WORK
+        json.videolink = attach;
         json.answers = answers;
-        json.correctAnswers = correctAnswers;
       }
     }
     return newQuestions;
@@ -84,8 +108,8 @@ function EditQuestion() {
 
     // Single/Multiple Choice
     let correct = 0;
-    for (const answer of correctAnswers) {
-      if (answer === true) {
+    for (const answer of answers) {
+      if (answer.correct === true) {
         correct++;
       }
     }
@@ -93,7 +117,7 @@ function EditQuestion() {
       console.log('Please select only 1 answer or select multiple choice');
       return true;
     }
-    if (questionType === 'Multiple Choice' && correct === 1) {
+    if (questionType === 'Multiple Choice' && correct < 2) {
       console.log('Please select more than 1 answer or select single choice');
       return true;
     }
@@ -101,11 +125,6 @@ function EditQuestion() {
   }
 
   const editQuestion = () => {
-    // Error Handling
-    if (editError()) {
-      return;
-    }
-
     const token = localStorage.getItem('token');
     const payload = {
       'questions': getNewQuestions(),
@@ -135,22 +154,37 @@ function EditQuestion() {
 
   // Handle submit button press
   const handleSubmit = () => {
+    if (editError()) {
+      return;
+    }
     editQuestion();
   }
 
-  // Text input handler for answers
-  const handleAnswer = (answer, num) => {
-    let newAnswers = [...answers];
-    newAnswers[num] = answer;
+  const addAnswer = (e) => {
+    e.preventDefault();
+    let newAnswers = [... answers];
+    if (answers.length < 6) {
+      newAnswers.push(
+        {
+          'answerId': answers.length,
+          'correct': false,
+          'title': '',
+          'color': null
+        }
+      )
+    }
+    // console.log(newAnswers);
     setAnswers(newAnswers);
   }
 
-  // Checkbox handler for answers
-  const handleCheckbox = (num) => {
-    let newCorrectAnswers = [...correctAnswers];
-    const correct = correctAnswers[num] === true ? false : true;
-    newCorrectAnswers[num] = correct;
-    setCorrectAnswers(newCorrectAnswers);
+  const removeAnswer = (e) => {
+    e.preventDefault();
+    let newAnswers = [... answers];
+    if (answers.length > 2) {
+      newAnswers.pop();
+    }
+    // console.log(newAnswers);
+    setAnswers(newAnswers);
   }
 
   // NEED TO DO VIDEO UPLOAD
@@ -168,16 +202,16 @@ function EditQuestion() {
             options={questionTypes}
           />
         </Form.Field>
-        <Form.Input label='Question' type='text' placeholder='Question' value={question} onChange={(e) => { setQuestion(e.target.value) }} />
+        <Form.Input label='Title' type='text' placeholder='Question' value={questionName} onChange={(e) => { setQuestionName(e.target.value) }} />
         <Form.Field>
           <label>Select Time Limit</label>
           <Dropdown
             placeholder='Select Time Limit'
             fluid
             selection
-            value={timeLimit}
-            onChange={(e, { value }) => { setTimeLimit(value) }}
-            options={timeLimits}
+            value={duration}
+            onChange={(e, { value }) => { setDuration(value) }}
+            options={durationList}
           />
         </Form.Field>
         <Form.Field>
@@ -196,40 +230,25 @@ function EditQuestion() {
           <input type="file" onChange={(e) => { setAttach(e.target.value) }} />
         </Form.Field>
         <Form.Input label='Video URL' type='text' placeholder='URL' onChange={(e) => { setAttach(e.target.value) }} />
-        <Form.Field>
-          <label>Answer 1</label>
-          <Input defaultValue={answers[0]} onChange={(e) => { handleAnswer(e.target.value, 0) }} />
-          <Checkbox label='Correct Answer' defaultChecked={correctAnswers[0]} onChange={() => { handleCheckbox(0) }} />
-        </Form.Field>
-        <Form.Field>
-          <label>Answer 2</label>
-          <Input defaultValue={answers[1]} onChange={(e) => { handleAnswer(e.target.value, 1) }} />
-          <Checkbox label='Correct Answer' defaultChecked={correctAnswers[1]} onChange={() => { handleCheckbox(1) }} />
-        </Form.Field>
-        <Form.Field>
-          <label>Answer 3</label>
-          <Input defaultValue={answers[2]} onChange={(e) => { handleAnswer(e.target.value, 2) }} />
-          <Checkbox label='Correct Answer' defaultChecked={correctAnswers[2]} onChange={() => { handleCheckbox(2) }} />
-        </Form.Field>
-        <Form.Field>
-          <label>Answer 4</label>
-          <Input defaultValue={answers[3]} onChange={(e) => { handleAnswer(e.target.value, 3) }} />
-          <Checkbox label='Correct Answer' defaultChecked={correctAnswers[3]} onChange={() => { handleCheckbox(3) }} />
-        </Form.Field>
-        <Form.Field>
-          <label>Answer 5</label>
-          <Input defaultValue={answers[4]} onChange={(e) => { handleAnswer(e.target.value, 4) }} />
-          <Checkbox label='Correct Answer' defaultChecked={correctAnswers[4]} onChange={() => { handleCheckbox(4) }} />
-        </Form.Field>
-        <Form.Field>
-          <label>Answer 6</label>
-          <Input defaultValue={answers[5]} onChange={(e) => { handleAnswer(e.target.value, 5) }} />
-          <Checkbox label='Correct Answer' defaultChecked={correctAnswers[5]} onChange={() => { handleCheckbox(5) }} />
-        </Form.Field>
+        <Button onClick={addAnswer}>Add Answer</Button>
+        <Button onClick={removeAnswer}>Remove Answer</Button>
+        {answers.map((answer, idx) => (
+          <AnswerInput key={answer.answerId}
+                       answeridx={idx} 
+                       answersState={answers} 
+                       setAnswersState={setAnswers}/>
+        ))}
         <Button type='submit'>Submit</Button>
       </Form>
     </div>
   )
 }
+
+AnswerInput.propTypes = {
+  answeridx: PropTypes.number,
+  answersState: PropTypes.array,
+  setAnswersState: PropTypes.func,
+}
+
 
 export default EditQuestion;

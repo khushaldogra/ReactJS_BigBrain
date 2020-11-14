@@ -211,8 +211,6 @@ function GameResults() {
           ))}
         </Table.Body>
       </Table>
-      {/* {console.log(questionCorrect)}
-      {console.log(questionTime)} */}
       <BarChart width={1000} height={300} data={data2}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
