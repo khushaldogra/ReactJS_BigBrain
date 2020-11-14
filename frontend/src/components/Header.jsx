@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
-import { Button } from 'semantic-ui-react';
+import { Button, Menu } from 'semantic-ui-react';
 import config from '../config'
 
 // change name to header
@@ -8,6 +8,7 @@ function Header() {
   const location = useLocation()
   const history = useHistory()
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage["token"]);
+  // const [activeItem, setActiveItem] = useState("");
 
   const handleLogout = () => {
     // call API to logout
@@ -35,13 +36,47 @@ function Header() {
 
   }
 
-
   useEffect(() => {
     setIsLoggedIn(!!localStorage["token"])
   }, [location])
+
   return (
-    // Links to the path
-    <ul>
+    <Menu>
+      <Link to="/">
+        <Menu.Item>
+          Home
+        </Menu.Item>
+      </Link>
+      <Link to="/dashboard">
+        <Menu.Item>
+          Dashboard
+        </Menu.Item>
+      </Link>
+      {!isLoggedIn ?
+        <>
+          <Link to="/login">
+            <Menu.Item>
+              Login
+            </Menu.Item>
+          </Link>
+          <Link to="/register">
+            <Menu.Item>
+              Register
+            </Menu.Item>
+          </Link>
+        </>
+        :
+        <Menu.Item
+          onClick={handleLogout}
+        >
+          Logout
+        </Menu.Item>
+      }
+    </Menu>
+  )
+}
+
+/* <ul>
       <li>
         <Link to="/">
           Landing
@@ -75,8 +110,6 @@ function Header() {
           <Button onClick={handleLogout}>Logout</Button>
         </li>
       }
-    </ul>
-  )
-}
+    </ul> */
 
 export default Header;

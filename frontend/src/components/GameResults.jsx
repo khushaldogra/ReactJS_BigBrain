@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart, Tooltip, Legend, Bar, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { BarChart, Tooltip, Legend, Bar, CartesianGrid, XAxis, YAxis, LineChart, Line } from 'recharts';
 import { useParams } from 'react-router-dom';
 import { Table } from 'semantic-ui-react'
 import config from '../config'
@@ -7,6 +7,10 @@ import config from '../config'
 function GameResults() {
   const sessionID = useParams().id;
   const [results, setResults] = useState([]);
+  // const [totalPlayers, setTotalPlayers] = useState(0);
+  const [userScores, setUserScores] = useState([]);
+  const [questionCorrect, setQuestionCorrect] = useState([]);
+  const [questionTime, setQuestionTime] = useState([]);
 
   // Fetch session results
   useEffect(() => {
@@ -27,88 +31,214 @@ function GameResults() {
       })
       .then(json => {
         console.log(json);
+        // Set total players
+        // setTotalPlayers(json.results.length);
+        // Set results
         setResults(json.results);
+        // Get data lists
+        getUserScores(json.results);
+        getQuestionCorrect(json.results);
+        getQuestionTime(json.results);
       })
       .catch(err => {
         console.log(err);
       })
   }, []);
 
+  // Get list of users and their scores
+  const getUserScores = (jsonResults) => {
+    let userScoresDic = {};
+    for (const player of jsonResults) {
+      // Go through all the answers and count correct
+      let correctCount = 0;
+      for (const answer of player.answers) {
+        if (answer.correct) {
+          correctCount++;
+        }
+      }
+      // Put user in dictionary with number of correct answers
+      userScoresDic[player.name] = correctCount;
+    }
+    let newUserScores = [];
+    for (const [name, score] of Object.entries(userScoresDic)) {
+      newUserScores.push({
+        'name': name,
+        'score': score
+      })
+    }
+    newUserScores.sort((a, b) => { return parseInt(a.score) - parseInt(b.score) });
+    // console.log(newUserScores);
+    setUserScores(newUserScores);
+  }
+
+  // Get list of questions and how many correct
+  const getQuestionCorrect = (jsonResults) => {
+    let questionCorrectDic = {};
+    for (const player of jsonResults) {
+      let questionNo = 1;
+      for (const answer of player.answers) {
+        if (!(questionNo in questionCorrectDic)) {
+          questionCorrectDic[questionNo] = 0;
+        }
+        // If correct answer
+        if (answer.correct) {
+          questionCorrectDic[questionNo] += 1;
+        }
+        questionNo++;
+      }
+    }
+    let newQuestionCorrect = [];
+    for (const [question, correct] of Object.entries(questionCorrectDic)) {
+      newQuestionCorrect.push({
+        'name': `Question ${question}`,
+        'question': question,
+        'correct': correct / jsonResults.length
+      })
+    }
+    newQuestionCorrect.sort((a, b) => { return parseInt(a.question) - parseInt(b.question) });
+    setQuestionCorrect(newQuestionCorrect);
+  }
+
+  // Get list of questions and time spent on it
+  const getQuestionTime = (jsonResults) => {
+    let questionTimeDic = {};
+    for (const player of jsonResults) {
+      let questionNo = 1;
+      for (const answer of player.answers) {
+        const timeSpent = Date.parse(answer.answeredAt) - Date.parse(answer.questionStartedAt);
+        if (!(questionNo in questionTimeDic)) {
+          questionTimeDic[questionNo] = timeSpent;
+        } else {
+          questionTimeDic[questionNo] += timeSpent;
+        }
+        questionNo++;
+      }
+    }
+    let newQuestionTime = [];
+    for (const [question, time] of Object.entries(questionTimeDic)) {
+      newQuestionTime.push({
+        'name': `Question ${question}`,
+        'question': question,
+        'time': time / jsonResults.length
+      })
+    }
+    newQuestionTime.sort((a, b) => { return parseInt(a.question) - parseInt(b.question) });
+    setQuestionTime(newQuestionTime);
+  }
+
+  // DUMMY DATA, FILL IN WITH ACTUAL DATA LATER
   const data = [
     {
-      "name": "Page A",
-      "uv": 4000,
+      "name": "Question 1",
+      "question": 1,
+      "time": 100,
     },
     {
-      "name": "Page B",
-      "uv": 3000,
+      "name": "Question 2",
+      "question": 2,
+      "time": 50,
     },
     {
-      "name": "Page C",
-      "uv": 2000,
+      "name": "Question 3",
+      "question": 3,
+      "time": 70,
     },
     {
-      "name": "Page D",
-      "uv": 2780,
+      "name": "Question 4",
+      "question": 4,
+      "time": 60,
     },
     {
-      "name": "Page E",
-      "uv": 1890,
+      "name": "Question 5",
+      "question": 5,
+      "time": 70,
     },
     {
-      "name": "Page F",
-      "uv": 2390,
+      "name": "Question 6",
+      "question": 6,
+      "time": 20,
     },
-    {
-      "name": "Page G",
-      "uv": 3490,
-    }
   ]
+
+  const data2 = [
+    {
+      "name": "Question 1",
+      "question": 1,
+      "correct": 100,
+    },
+    {
+      "name": "Question 2",
+      "question": 2,
+      "correct": 50,
+    },
+    {
+      "name": "Question 3",
+      "question": 3,
+      "correct": 70,
+    },
+    {
+      "name": "Question 4",
+      "question": 4,
+      "correct": 60,
+    },
+    {
+      "name": "Question 5",
+      "question": 5,
+      "correct": 70,
+    },
+    {
+      "name": "Question 6",
+      "question": 6,
+      "correct": 20,
+    },
+  ]
+
   return (
-    <>
+    <div className="game-results">
       <Table celled>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>Header</Table.HeaderCell>
-            <Table.HeaderCell>Header</Table.HeaderCell>
-            <Table.HeaderCell>Header</Table.HeaderCell>
+            <Table.HeaderCell>Players</Table.HeaderCell>
+            <Table.HeaderCell>Score</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          <Table.Row>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-          </Table.Row>
+          {userScores.slice(0, 5).map((user) => (
+            <Table.Row key={user.name}>
+              <Table.Cell>{user.name}</Table.Cell>
+              <Table.Cell>{user.score}</Table.Cell>
+            </Table.Row>
+          ))}
         </Table.Body>
       </Table>
-      <BarChart width={730} height={250} data={data}>
+      {/* {console.log(questionCorrect)}
+      {console.log(questionTime)} */}
+      <BarChart width={1000} height={300} data={data2}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="uv" fill="#82ca9d" />
+        <Bar name="Correct Percentage" dataKey="correct" fill="#82ca9d" />
       </BarChart>
-      <BarChart width={730} height={250} data={data}>
+      <BarChart width={1000} height={300} data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="uv" fill="#82ca9d" />
+        <Bar name="Average Time" dataKey="time" fill="#82ca9d" />
       </BarChart>
-    </>
+      <LineChart width={1000} height={300} data={data}
+        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Line type="monotone" dataKey="time" stroke="#8884d8" />
+      </LineChart>
+    </div>
   )
 }
 

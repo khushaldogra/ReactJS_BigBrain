@@ -3,6 +3,7 @@
  object that doesn't contain any important meta data (e.g. the answer)
  to return to a "player"
 */
+// GET question
 export const quizQuestionPublicReturn = question => {
   console.log('See question: ', question);
   question = {...question, answers:null}
@@ -13,6 +14,7 @@ export const quizQuestionPublicReturn = question => {
  For a given data structure of a question, get the IDs of
  the correct answers (minimum 1).
 */
+// GET answer, PUT answer
 export const quizQuestionGetCorrectAnswers = question => {
   let idArray = [];
 
@@ -43,6 +45,7 @@ export const quizQuestionGetAnswers = question => {
  For a given data structure of a question, get the duration
  of the question once it starts. (Seconds)
 */
+// POST advance
 export const quizQuestionGetDuration = question => {
   return question["duration"];
 };
