@@ -211,7 +211,7 @@ function GameResults() {
           ))}
         </Table.Body>
       </Table>
-      <BarChart width={1000} height={300} data={data2}>
+      <BarChart width={1000} height={300} data={questionCorrect}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis />
@@ -219,7 +219,7 @@ function GameResults() {
         <Legend />
         <Bar name="Correct Percentage" dataKey="correct" fill="#82ca9d" />
       </BarChart>
-      <BarChart width={1000} height={300} data={data}>
+      <BarChart width={1000} height={300} data={questionTime}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis />
