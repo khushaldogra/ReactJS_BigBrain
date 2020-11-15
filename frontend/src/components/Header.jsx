@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { Button, Menu } from 'semantic-ui-react';
 import config from '../config'
+import { BigBrainMenu } from '../styledComponents/Menu';
 
 // change name to header
 function Header() {
@@ -41,7 +42,7 @@ function Header() {
   }, [location])
 
   return (
-    <Menu>
+    <BigBrainMenu>
       <Link to="/">
         <Menu.Item>
           Home
@@ -72,7 +73,7 @@ function Header() {
           Logout
         </Menu.Item>
       }
-    </Menu>
+    </BigBrainMenu>
   )
 }
 

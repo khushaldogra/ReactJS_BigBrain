@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Form } from 'semantic-ui-react'
+import { Button, Form, Segment } from 'semantic-ui-react'
 import { useHistory } from 'react-router-dom';
 import config from '../config'
+import { RegisterBody, RegisterSegment } from '../styledComponents/Register';
 
 function Register() {
   const [email, setEmail] = useState('');
@@ -46,14 +47,17 @@ function Register() {
 
   // Register form return
   return (
-    <div>
-      <Form onSubmit={register}>
-        <Form.Input label='Email' type='email' placeholder='Email' value={email} onChange={(e) => { setEmail(e.target.value) }} />
-        <Form.Input label='Name' type='text' placeholder='Name' value={name} onChange={(e) => { setName(e.target.value) }} />
-        <Form.Input label='password' type='password' placeholder='Password' value={password} onChange={(e) => { setPassword(e.target.value) }} />
-        <Button type='submit'>Submit</Button>
-      </Form>
-    </div>
+    <RegisterBody>
+      <RegisterSegment>
+        <h1>Register</h1>
+        <Form onSubmit={register}>
+          <Form.Input label='Email' type='email' placeholder='Email' value={email} onChange={(e) => { setEmail(e.target.value) }} />
+          <Form.Input label='Name' type='text' placeholder='Name' value={name} onChange={(e) => { setName(e.target.value) }} />
+          <Form.Input label='Password' type='password' placeholder='Password' value={password} onChange={(e) => { setPassword(e.target.value) }} />
+          <Button type='submit'>Submit</Button>
+        </Form>
+      </RegisterSegment>
+    </RegisterBody>
   )
 }
 
