@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useParams, Link } from 'react-router-dom';
 import { Card, Button } from 'semantic-ui-react';
 import config from '../config';
+import { StyledQuestionCard, ButtonGroup , CardButton } from '../styledComponents/QuestionCard'
 
 function QuestionCard(props) {
   const quizID = useParams().id;
@@ -56,12 +57,13 @@ function QuestionCard(props) {
   }
 
   return (
-    <Card>
+    <StyledQuestionCard>
       <Card.Content>
         <Card.Header content={json.name} />
         <Card.Meta content={json.type} />
-        {console.log(json)}
-        <Button onClick={deleteQuestion}>Delete Question</Button>
+        <Card.Meta content={`${json.points} points`} />
+      </Card.Content>
+      <ButtonGroup>
         <Link to={{
           pathname: `/game/edit/${quizID}/${json.questionId}`,
           state: {
@@ -71,10 +73,11 @@ function QuestionCard(props) {
             questionJSON: json
           }
         }}>
-          <Button>Edit Question</Button>
+          <CardButton>Edit Question</CardButton>
         </Link>
-      </Card.Content>
-    </Card>
+        <CardButton onClick={deleteQuestion}>Delete Question</CardButton>
+      </ButtonGroup>
+    </StyledQuestionCard>
   )
 }
 // {`/game/edit/${quizID}/${json.questionID}`}

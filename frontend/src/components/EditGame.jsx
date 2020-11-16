@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import config from '../config'
 import QuestionCard from './QuestionCard';
-import { Button, Card } from 'semantic-ui-react'
+import { Card } from 'semantic-ui-react';
+import { AddQuestionButton, Body, QuestionBox } from '../styledComponents/EditGame';
 
 function EditGame() {
   const quizID = useParams().id;
@@ -114,19 +115,21 @@ function EditGame() {
   }
 
   return (
-    <div>
-      <Button onClick={addQuestion}>Add Question</Button>
-      <Card.Group>
-        {questions.map((q) => (<QuestionCard
-          key={q.questionId}
-          json={q}
-          questionChange={questionChange}
-          setQuestionChange={setQuestionChange}
-          questions={questions} // For fetch
-          quizName={quizName}
-          thumbnail={thumbnail} />))}
-      </Card.Group>
-    </div>
+    <Body>
+      <AddQuestionButton onClick={addQuestion}>Add Question</AddQuestionButton>
+      <QuestionBox>
+        <Card.Group>
+          {questions.map((q) => (<QuestionCard
+            key={q.questionId}
+            json={q}
+            questionChange={questionChange}
+            setQuestionChange={setQuestionChange}
+            questions={questions} // For fetch
+            quizName={quizName}
+            thumbnail={thumbnail} />))}
+        </Card.Group>
+      </QuestionBox>
+    </Body>
   )
 }
 
