@@ -20,11 +20,15 @@ const ButtonGroup = styled(Card.Content)`
 const CardButton = styled(Button)`
   &&& {
     height: 50px;
-    background-color: #7c5cad;
+    background-color: #1368ce;
     color: white;
 
     &:hover {
-      background-color: #46178f;
+      background-color: #004496;
+    }
+
+    &:focus {
+      background-color: #004496;
     }
   }
 `

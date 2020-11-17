@@ -1,36 +1,44 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Form, Dropdown, Checkbox, Input } from 'semantic-ui-react'
+import { Form, Dropdown, Checkbox } from 'semantic-ui-react'
 import config from '../config';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
+import {
+  EditQuestionBody, QuestionForm, TitleInput, TitleField, QuestionParameters, ParamColumn,
+  ButtonColumn, QuestionAnswers, AnswerField, AnsInput, AnsCheckbox, QuestionButton
+} from '../styledComponents/EditQuestion';
 
 // PROBABLY MOVE THIS TO ANOTHER FILE
 function AnswerInput({ answeridx, answersState, setAnswersState }) {
   const handleInput = (e) => {
-    let newAnswers = [... answersState];
+    let newAnswers = [...answersState];
     newAnswers[answeridx].title = e.target.value;
     setAnswersState(newAnswers);
   }
 
   const handleCheckbox = () => {
-    let newAnswers = [... answersState];
+    let newAnswers = [...answersState];
     newAnswers[answeridx].correct = !newAnswers[answeridx].correct;
     setAnswersState(newAnswers);
   }
 
   return (
-    <Form.Field>
-      <label>Answer {answeridx + 1}</label>
-      <Input value={answersState[answeridx].title} onChange={handleInput}/>
-      <Checkbox label="Correct Answer" 
-                defaultChecked={answersState[answeridx].correct} 
-                onChange={handleCheckbox}/>
-    </Form.Field>
+    <AnswerField>
+      <AnsInput aria-label={`Answer ${answeridx + 1}`}  placeholder={`Answer ${answeridx + 1}`} value={answersState[answeridx].title} onChange={handleInput} />
+      <AnsCheckbox>
+        <Checkbox
+          label="Correct"
+          defaultChecked={answersState[answeridx].correct}
+          onChange={handleCheckbox}
+        />
+      </AnsCheckbox>
+    </AnswerField>
   )
 }
 
 function EditQuestion() {
   const location = useLocation();
+  const history = useHistory();
   const { questions, quizName, thumbnail, questionJSON } = location.state;
   const { id, questionId } = useParams();
 
@@ -158,11 +166,12 @@ function EditQuestion() {
       return;
     }
     editQuestion();
+    history.push(`/game/edit/${id}`);
   }
 
   const addAnswer = (e) => {
     e.preventDefault();
-    let newAnswers = [... answers];
+    let newAnswers = [...answers];
     if (answers.length < 6) {
       newAnswers.push(
         {
@@ -179,7 +188,7 @@ function EditQuestion() {
 
   const removeAnswer = (e) => {
     e.preventDefault();
-    let newAnswers = [... answers];
+    let newAnswers = [...answers];
     if (answers.length > 2) {
       newAnswers.pop();
     }
@@ -187,60 +196,72 @@ function EditQuestion() {
     setAnswers(newAnswers);
   }
 
-  // NEED TO DO VIDEO UPLOAD
   return (
-    <div className="edit-question">
-      <Form onSubmit={handleSubmit}>
-        <Form.Field>
-          <label>Select Question Type</label>
-          <Dropdown
-            placeholder='Select Question Type'
-            fluid
-            selection
-            value={questionType}
-            onChange={(e, { value }) => { setQuestionType(value) }}
-            options={questionTypes}
-          />
-        </Form.Field>
-        <Form.Input label='Title' type='text' placeholder='Question' value={questionName} onChange={(e) => { setQuestionName(e.target.value) }} />
-        <Form.Field>
-          <label>Select Time Limit</label>
-          <Dropdown
-            placeholder='Select Time Limit'
-            fluid
-            selection
-            value={duration}
-            onChange={(e, { value }) => { setDuration(value) }}
-            options={durationList}
-          />
-        </Form.Field>
-        <Form.Field>
-          <label>Select Points</label>
-          <Dropdown
-            placeholder='Select Points'
-            fluid
-            selection
-            value={points}
-            onChange={(e, { value }) => { setPoints(value) }}
-            options={pointsList}
-          />
-        </Form.Field>
-        <Form.Field>
-          <label>Upload Image</label>
-          <input type="file" onChange={(e) => { setAttach(e.target.value) }} />
-        </Form.Field>
-        <Form.Input label='Video URL' type='text' placeholder='URL' onChange={(e) => { setAttach(e.target.value) }} />
-        <Button onClick={addAnswer}>Add Answer</Button>
-        <Button onClick={removeAnswer}>Remove Answer</Button>
-        {answers.map((answer, idx) => (
-          <AnswerInput key={answer.answerId}
-                       answeridx={idx} 
-                       answersState={answers} 
-                       setAnswersState={setAnswers}/>
-        ))}
-        <Button type='submit'>Submit</Button>
-      </Form>
-    </div>
+    <EditQuestionBody>
+      <QuestionForm onSubmit={handleSubmit}>
+        <TitleField>
+          <TitleInput aria-label="Title" type='text' placeholder='Question' value={questionName} onChange={(e) => { setQuestionName(e.target.value) }} />
+        </TitleField>
+        <QuestionParameters>
+          <ParamColumn>
+            <Form.Field>
+              <label>Select Question Type</label>
+              <Dropdown
+                placeholder='Select Question Type'
+                fluid
+                selection
+                value={questionType}
+                onChange={(e, { value }) => { setQuestionType(value) }}
+                options={questionTypes}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Select Time Limit</label>
+              <Dropdown
+                placeholder='Select Time Limit'
+                fluid
+                selection
+                value={duration}
+                onChange={(e, { value }) => { setDuration(value) }}
+                options={durationList}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Select Points</label>
+              <Dropdown
+                placeholder='Select Points'
+                fluid
+                selection
+                value={points}
+                onChange={(e, { value }) => { setPoints(value) }}
+                options={pointsList}
+              />
+            </Form.Field>
+          </ParamColumn>
+          <ParamColumn>
+            <Form.Field>
+              <label>Upload Image</label>
+              <input type="file" onChange={(e) => { setAttach(e.target.value) }} />
+            </Form.Field>
+            <p>OR</p>
+            <Form.Input label='Video URL' type='text' placeholder='URL' onChange={(e) => { setAttach(e.target.value) }} />
+          </ParamColumn>
+          <ButtonColumn>
+            <QuestionButton onClick={addAnswer}>Add Answer</QuestionButton>
+            <QuestionButton onClick={removeAnswer}>Remove Answer</QuestionButton>
+          </ButtonColumn>
+        </QuestionParameters>
+        <QuestionAnswers>
+          {answers.map((answer, idx) => (
+            <AnswerInput key={answer.answerId}
+              answeridx={idx}
+              answersState={answers}
+              setAnswersState={setAnswers} />
+          ))}
+        </QuestionAnswers>
+        <QuestionButton type='submit'>Change Question</QuestionButton>
+      </QuestionForm>
+    </EditQuestionBody>
   )
 }
 

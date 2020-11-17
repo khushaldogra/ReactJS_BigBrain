@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import config from '../config'
 import QuestionCard from './QuestionCard';
 import { Card } from 'semantic-ui-react';
-import { AddQuestionButton, Body, QuestionBox } from '../styledComponents/EditGame';
+import { AddQuestionButton, EditGameBody, QuestionBox } from '../styledComponents/EditGame';
 
 function EditGame() {
   const quizID = useParams().id;
@@ -115,7 +115,7 @@ function EditGame() {
   }
 
   return (
-    <Body>
+    <EditGameBody>
       <AddQuestionButton onClick={addQuestion}>Add Question</AddQuestionButton>
       <QuestionBox>
         <Card.Group>
@@ -129,7 +129,7 @@ function EditGame() {
             thumbnail={thumbnail} />))}
         </Card.Group>
       </QuestionBox>
-    </Body>
+    </EditGameBody>
   )
 }
 

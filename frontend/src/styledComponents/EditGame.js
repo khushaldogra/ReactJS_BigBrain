@@ -1,12 +1,16 @@
 import styled from 'styled-components';
-import { Button, Card } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 
 // SHOULD EXTRACT THIS
-const Body = styled.div`
+const EditGameBody = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   background-color: #f2f2f2;
+
+  @media (max-width: 600px) {
+    align-items: center;
+  }
 `
 
 const AddQuestionButton = styled(Button)`
@@ -19,7 +23,11 @@ const AddQuestionButton = styled(Button)`
     height: 80px;
 
     &:hover {
-      background-color: #0058c2;
+      background-color: #004496;
+    }
+
+    &:focus {
+      background-color: #004496;
     }
   }
 `
@@ -32,4 +40,4 @@ const QuestionBox = styled.div`
 `
 
 
-export { AddQuestionButton, Body, QuestionBox }
+export { AddQuestionButton, EditGameBody, QuestionBox }
