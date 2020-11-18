@@ -6,7 +6,7 @@ import { useHistory, Link } from 'react-router-dom';
 
 const CardTemplate = (props) => {
   const history = useHistory()
-  const { quiz_info, setOpen, setQuizActive, setOpenResults, setCurrentQuizId } = props
+  const { quiz_info, setOpen, setQuizActive, setOpenResults, setCurrentQuizId, updateGames, setUpdateGames } = props
   const [question, setQuestion] = useState(0)
   const [totaltime, setTotaltime] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -75,7 +75,7 @@ const CardTemplate = (props) => {
       }
     })
     .then(quiz=>{
-        history.go(0)
+        setUpdateGames(!updateGames);
     })
     .catch(err => {
         alert(err.message)
@@ -191,7 +191,9 @@ CardTemplate.propTypes = {
   setOpen : PropTypes.func,
   setQuizActive : PropTypes.func,
   setOpenResults : PropTypes.func,
-  setCurrentQuizId : PropTypes.func
+  setCurrentQuizId : PropTypes.func,
+  updateGames: PropTypes.bool,
+  setUpdateGames: PropTypes.func,
 }
 export default CardTemplate
 

@@ -15,6 +15,7 @@ const Dashboard = () => {
   const [openResults, setOpenResults] = useState(false)
   const [quizActive, setQuizActive] = useState("")
   const [currentQuizId, setCurrentQuizId] = useState(0)
+  const [updateGames, setUpdateGames] = useState(true);
 
   // stop logged out user from accessing Dashboard
   useEffect(() => {
@@ -48,7 +49,7 @@ const Dashboard = () => {
       .catch(err => {
         alert(err.message)
       })
-  }, [])
+  }, [updateGames])
   // React lifecycle - component did mount, component did update, component will mount - class components
   // useeffect - functional components
   // dashboard of all games is displayed - display cards
@@ -71,7 +72,7 @@ const Dashboard = () => {
         }
       })
       .then(quiz => {
-        history.go(0)
+        setUpdateGames(!updateGames);
       })
       .catch(err => {
         alert(err.message)
@@ -95,7 +96,15 @@ const Dashboard = () => {
       {/* Display cards */}
       <Card.Group>
         {quizzes.map((quiz, index) => (
-          <CardTemplate key={index} quiz_info={quiz} setCurrentQuizId={setCurrentQuizId} setOpenResults={setOpenResults} setOpen={setOpen} setQuizActive={setQuizActive}></CardTemplate>
+          <CardTemplate key={index} 
+                        quiz_info={quiz} 
+                        setCurrentQuizId={setCurrentQuizId} 
+                        setOpenResults={setOpenResults} 
+                        setOpen={setOpen} 
+                        setQuizActive={setQuizActive}
+                        updateGames={updateGames}
+                        setUpdateGames={setUpdateGames}
+                        ></CardTemplate>
         ))}
       </Card.Group>
       <br />
