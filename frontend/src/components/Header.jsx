@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
-import config from '../config'
+import config from '../config';
 import { BigBrainMenu } from '../styledComponents/Menu';
 
 // change name to header

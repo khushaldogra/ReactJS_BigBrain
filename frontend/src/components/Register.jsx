@@ -10,6 +10,7 @@ function Register() {
   const [password, setPassword] = useState('');
 
   const history = useHistory()
+  
   // Register fetch
   const register = () => {
     if (!email || !name || !password) {
@@ -45,7 +46,6 @@ function Register() {
       })
   }
 
-  // Register form return
   return (
     <RegisterBody>
       <RegisterSegment>

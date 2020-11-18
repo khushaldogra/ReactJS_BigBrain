@@ -32,7 +32,7 @@ const QuestionParameters = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
-  padding: 0% 5%;
+  padding: 0% 2%;
 `
 
 const ParamColumn = styled.div`

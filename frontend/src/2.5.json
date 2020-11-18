@@ -1,0 +1,108 @@
+{
+  "name": "New Quiz",
+  "questions": [
+    {
+      "type": "Multiple Choice",
+      "name": "Question 1",
+      "duration": 20,
+      "points": 1000,
+      "videolink": {},
+      "answers": [
+        {
+          "answerId": 0,
+          "correct": true,
+          "title": "aq",
+          "color": null
+        },
+        {
+          "answerId": 1,
+          "correct": true,
+          "title": "qee",
+          "color": null
+        },
+        {
+          "answerId": 2,
+          "correct": false,
+          "title": "wqee",
+          "color": null
+        },
+        {
+          "answerId": 3,
+          "correct": false,
+          "title": "wqe",
+          "color": null
+        }
+      ],
+      "questionId": 0
+    },
+    {
+      "type": "Single Choice",
+      "name": "Question 2",
+      "duration": 10,
+      "points": 1000,
+      "videolink": null,
+      "answers": [
+        {
+          "answerId": 0,
+          "correct": false,
+          "title": "fseff",
+          "color": null
+        },
+        {
+          "answerId": 1,
+          "correct": true,
+          "title": "sefsef",
+          "color": null
+        }
+      ],
+      "questionId": 1
+    },
+    {
+      "type": "Multiple Choice",
+      "name": "Question 3",
+      "duration": 20,
+      "points": 2000,
+      "videolink": null,
+      "answers": [
+        {
+          "answerId": 0,
+          "correct": true,
+          "title": "dwadwad",
+          "color": null
+        },
+        {
+          "answerId": 1,
+          "correct": false,
+          "title": "wadwdad",
+          "color": null
+        },
+        {
+          "answerId": 2,
+          "correct": true,
+          "title": "adad",
+          "color": null
+        },
+        {
+          "answerId": 3,
+          "correct": false,
+          "title": "dawdawd",
+          "color": null
+        },
+        {
+          "answerId": 4,
+          "correct": true,
+          "title": "dadawdad",
+          "color": null
+        },
+        {
+          "answerId": 5,
+          "correct": false,
+          "title": "dwadawd",
+          "color": null
+        }
+      ],
+      "questionId": 2
+    }
+  ],
+  "thumbnail": null
+}

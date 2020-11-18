@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import config from '../config'
+import config from '../config';
 import QuestionCard from './QuestionCard';
 import { Card } from 'semantic-ui-react';
-import { AddQuestionButton, EditGameBody, QuestionBox } from '../styledComponents/EditGame';
+import { AddQuestionButton, EditGameBody, QuestionBox, GameOptions,
+         ImportLabel, GameDataDiv } from '../styledComponents/EditGame';
+import { updateQuiz } from '../api';
 
 function EditGame() {
   const quizID = useParams().id;
@@ -44,7 +46,7 @@ function EditGame() {
         console.log(json);
       })
       .catch(err => {
-        console.log(err);
+        alert(err);
       })
   }, [questionChange]);
 
@@ -55,7 +57,7 @@ function EditGame() {
       'name': 'Empty Question',
       'duration': 0,
       'points': 0,
-      'videolink': '',
+      'videolink': null,
       'answers': [
         {
           'answerId': 0,
@@ -85,38 +87,65 @@ function EditGame() {
 
   // Adds an empty question to the quiz
   const addQuestion = () => {
-    const token = localStorage.getItem('token');
     const uniqueID = getQuestionID();
-    const payload = {
-      'questions': [...questions, emptyQuestion(uniqueID)],
-      'name': quizName,
-      'thumbnail': thumbnail
-    }
-    const options = {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    }
-    const path = `${config.basePath}/admin/quiz/${quizID}`;
-    fetch(path, options)
-      .then(res => {
-        if (!res.ok) {
-          throw res;
-        }
-        console.log('Good put');
+    const newQuestions = [...questions, emptyQuestion(uniqueID)];
+    updateQuiz(newQuestions, quizName, thumbnail, quizID)
+      .then(() => {
         setQuestionChange(!questionChange);
       })
       .catch(err => {
-        console.log(err);
+        alert(err);
+      })
+  }
+
+  // Error checking for json
+  const importJSONError = (json) => {
+    if (json === undefined) {
+      alert("Undefined JSON");
+      return true;
+    } else if (json.name === '') {
+      alert("Empty quiz name");
+      return true;
+    }
+    return false;
+  }
+
+  // Creates file reader to read json file input
+  const handleFileChosen = (e) => {
+    const fileReader = new FileReader();
+    fileReader.onload = (frEvent) => {
+      const json = JSON.parse(frEvent.target.result);
+      // Error checking
+      if (importJSONError(json)) {
+        return;
+      }
+      importFile(json);
+    }
+    fileReader.readAsText(e.target.files[0]);
+    e.target.value = null;
+  };
+
+  // Perform the quiz update for file input
+  const importFile = (file) => {
+    updateQuiz(file.questions, file.name, file.thumbnail, quizID)
+      .then(() => {
+        setQuestionChange(!questionChange);
+      })
+      .catch(err => {
+        alert(err);
       })
   }
 
   return (
     <EditGameBody>
-      <AddQuestionButton primary onClick={addQuestion}>Add Question</AddQuestionButton>
+      <GameOptions>
+        <AddQuestionButton color='blue' onClick={addQuestion}>Add Question</AddQuestionButton>
+        <p>OR</p>
+        <GameDataDiv>
+          <ImportLabel htmlFor='game-data-input' id="gd-label">Import file</ImportLabel>
+          <input type='file' id='game-data-input' onChange={(e) => handleFileChosen(e)} />
+        </GameDataDiv>
+      </GameOptions>
       <QuestionBox>
         <Card.Group>
           {questions.map((q) => (<QuestionCard

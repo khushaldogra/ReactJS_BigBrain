@@ -23,6 +23,7 @@ const Dashboard = () => {
       history.push('/')
     }
   }, [location])
+
   useEffect(() => {
     // extract data of all games - fetch
     fetch(config.basePath + '/admin/quiz', {
@@ -98,10 +99,10 @@ const Dashboard = () => {
         ))}
       </Card.Group>
       <br />
-      {/* Is action necessary? *** */}
+
       <Input type='text' placeholder='Enter name of new quiz' action onChange={(e, { value }) => setQuizname(value)}>
         <input />
-        <Button type='submit' onClick={addQuiz}>New Quiz</Button>
+        <Button type='submit' onClick={addQuiz}>Create Quiz</Button>
       </Input>
 
       <Modal

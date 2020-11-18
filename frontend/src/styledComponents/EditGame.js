@@ -20,6 +20,12 @@ const AddQuestionButton = styled(Button)`
     margin: 1%;
     width: 200px;
     height: 80px;
+
+    @media (max-width: 550px) {
+      width: 70px;
+      height: 50px;
+      font-size: 0.7em;
+    }
   }
 `
 
@@ -30,5 +36,19 @@ const QuestionBox = styled.div`
   background-color: white;
 `
 
+const GameOptions = styled.div`
+  display: flex;
+  align-items: center;
+`
 
-export { AddQuestionButton, EditGameBody, QuestionBox }
+const ImportLabel = styled.label`
+  font-size: 1.5em;
+`
+
+const GameDataDiv = styled.div`
+  margin: 0px 25px;
+`
+
+
+export { AddQuestionButton, EditGameBody, QuestionBox, GameOptions, ImportLabel,
+         GameDataDiv }

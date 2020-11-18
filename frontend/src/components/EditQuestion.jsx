@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Dropdown, Checkbox } from 'semantic-ui-react'
-import config from '../config';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import {
   EditQuestionBody, QuestionForm, TitleInput, TitleField, QuestionParameters, ParamColumn,
   ButtonColumn, QuestionAnswers, AnswerField, AnsInput, AnsCheckbox, QuestionButton
 } from '../styledComponents/EditQuestion';
+import { updateQuiz } from '../api';
 
 // PROBABLY MOVE THIS TO ANOTHER FILE
 function AnswerInput({ answeridx, answersState, setAnswersState }) {
@@ -49,6 +49,7 @@ function EditQuestion() {
   const [attach, setAttach] = useState(questionJSON.videolink);
   const [answers, setAnswers] = useState(questionJSON.answers);
 
+  // List of question types to pick
   const questionTypes = [
     {
       text: 'Multiple Choice',
@@ -60,6 +61,7 @@ function EditQuestion() {
     },
   ]
 
+  // List of durations to pick
   const durationList = [
     {
       text: '5',
@@ -79,6 +81,7 @@ function EditQuestion() {
     },
   ]
 
+  // List of points to pick
   const pointsList = [
     {
       text: '0',
@@ -132,31 +135,12 @@ function EditQuestion() {
     return false;
   }
 
+  // Fetch to edit question
   const editQuestion = () => {
-    const token = localStorage.getItem('token');
-    const payload = {
-      'questions': getNewQuestions(),
-      'name': quizName,
-      'thumbnail': thumbnail
-    }
-    const options = {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    }
-    const path = `${config.basePath}/admin/quiz/${id}`;
-    fetch(path, options)
-      .then(res => {
-        if (!res.ok) {
-          throw res;
-        }
-        console.log('Good Edit');
-      })
+    const newQuestions = getNewQuestions();
+    updateQuiz(newQuestions, quizName, thumbnail, id)
       .catch(err => {
-        console.log(err);
+        alert(err);
       })
   }
 
@@ -241,7 +225,7 @@ function EditQuestion() {
           <ParamColumn>
             <Form.Field>
               <label>Upload Image</label>
-              <input type="file" onChange={(e) => { setAttach(e.target.value) }} />
+              <input type="file" onChange={(e) => { setAttach(e.target.files[0]) }} />
             </Form.Field>
             <p>OR</p>
             <Form.Input label='Video URL' type='text' placeholder='URL' onChange={(e) => { setAttach(e.target.value) }} />
@@ -251,7 +235,6 @@ function EditQuestion() {
             <QuestionButton color='blue' onClick={removeAnswer}>Remove Answer</QuestionButton>
           </ButtonColumn>
         </QuestionParameters>
-        
         <QuestionAnswers>
           {answers.map((answer, idx) => (
             <AnswerInput key={answer.answerId}
