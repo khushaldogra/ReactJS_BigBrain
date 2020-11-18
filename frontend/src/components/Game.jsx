@@ -48,7 +48,6 @@ const HomepageHeading = ({ session, id }) => {
     }
     const path = `${config.basePath}/play/join/${sessionId}`;
     fetch(path, options)
-      // ***
       .then(res => {
         return res.json()
       })

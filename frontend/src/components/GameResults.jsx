@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Tooltip, Legend, Bar, CartesianGrid, XAxis, YAxis, LineChart, Line } from 'recharts';
 import { useParams } from 'react-router-dom';
-import { Table } from 'semantic-ui-react'
-import config from '../config'
+import { Table } from 'semantic-ui-react';
+import config from '../config';
+import { GameResultsBody, ChartsSection, ChartBox } from '../styledComponents/GameResults';
 
 function GameResults() {
   const sessionID = useParams().id;
@@ -194,7 +195,7 @@ function GameResults() {
   ]
 
   return (
-    <div className="game-results">
+    <GameResultsBody>
       <Table celled>
         <Table.Header>
           <Table.Row>
@@ -211,32 +212,31 @@ function GameResults() {
           ))}
         </Table.Body>
       </Table>
-      <BarChart width={1000} height={300} data={questionCorrect}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar name="Correct Percentage" dataKey="correct" fill="#82ca9d" />
-      </BarChart>
-      <BarChart width={1000} height={300} data={questionTime}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar name="Average Time" dataKey="time" fill="#82ca9d" />
-      </BarChart>
-      <LineChart width={1000} height={300} data={data}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="time" stroke="#8884d8" />
-      </LineChart>
-    </div>
+      <ChartsSection>
+        <ChartBox>
+          <BarChart width={800} height={400} data={questionCorrect}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis label={{ value: 'Percentage', angle: -90, position: 'insideLeft' }}/>
+            <Tooltip />
+            <Legend />
+            <Bar name="Correct Percentage" dataKey="correct" fill="#82ca9d" />
+          </BarChart>
+        </ChartBox>
+        <ChartBox>
+          <BarChart width={800} height={400} data={questionTime}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis label={{ value: 'Seconds', angle: -90, position: 'insideLeft' }}/>
+            <Tooltip />
+            <Legend />
+            <Bar name="Average Time" dataKey="time" fill="#8884d8" />
+          </BarChart>
+        </ChartBox>
+
+      </ChartsSection>
+
+    </GameResultsBody>
   )
 }
 

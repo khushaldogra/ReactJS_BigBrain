@@ -16,8 +16,12 @@ const RegisterTitle = styled.h1`
 
 const RegisterSegment = styled(Segment)`
   &&& {
-    width: 28%;
+    width: 600px;
     box-shadow: 0px 0px 5px #a3a3a3;
+
+    @media (max-width: 600px) {
+      width: 350px;
+    }
   }
 `
 const RegisterButton = styled(Button)`

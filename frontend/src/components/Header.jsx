@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
-import { Button, Menu } from 'semantic-ui-react';
+import { Menu } from 'semantic-ui-react';
 import config from '../config'
 import { BigBrainMenu } from '../styledComponents/Menu';
 
@@ -9,7 +9,6 @@ function Header() {
   const location = useLocation()
   const history = useHistory()
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage["token"]);
-  // const [activeItem, setActiveItem] = useState("");
 
   const handleLogout = () => {
     // call API to logout
@@ -48,9 +47,9 @@ function Header() {
           Home
         </Menu.Item>
       </Link>
-      <Link to="/dashboard">
+      <Link to="/game/join">
         <Menu.Item>
-          Dashboard
+          Join Game
         </Menu.Item>
       </Link>
       {!isLoggedIn ?
@@ -67,50 +66,21 @@ function Header() {
           </Link>
         </>
         :
+        <>
+        <Link to="/dashboard">
+          <Menu.Item>
+            Dashboard
+          </Menu.Item>
+        </Link>
         <Menu.Item
           onClick={handleLogout}
         >
           Logout
         </Menu.Item>
+        </>
       }
     </BigBrainMenu>
   )
 }
-
-/* <ul>
-      <li>
-        <Link to="/">
-          Landing
-                </Link>
-      </li>
-      <li>
-        <Link to="/dashboard">
-          Dashboard
-                </Link>
-      </li>
-      <li>
-        <Link to="/results/:id">
-          Results
-                </Link>
-      </li>
-      {!isLoggedIn ?
-        <>
-          <li>
-            <Link to="/login">
-              Login
-                </Link>
-          </li>
-          <li>
-            <Link to="/register">
-              Register
-                </Link>
-          </li>
-        </>
-        :
-        <li>
-          <Button onClick={handleLogout}>Logout</Button>
-        </li>
-      }
-    </ul> */
 
 export default Header;

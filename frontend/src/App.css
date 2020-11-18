@@ -28,24 +28,6 @@
   background-color: rgb(51, 146, 153);
 }
 
-.edit-game {
-  display: flex;
-}
-
 .startButton.ui.button {
   margin-left: 4%;
-}
-
-.edit-question {
-  margin: 50px;
-}
-
-.game-results {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.test {
-  font-size: 3em;
 }

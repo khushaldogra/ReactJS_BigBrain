@@ -116,7 +116,7 @@ function EditGame() {
 
   return (
     <EditGameBody>
-      <AddQuestionButton onClick={addQuestion}>Add Question</AddQuestionButton>
+      <AddQuestionButton primary onClick={addQuestion}>Add Question</AddQuestionButton>
       <QuestionBox>
         <Card.Group>
           {questions.map((q) => (<QuestionCard

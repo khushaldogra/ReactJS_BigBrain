@@ -40,8 +40,6 @@ const ParamColumn = styled.div`
 `
 
 const ButtonColumn = styled(ParamColumn)`
-  display: flex;
-  flex-direction: column;
   padding: 20px 10px;
 `
 
@@ -57,7 +55,7 @@ const AnswerField = styled(Form.Field)`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: lavender;
+    background-color: #82ca9d;
     width: 49%;
     height: 90px;
     margin: 4px;
@@ -90,18 +88,12 @@ const AnsCheckbox = styled.div`
 
 const QuestionButton = styled(Button)`
   &&& {
-    background-color: #1368ce;
     margin: 10px;
-    height: 60px;
-    font-size: 1.3em;
+    font-size: 1.5em;
     color: white;
 
-    &:hover {
-      background-color: #004496;
-    }
-
-    &:focus {
-      background-color: #004496;
+    @media (max-width: 955px) {
+      font-size: 1.1em;
     }
   }
 `

@@ -73,9 +73,9 @@ function QuestionCard(props) {
             questionJSON: json
           }
         }}>
-          <CardButton>Edit Question</CardButton>
+          <CardButton color='blue'>Edit Question</CardButton>
         </Link>
-        <CardButton onClick={deleteQuestion}>Delete Question</CardButton>
+        <CardButton color='blue' onClick={deleteQuestion}>Delete Question</CardButton>
       </ButtonGroup>
     </StyledQuestionCard>
   )

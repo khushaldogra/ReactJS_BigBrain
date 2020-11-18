@@ -24,7 +24,7 @@ function AnswerInput({ answeridx, answersState, setAnswersState }) {
 
   return (
     <AnswerField>
-      <AnsInput aria-label={`Answer ${answeridx + 1}`}  placeholder={`Answer ${answeridx + 1}`} value={answersState[answeridx].title} onChange={handleInput} />
+      <AnsInput aria-label={`Answer ${answeridx + 1}`} placeholder={`Answer ${answeridx + 1}`} value={answersState[answeridx].title} onChange={handleInput} />
       <AnsCheckbox>
         <Checkbox
           label="Correct"
@@ -247,10 +247,11 @@ function EditQuestion() {
             <Form.Input label='Video URL' type='text' placeholder='URL' onChange={(e) => { setAttach(e.target.value) }} />
           </ParamColumn>
           <ButtonColumn>
-            <QuestionButton onClick={addAnswer}>Add Answer</QuestionButton>
-            <QuestionButton onClick={removeAnswer}>Remove Answer</QuestionButton>
+            <QuestionButton color='blue' onClick={addAnswer}>Add Answer</QuestionButton>
+            <QuestionButton color='blue' onClick={removeAnswer}>Remove Answer</QuestionButton>
           </ButtonColumn>
         </QuestionParameters>
+        
         <QuestionAnswers>
           {answers.map((answer, idx) => (
             <AnswerInput key={answer.answerId}
@@ -259,7 +260,7 @@ function EditQuestion() {
               setAnswersState={setAnswers} />
           ))}
         </QuestionAnswers>
-        <QuestionButton type='submit'>Change Question</QuestionButton>
+        <QuestionButton color='blue' type='submit'>Change Question</QuestionButton>
       </QuestionForm>
     </EditQuestionBody>
   )

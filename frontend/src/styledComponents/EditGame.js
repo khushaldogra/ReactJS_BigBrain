@@ -15,20 +15,11 @@ const EditGameBody = styled.div`
 
 const AddQuestionButton = styled(Button)`
   &&& {
-    background-color: #1368ce;
     font-size: 1.5em;
     color: white;
     margin: 1%;
     width: 200px;
     height: 80px;
-
-    &:hover {
-      background-color: #004496;
-    }
-
-    &:focus {
-      background-color: #004496;
-    }
   }
 `
 

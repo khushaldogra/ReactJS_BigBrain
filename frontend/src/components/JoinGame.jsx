@@ -1,34 +1,37 @@
 import React, { useState } from 'react';
-import { Container, Header, Input, Button } from 'semantic-ui-react';
+import { JoinGameBody, BigBrainTitle, JoinInput, JoinButton } from '../styledComponents/JoinGame';
 
-// USELESS FOR NOW
 function JoinGame() {
-  return (
-    <Container text color='red'>
-      <Header
-        as='h1'
-        content='BigBrain Game'
-        style={{
-          fontSize: '4em',
-          fontWeight: 'normal',
-          marginBottom: 0,
-          marginTop: '3em',
-        }}
-      />
-      <Header
-        as='h2'
-        content='Enter code!'
-        style={{
-          fontSize: '1.7em',
-          fontWeight: 'normal',
-          marginTop: '1.5em',
-        }}
-      />
-      <Input focus placeholder="Session ID" />
-      <Input focus placeholder="Enter name" />
-      <Button primary size='big'>Play</Button>
-    </Container>
+  const [sessionID, setSessionID] = useState(0);
+  const [name, setName] = useState('');
 
+  const joinGame = () => {
+    if (sessionID === "" || name === "") {
+      alert("Invalid session ID or empty name");
+    }
+    
+    const payload = {
+      'name': name
+    }
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    }
+    const path = `${config.basePath}/play/join/${sessionID}`;
+    
+    // Do fetch
+  }
+
+  return (
+    <JoinGameBody>
+      <BigBrainTitle>BigBrain Game!</BigBrainTitle>
+      <JoinInput placeholder="Session ID" onChange={(e) => setSessionID(e.target.value)} />
+      <JoinInput placeholder="Name" onChange={(e) => setName(e.target.value)}/>
+      <JoinButton color='black' size='big' onClick={joinGame}>Play</JoinButton>
+    </JoinGameBody>
   )
 }
 
