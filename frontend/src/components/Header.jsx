@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
 import config from '../config';
 import { BigBrainMenu } from '../styledComponents/Menu';
+import { StoreContext } from '../store';
 
 // change name to header
 function Header() {
   const history = useHistory();
+  const context = useContext(StoreContext);
+  const [loggedIn, setIsLoggedIn] = context.loggedIn;
 
   const handleLogout = () => {
     // call API to logout
@@ -24,15 +27,19 @@ function Header() {
         if (data.error) {
           throw Error(data.error);
         }
-        localStorage.removeItem("token")
+        localStorage.removeItem("token");
+        setIsLoggedIn(false);
         //redirect to landing page
         history.push('/')
       })
       .catch(err => {
         alert(err.message)
       })
-
   }
+
+  // useEffect(() => {
+
+  // }, [loggedIn]);
 
   return (
     <BigBrainMenu>
@@ -46,7 +53,7 @@ function Header() {
           Join Game
         </Menu.Item>
       </Link>
-      {!localStorage.getItem('token') ?
+      {!loggedIn ?
         <>
           <Link to="/login">
             <Menu.Item>

@@ -1,10 +1,13 @@
-import React,{useState} from 'react';
+import React,{useState, useContext } from 'react';
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 import config from '../config'
+import { StoreContext } from '../store';
 
 const Login = () => {
-    const history = useHistory()
+    const history = useHistory();
+    const context = useContext(StoreContext);
+    const [loggedIn, setIsLoggedIn] = context.loggedIn;
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -31,7 +34,8 @@ const Login = () => {
               throw Error(data.error);
             }
             // *****
-            localStorage.setItem("token", data['token'])
+            localStorage.setItem("token", data['token']);
+            setIsLoggedIn(true);
             history.push('/dashboard')
         })
         .catch(err => {
