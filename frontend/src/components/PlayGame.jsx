@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import {
   Button,
   Container,
@@ -19,31 +19,97 @@ import PropTypes from 'prop-types';
 import config from '../config';
 
 const PlayGamepage = ({id, sessionId}) => {
-    const [quizdata, setQuizdata] = useState({
-        questions:[]
-    })
-    // const [currentQn, setCurrentQn] = useState("")
+    const playerId = useParams().playerId;
+    const history = useHistory()
 
-    // if (localStorage["currentQn"]) {
-    //     setCurrentQn(localStorage["currentQn"])
-    // }
+    const [currentQn, setCurrentQn] = useState({
+      answers:[]
+    })
+    const [nextQn, setNextQn] = useState(false)
+    const [timerStop, setTimerStop] = useState(false)
+    const [correctAns, setCorrectAns] = useState([])
+    const [submittedAns, setSubmittedAns] = useState("")
+
+    const nextQuestion = () => {
+      if(nextQn){
+      fetch(config.basePath + '/admin/quiz/' + id + '/advance', {
+        method : 'post',
+        headers : {
+            'Authorization' : 'Bearer ' + localStorage['token'],
+            'Content-Type' : 'Application/json'
+        },
+      })
+      .then(res => {
+        return res.json()
+      })
+      .then(res => {
+        console.log(res)
+        if(res.error){
+          alert('game complete')
+        }else{
+          history.go(0)
+        }
+      })
+    }
+    }
+    
+    // submit api here ***
+    const submitAnswer = () => {
+      //API to submit answer
+      setSubmittedAns("something")
+      // fetch(config.basePath + '/play/' + playerId + '/answer', {
+      //   method : 'get',
+      //   headers : {
+      //       'Content-Type' : 'Application/json'
+      //   },
+      // })
+      // .then(res => {
+      //   return res.json()
+      // })
+      // .then(data => {
+      //   console.log(data)
+      //   if(!data.error){
+      //     setCorrectAns(data)
+      //     setSubmittedAns("something")
+      //     setNextQn(true)
+      //   }else{
+      //     alert('timer not complete, cannot submit')
+      //   }
+      // })
+    }
+    useEffect(() => {
+      fetch(config.basePath + '/play/' + playerId + '/question', {
+        method : 'get',
+        headers : {
+            'Content-Type' : 'Application/json'
+        },
+      })
+      .then(res => {
+        return res.json()
+      })
+      .then(data => {
+        console.log(data)
+        setCurrentQn(data.question)
+      })
+    }, [])
 
     useEffect(() => {
-        fetch(config.basePath + '/admin/quiz/' + id, {
-            method : 'get',
-            headers : {
-                'Authorization' : 'Bearer ' + localStorage['token'],
-                'Content-Type' : 'Application/json'
-            },
-        })
-        .then(res => {
-            return res.json()
-        })
-        .then(data => {
-            console.log(data)
-            setQuizdata(data)
-            localStorage.setItem("currentQn", data.questions[0].question)
-        })
+      fetch(config.basePath + '/play/' + playerId + '/answer', {
+        method : 'get',
+        headers : {
+            'Content-Type' : 'Application/json'
+        },
+      })
+      .then(res => {
+        return res.json()
+      })
+      .then(data => {
+        console.log(data)
+        if(!data.error){
+          setCorrectAns(data)
+          setNextQn(true)
+        }
+      })
     },[])
 
   return (
@@ -58,30 +124,41 @@ const PlayGamepage = ({id, sessionId}) => {
             marginBottom: 0,
             marginTop: '3em',
             }}
-        />
-        {
-        quizdata.questions.map((ques,index) => (
+      />
+
+      <Header
+        
+        as='h2'
+        // questions here ***
+
+        content={currentQn.name}
+        style={{
+        fontSize: '1.7em',
+        fontWeight: 'normal',
+        marginTop: '1.5em',
+        }}
+      />
+
+      {currentQn.answers.map((answer,index) => (
         <Header
-            key={index}
-            as='h2'
-            // questions here ***
-            // quizdata.questions[0].question
+          as='h2'
+          key={index}
+          // Answer here ***
 
-            // content={currentQn}
-
-            content={ques.name}
-            style={{
-            fontSize: '1.7em',
-            fontWeight: 'normal',
-            marginTop: '1.5em',
-            }}
+          content={answer.title}
+          style={{
+          fontSize: '1.7em',
+          fontWeight: 'normal',
+          marginTop: '1.5em',
+          }}
         />
-        )
-
+      ))}
+      
+    <Button content={"Submit Answer"} onClick={submitAnswer}/>
+    <Button content={"Advance"} onClick={nextQuestion}/>
+    </Container>
     )
-    }
-        </Container>
-    )}
+  }
 
 
 const PlayGame = () => {
@@ -126,3 +203,14 @@ PlayGamepage.propTypes = {
 //     'correctAnswers': [false, false, false, false, false, false],
 //     'questionID': id
 //   }
+
+///start, join, advance position 0
+
+//get qn - timer starts
+//timer status?
+//qn status?
+//when timer complete
+//get qn what happens?
+//get answer
+//quiz advance
+//get next qn

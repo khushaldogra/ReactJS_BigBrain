@@ -15,7 +15,14 @@ import {
   Visibility,
 } from 'semantic-ui-react'
 
-const HomepageHeading = () => (
+const HomepageHeading = () => {
+  const history = useHistory()
+
+  const linkRegister = () => {
+    history.push('/register')
+  }
+
+  return (
     <Container text color='red'>
       <Header
         as='h1'
@@ -38,12 +45,13 @@ const HomepageHeading = () => (
           marginTop: '1.5em',
         }}
       />
-      <Button primary size='huge'>
+      <Button primary size='huge' onClick={linkRegister}>
         Get Started
         <Icon name='right arrow' />
       </Button>
     </Container>
   )
+}
 
 const Landing = () => {
     const history = useHistory()

@@ -56,8 +56,21 @@ const HomepageHeading = ({ session, id }) => {
           throw Error(data.error);
         }
         // setPlayerId(json.playerId);
-        console.log(data.playerId);
-        history.push(`/game/${id}/${sessionId}/playgame/${data.playerId}`); // Put playerid in
+        // console.log(data.playerId);
+        fetch(config.basePath + '/admin/quiz/' + id + '/advance', {
+          method : 'post',
+          headers : {
+              'Authorization' : 'Bearer ' + localStorage['token'],
+              'Content-Type' : 'Application/json'
+          },
+        })
+        .then(res => {
+          return res.json()
+        })
+        .then(res => {
+          console.log(res)
+          history.push(`/game/${id}/${sessionId}/playgame/${data.playerId}`); // Put playerid in
+        })
       })
       .catch(err => {
         alert(err)

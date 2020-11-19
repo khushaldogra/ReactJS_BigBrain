@@ -6,7 +6,11 @@
 // GET question
 export const quizQuestionPublicReturn = question => {
   console.log('See question: ', question);
-  question = {...question, answers:null}
+  let answers = question.answers
+  answers.forEach(ans => {
+    ans.correct = null
+  })
+  question = {...question, answers:answers}
   return question;
 };
 
@@ -20,7 +24,7 @@ export const quizQuestionGetCorrectAnswers = question => {
 
   question.answers.forEach(elem => {
     if (elem["correct"] === true) {
-      idArray.push(elem["id"]);
+      idArray.push(elem["answerId"]);
     }
   });
   
@@ -35,7 +39,7 @@ export const quizQuestionGetAnswers = question => {
   let idArray = [];
 
   question.answers.forEach(elem => {
-    idArray.push(elem["id"]);
+    idArray.push(elem["answerId"]);
   });
   
   return idArray;
