@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart, Tooltip, Legend, Bar, CartesianGrid, XAxis, YAxis, LineChart, Line } from 'recharts';
+import { BarChart, Tooltip, Legend, Bar, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { useParams } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
 import config from '../config';
@@ -31,9 +31,6 @@ function GameResults() {
         return res.json();
       })
       .then(json => {
-        console.log(json);
-        // Set total players
-        // setTotalPlayers(json.results.length);
         // Set results
         setResults(json.results);
         // Get data lists

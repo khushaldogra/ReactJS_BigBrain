@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { JoinGameBody, BigBrainTitle, JoinInput, JoinButton } from '../styledComponents/JoinGame';
+import config from '../config';
 
 function JoinGame() {
   const [sessionID, setSessionID] = useState(0);
   const [name, setName] = useState('');
+  const history = useHistory();
 
   const joinGame = () => {
     if (sessionID === "" || name === "") {
       alert("Invalid session ID or empty name");
     }
-    
+
     const payload = {
       'name': name
     }
@@ -21,8 +24,20 @@ function JoinGame() {
       body: JSON.stringify(payload)
     }
     const path = `${config.basePath}/play/join/${sessionID}`;
-    
-    // Do fetch
+    fetch(path, options)
+      .then(res => {
+        return res.json()
+      })
+      .then(data => {
+        if (data.error) {
+          throw Error(data.error);
+        }
+        // Go to the game
+        // history.push(`/game/${id}/${sessionId}/playgame/${data.playerId}`);
+      })
+      .catch(err => {
+        alert(err);
+      })
   }
 
   return (

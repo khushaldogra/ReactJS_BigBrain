@@ -1,21 +1,8 @@
 .App {
-  /* text-align: center; */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
 }
-
-/* .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-} */
 
 /* My styles for components */
 /* New css file for each component */
@@ -30,4 +17,12 @@
 
 .startButton.ui.button {
   margin-left: 4%;
+}
+
+#game-data-input {
+  display: block;
+}
+
+.gd-div {
+  margin: 0px 25px;
 }
