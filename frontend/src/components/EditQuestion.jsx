@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Dropdown, Checkbox } from 'semantic-ui-react'
+import { Form, Dropdown, Checkbox } from 'semantic-ui-react';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import {
   EditQuestionBody, QuestionForm, TitleInput, TitleField, QuestionParameters, ParamColumn,
@@ -8,7 +8,7 @@ import {
 } from '../styledComponents/EditQuestion';
 import { updateQuiz } from '../api';
 
-// PROBABLY MOVE THIS TO ANOTHER FILE
+// Answer input component for a new answer in quiz
 function AnswerInput({ answeridx, answersState, setAnswersState }) {
   const handleInput = (e) => {
     let newAnswers = [...answersState];
@@ -189,8 +189,9 @@ function EditQuestion() {
         <QuestionParameters>
           <ParamColumn>
             <Form.Field>
-              <label>Select Question Type</label>
+              <label htmlFor='question-type'>Select Question Type</label>
               <Dropdown
+                id='question-type'
                 placeholder='Select Question Type'
                 fluid
                 selection
@@ -200,8 +201,9 @@ function EditQuestion() {
               />
             </Form.Field>
             <Form.Field>
-              <label>Select Time Limit</label>
+              <label htmlFor='time-limit'>Select Time Limit</label>
               <Dropdown
+                id='time-limit'
                 placeholder='Select Time Limit'
                 fluid
                 selection
@@ -211,8 +213,9 @@ function EditQuestion() {
               />
             </Form.Field>
             <Form.Field>
-              <label>Select Points</label>
+              <label htmlFor='select-points'>Select Points</label>
               <Dropdown
+                id='select-points'
                 placeholder='Select Points'
                 fluid
                 selection
@@ -224,8 +227,8 @@ function EditQuestion() {
           </ParamColumn>
           <ParamColumn>
             <Form.Field>
-              <label>Upload Image</label>
-              <input type="file" onChange={(e) => { setAttach(e.target.files[0]) }} />
+              <label htmlFor='upload-image'>Upload Image</label>
+              <input id='upload-image' type="file" onChange={(e) => { setAttach(e.target.files[0]) }} />
             </Form.Field>
             <p>OR</p>
             <Form.Input label='Video URL' type='text' placeholder='URL' onChange={(e) => { setAttach(e.target.value) }} />

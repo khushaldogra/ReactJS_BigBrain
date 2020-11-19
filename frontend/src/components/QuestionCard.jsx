@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useParams, Link } from 'react-router-dom';
-import { Card, Button } from 'semantic-ui-react';
+import { Card } from 'semantic-ui-react';
 import { StyledQuestionCard, ButtonGroup , CardButton } from '../styledComponents/QuestionCard';
 import { updateQuiz } from '../api';
 

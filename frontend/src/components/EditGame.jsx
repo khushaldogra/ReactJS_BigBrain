@@ -142,7 +142,7 @@ function EditGame() {
         <AddQuestionButton color='blue' onClick={addQuestion}>Add Question</AddQuestionButton>
         <p>OR</p>
         <GameDataDiv>
-          <ImportLabel htmlFor='game-data-input' id="gd-label">Import file</ImportLabel>
+          <ImportLabel htmlFor='game-data-input' id="gd-label">Import File</ImportLabel>
           <input type='file' id='game-data-input' onChange={(e) => handleFileChosen(e)} />
         </GameDataDiv>
       </GameOptions>
