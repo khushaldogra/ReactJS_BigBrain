@@ -39,6 +39,8 @@ describe('Register', () => {
     expect(register.find('input').at(2).prop('value')).toEqual('password');
   });
 
+  // Check labels
+
   it('Form submit', () => {
     let mock = jest.fn();
     const registerForm = shallow(

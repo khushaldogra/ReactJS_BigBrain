@@ -71,13 +71,11 @@ function Header() {
           <Link to="/dashboard">
             <Menu.Item>
               Dashboard
-          </Menu.Item>
+            </Menu.Item>
           </Link>
-          <Menu.Item
-            onClick={handleLogout}
-          >
-            Logout
-        </Menu.Item>
+            <Menu.Item onClick={handleLogout}>
+              Logout
+            </Menu.Item>
         </>
       }
     </BigBrainMenu>
