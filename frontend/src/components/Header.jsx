@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { Menu } from 'semantic-ui-react';
+import { Menu, Button } from 'semantic-ui-react';
 import config from '../config';
 import { BigBrainMenu } from '../styledComponents/Menu';
 import { StoreContext } from '../store';
@@ -37,44 +37,44 @@ function Header() {
       })
   }
 
-  // useEffect(() => {
-
-  // }, [loggedIn]);
-
   return (
-    <BigBrainMenu>
-      <Link to="/">
-        <Menu.Item>
-          Home
-        </Menu.Item>
-      </Link>
-      <Link to="/game/join">
-        <Menu.Item>
-          Join Game
-        </Menu.Item>
-      </Link>
+  <BigBrainMenu
+    // widths={4}
+  >
+      <Menu.Item
+        onClick={() => {history.push('/')}}
+      >
+        <Button>Home</Button>
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => {history.push('/game/join')}}
+      >
+        <Button>Join Game</Button>
+      </Menu.Item>
       {!loggedIn ?
         <>
-          <Link to="/login">
-            <Menu.Item>
-              Login
-            </Menu.Item>
-          </Link>
-          <Link to="/register">
-            <Menu.Item>
-              Register
-            </Menu.Item>
-          </Link>
+          <Menu.Item
+            onClick={() => {history.push('/login')}}
+          >
+            <Button>Login</Button>
+          </Menu.Item>
+          <Menu.Item
+            onClick={() => {history.push('/register')}}
+          >
+            <Button>Register</Button>
+          </Menu.Item>
         </>
         :
         <>
-          <Link to="/dashboard">
-            <Menu.Item>
-              Dashboard
-            </Menu.Item>
-          </Link>
-            <Menu.Item onClick={handleLogout}>
-              Logout
+          <Menu.Item
+            onClick={() => {history.push('/dashboard')}}
+          >
+            <Button>Dashboard</Button>
+          </Menu.Item>
+            <Menu.Item 
+              onClick={handleLogout}
+            >
+              <Button>Logout</Button>
             </Menu.Item>
         </>
       }

@@ -5,7 +5,7 @@ const RegisterBody = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f2f2f2;
+  background-color: #42bedf;
   flex-grow: 1;
   justify-content: center;
 `
