@@ -33,7 +33,7 @@ function JoinGame() {
           throw Error(data.error);
         }
         // Go to the game
-        // history.push(`/game/${id}/${sessionId}/playgame/${data.playerId}`);
+        history.push(`/game/${sessionID}/playgame/${data.playerId}`);
       })
       .catch(err => {
         alert(err);

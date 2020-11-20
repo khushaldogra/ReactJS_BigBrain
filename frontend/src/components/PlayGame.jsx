@@ -25,75 +25,17 @@ const PlayGamepage = ({id, sessionId}) => {
     const [currentQn, setCurrentQn] = useState({
       answers:[]
     })
-    const [nextQn, setNextQn] = useState(false)
-    const [timerStop, setTimerStop] = useState(false)
+    const [quizstart, setQuizstart] = useState(0)
+    const [timeLeft, setTimeLeft] = useState(0)
     const [correctAns, setCorrectAns] = useState([])
     const [submittedAns, setSubmittedAns] = useState("")
-
-    const nextQuestion = () => {
-      if(nextQn){
-      fetch(config.basePath + '/admin/quiz/' + id + '/advance', {
-        method : 'post',
-        headers : {
-            'Authorization' : 'Bearer ' + localStorage['token'],
-            'Content-Type' : 'Application/json'
-        },
-      })
-      .then(res => {
-        return res.json()
-      })
-      .then(res => {
-        console.log(res)
-        if(res.error){
-          alert('game complete')
-        }else{
-          history.go(0)
-        }
-      })
-    }
-    }
+    const [error, setError] = useState("")
     
-    // submit api here ***
+    // submit api here 
     const submitAnswer = () => {
       //API to submit answer
       setSubmittedAns("something")
-      // fetch(config.basePath + '/play/' + playerId + '/answer', {
-      //   method : 'get',
-      //   headers : {
-      //       'Content-Type' : 'Application/json'
-      //   },
-      // })
-      // .then(res => {
-      //   return res.json()
-      // })
-      // .then(data => {
-      //   console.log(data)
-      //   if(!data.error){
-      //     setCorrectAns(data)
-      //     setSubmittedAns("something")
-      //     setNextQn(true)
-      //   }else{
-      //     alert('timer not complete, cannot submit')
-      //   }
-      // })
-    }
-    useEffect(() => {
-      fetch(config.basePath + '/play/' + playerId + '/question', {
-        method : 'get',
-        headers : {
-            'Content-Type' : 'Application/json'
-        },
-      })
-      .then(res => {
-        return res.json()
-      })
-      .then(data => {
-        console.log(data)
-        setCurrentQn(data.question)
-      })
-    }, [])
 
-    useEffect(() => {
       fetch(config.basePath + '/play/' + playerId + '/answer', {
         method : 'get',
         headers : {
@@ -107,10 +49,62 @@ const PlayGamepage = ({id, sessionId}) => {
         console.log(data)
         if(!data.error){
           setCorrectAns(data)
-          setNextQn(true)
+          setSubmittedAns("something")
+        } else{
+          alert(data.error)
         }
       })
-    },[])
+    }
+    //component did update
+    useEffect(() => {
+      //api for active status
+      fetch(config.basePath + '/play/' + playerId + '/status', {
+        method : 'get',
+        headers : {
+            'Content-Type' : 'Application/json'
+        },
+      })
+      .then(res => {
+        return res.json()
+      })
+      .then(res => {
+        if (res.started) {
+          setError("")
+          fetch(config.basePath + '/play/' + playerId + '/question', {
+            method : 'get',
+            headers : {
+                'Content-Type' : 'Application/json'
+            },
+          })
+          .then(res => {
+            return res.json()
+          })
+          .then(data => {
+            if (!data.error) {
+              console.log(data)
+              setCurrentQn(data.question)
+              const timeLeftNew = data.question.duration - (new Date() - new Date(data.question.isoTimeLastQuestionStarted))/1000
+            
+              if (timeLeftNew <= 0) {
+                setTimeLeft(0)
+              } else {
+                setTimeLeft(timeLeftNew)
+              }
+    
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+        }else{
+          setQuizstart(quizstart + 1)
+          setTimeLeft(0)
+          setError("Session Not Started")
+        }
+      })
+
+
+    })
 
   return (
     <Container text color='red'>
@@ -125,7 +119,10 @@ const PlayGamepage = ({id, sessionId}) => {
             marginTop: '3em',
             }}
       />
-
+      {error !== ""?
+      <div>{error} Contact Admin and try reloading</div>:null}
+      {currentQn?<div>
+      <div>{parseInt(timeLeft)}</div>
       <Header
         
         as='h2'
@@ -139,23 +136,29 @@ const PlayGamepage = ({id, sessionId}) => {
         }}
       />
 
-      {currentQn.answers.map((answer,index) => (
-        <Header
-          as='h2'
-          key={index}
-          // Answer here ***
+      {currentQn.answers.map((answer,index) => 
+        <Button key={index} size="massive" onClick={submitAnswer}>{answer.title}</Button>
+        
+        // <Header
+        //   as='h2'
+        //   key={index}
+        //   // Answer here ***
 
-          content={answer.title}
-          style={{
-          fontSize: '1.7em',
-          fontWeight: 'normal',
-          marginTop: '1.5em',
-          }}
-        />
-      ))}
-      
+        //   content={answer.title}
+        //   style={{
+        //   fontSize: '1.7em',
+        //   fontWeight: 'normal',
+        //   marginTop: '1.5em',
+        //   }}
+        // />
+      )}
+    <br />
+    <br />
     <Button content={"Submit Answer"} onClick={submitAnswer}/>
-    <Button content={"Advance"} onClick={nextQuestion}/>
+    </div>
+    :
+    <div>Game not yet started</div>
+    }
     </Container>
     )
   }
@@ -214,3 +217,11 @@ PlayGamepage.propTypes = {
 //get answer
 //quiz advance
 //get next qn
+
+
+//Players - enter session id and join - get qn, get answer
+//Admin  - has a session id - advance - get quiz info
+
+//iso time started, get qn in infinite loop using useeffect
+//qn duration
+//duration - (currenttime-timestarted) = timeleft in min
