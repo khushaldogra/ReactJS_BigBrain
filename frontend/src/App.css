@@ -22,11 +22,11 @@
 
 
 .activeOption.option.ui.button, .activeOption.option.ui.button:hover {
-  background-color: #37E6FE;
+  background-color: #1368CE;
 }
 .correctOption.option.ui.button, .correctOption.option.ui.button:hover{
-  background-color: greenyellow;
+  background-color: #26890C;
 }
 .incorrectOption.option.ui.button, .incorrectOption.option.ui.button:hover{
-  background-color: red;
+  background-color: #E21B3C;
 }

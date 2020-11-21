@@ -60,15 +60,15 @@ function Register() {
         <Form onSubmit={register}>
           <Form.Field>
             <label htmlFor='register-email'>Email</label>
-            <input id='register-email' type='email' placeholder='Email' value={email} onChange={(e) => { setEmail(e.target.value) }} />
+            <input name="email" id='register-email' type='email' placeholder='Email' value={email} onChange={(e) => { setEmail(e.target.value) }} />
           </Form.Field>
           <Form.Field>
             <label htmlFor='register-name'>Name</label>
-            <input id='register-name' type='text' placeholder='Name' value={name} onChange={(e) => { setName(e.target.value) }} />
+            <input name="name" id='register-name' type='text' placeholder='Name' value={name} onChange={(e) => { setName(e.target.value) }} />
           </Form.Field>
           <Form.Field>
             <label htmlFor='register-password'>Password</label>
-            <input id='register-password' type='password' placeholder='Password' value={password} onChange={(e) => { setPassword(e.target.value) }} />
+            <input name="password" id='register-password' type='password' placeholder='Password' value={password} onChange={(e) => { setPassword(e.target.value) }} />
           </Form.Field>
           <RegisterButton type='submit'>Sign Up</RegisterButton>
         </Form>
