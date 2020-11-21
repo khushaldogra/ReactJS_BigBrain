@@ -19,16 +19,13 @@ function QuestionResult({ json, idx }) {
 
 function PlayerResults() {
   const playerId = useParams().playerId;
+  const sessionId = useParams().sessionId;
   const history = useHistory();
   const [results, setResults] = useState([]);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
     const options = {
       method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
     }
     const path = `${config.basePath}/play/${playerId}/results`;
     fetch(path, options)
@@ -51,7 +48,7 @@ function PlayerResults() {
   }, []);
 
   const handler = () => {
-    history.push('/results/592042');
+    history.push(`/results/${sessionId}`);
   }
 
   return (
