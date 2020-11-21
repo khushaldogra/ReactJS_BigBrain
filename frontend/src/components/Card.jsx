@@ -82,7 +82,8 @@ const CardTemplate = (props) => {
     })
   }
 
-  const startQuiz = () => {
+  const startQuiz = (e) => {
+    e.preventDefault();
     // After starting, call the GET for the quizid to get the sesion ID.
 
     // call start quiz
@@ -130,7 +131,8 @@ const CardTemplate = (props) => {
   }
 
   // check this ***
-  const stopQuiz = () => {
+  const stopQuiz = (e) => {
+      e.preventDefault();
       // fetch - stop quiz
       fetch(config.basePath + '/admin/quiz/' + quiz_info.id + '/end', {
         method: 'post',

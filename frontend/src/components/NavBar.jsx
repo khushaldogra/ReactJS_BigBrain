@@ -5,8 +5,7 @@ import config from '../config';
 import { BigBrainMenu } from '../styledComponents/Menu';
 import { StoreContext } from '../store';
 
-// change name to header
-function Header() {
+function NavBar() {
   const history = useHistory();
   const context = useContext(StoreContext);
   const [loggedIn, setIsLoggedIn] = context.loggedIn;
@@ -38,30 +37,28 @@ function Header() {
   }
 
   return (
-  <BigBrainMenu
-    // widths={4}
-  >
+  <BigBrainMenu>
       <Menu.Item
         onClick={() => {history.push('/')}}
       >
-        <Button>Home</Button>
+        Home
       </Menu.Item>
       <Menu.Item
         onClick={() => {history.push('/game/join')}}
       >
-        <Button>Join Game</Button>
+        Join Game
       </Menu.Item>
       {!loggedIn ?
         <>
           <Menu.Item
             onClick={() => {history.push('/login')}}
           >
-            <Button>Login</Button>
+            Login
           </Menu.Item>
           <Menu.Item
             onClick={() => {history.push('/register')}}
           >
-            <Button>Register</Button>
+            Register
           </Menu.Item>
         </>
         :
@@ -69,12 +66,12 @@ function Header() {
           <Menu.Item
             onClick={() => {history.push('/dashboard')}}
           >
-            <Button>Dashboard</Button>
+            Dashboard
           </Menu.Item>
             <Menu.Item 
               onClick={handleLogout}
             >
-              <Button>Logout</Button>
+              Logout
             </Menu.Item>
         </>
       }
@@ -82,4 +79,4 @@ function Header() {
   )
 }
 
-export default Header;
+export default NavBar;

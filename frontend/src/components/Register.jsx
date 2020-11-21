@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Form } from 'semantic-ui-react'
 import { useHistory } from 'react-router-dom';
-import config from '../config'
+import config from '../config';
 import { RegisterBody, RegisterSegment, RegisterButton, RegisterTitle } from '../styledComponents/Register';
+import { StoreContext } from '../store';
 
 function Register() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const context = useContext(StoreContext);
   const [loggedIn, setIsLoggedIn] = context.loggedIn;
 
   const history = useHistory();

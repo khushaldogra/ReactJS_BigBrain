@@ -9,6 +9,7 @@ import JoinGame from './JoinGame';
 import EditGame from './EditGame';
 import PlayGame from './PlayGame';
 import EditQuestion from './EditQuestion';
+import PlayerResults from './PlayerResults';
 import GameResults from './GameResults';
 
 function Navigation() {
@@ -18,13 +19,13 @@ function Navigation() {
       <Route exact path='/'>
         <Landing />
       </Route>
-      <Route path='/dashboard'>
+      <Route exact path='/dashboard'>
         <Dashboard />
       </Route>
-      <Route path='/login'>
+      <Route exact path='/login'>
         <Login />
       </Route>
-      <Route path='/register'>
+      <Route exact path='/register'>
         <Register />
       </Route>
       <Route exact path='/game/join'>
@@ -41,6 +42,9 @@ function Navigation() {
       </Route>
       <Route exact path='/game/:sessionId/playgame/:playerId'>
         <PlayGame />
+      </Route>
+      <Route exact path='/results/player/:playerId'>
+        <PlayerResults/>
       </Route>
       <Route exact path='/results/:id'>
         <GameResults />

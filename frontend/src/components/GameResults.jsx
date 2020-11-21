@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart, Tooltip, Legend, Bar, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { BarChart, Tooltip, Legend, Bar, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 import { useParams } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
 import config from '../config';
@@ -106,7 +106,7 @@ function GameResults() {
     for (const player of jsonResults) {
       let questionNo = 1;
       for (const answer of player.answers) {
-        const timeSpent = (Date.parse(answer.answeredAt) - Date.parse(answer.questionStartedAt)) / 100;
+        const timeSpent = (Date.parse(answer.answeredAt) - Date.parse(answer.questionStartedAt)) / 1000;
         if (isNaN(timeSpent)) {
           questionNo++;
           continue;
@@ -152,24 +152,28 @@ function GameResults() {
       </Table>
       <ChartsSection>
         <ChartBox>
-          <BarChart width={800} height={400} data={questionCorrect}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis label={{ value: 'Percentage', angle: -90, position: 'insideLeft' }}/>
-            <Tooltip />
-            <Legend />
-            <Bar name="Correct Percentage" dataKey="correct" fill="#82ca9d" />
-          </BarChart>
+          <ResponsiveContainer width="100%" height={400}>
+            <BarChart data={questionCorrect}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis label={{ value: 'Percentage', angle: -90, position: 'insideLeft' }} />
+              <Tooltip />
+              <Legend />
+              <Bar name="Correct Percentage" dataKey="correct" fill="#82ca9d" />
+            </BarChart>
+          </ResponsiveContainer>
         </ChartBox>
         <ChartBox>
-          <BarChart width={800} height={400} data={questionTime}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis label={{ value: 'Seconds', angle: -90, position: 'insideLeft' }}/>
-            <Tooltip />
-            <Legend />
-            <Bar name="Average Time" dataKey="time" fill="#8884d8" />
-          </BarChart>
+          <ResponsiveContainer width="100%" height={400}>
+            <BarChart width={600} height={300} data={questionTime}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis label={{ value: 'Seconds', angle: -90, position: 'insideLeft' }} />
+              <Tooltip />
+              <Legend />
+              <Bar name="Average Time" dataKey="time" fill="#8884d8" />
+            </BarChart>
+          </ResponsiveContainer>
         </ChartBox>
       </ChartsSection>
 
