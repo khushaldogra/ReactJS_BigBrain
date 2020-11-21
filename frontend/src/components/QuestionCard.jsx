@@ -30,7 +30,10 @@ function QuestionCard(props) {
         props.setQuestionChange(!props.questionChange);
       })
       .catch(err => {
-        alert(err);
+        err.json()
+          .then(json => {
+            alert(json.error);
+          });
       })
   }
 

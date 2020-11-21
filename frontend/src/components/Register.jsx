@@ -38,11 +38,14 @@ function Register() {
         return res.json();
       })
       .then(json => {
-        localStorage.setItem("token", json.token)
-        history.push('/dashboard')
+        localStorage.setItem("token", json.token);
+        history.push('/dashboard');
       })
       .catch(err => {
-        console.log(err);
+        err.json()
+          .then(json => {
+            alert(json.error);
+          });
       })
   }
 

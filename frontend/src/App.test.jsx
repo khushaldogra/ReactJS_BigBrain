@@ -40,6 +40,20 @@ describe('Register', () => {
   });
 
   // Check labels
+  it('Email input has a label', () => {
+    const register = shallow(<Register />);
+    expect(register.find('label').at(0).prop('htmlFor')).toEqual(register.find('input').at(0).prop('id'));
+  });
+
+  it('Name input has a label', () => {
+    const register = shallow(<Register />);
+    expect(register.find('label').at(1).prop('htmlFor')).toEqual(register.find('input').at(1).prop('id'));
+  });
+
+  it('Password input has a label', () => {
+    const register = shallow(<Register />);
+    expect(register.find('label').at(2).prop('htmlFor')).toEqual(register.find('input').at(2).prop('id'));
+  });
 
   it('Form submit', () => {
     let mock = jest.fn();

@@ -32,14 +32,17 @@ function GameResults() {
       })
       .then(json => {
         // Set results
-        setResults(json.results);
+        setResults(json.results); // Maybe don't need
         // Get data lists
         getUserScores(json.results);
         getQuestionCorrect(json.results);
         getQuestionTime(json.results);
       })
       .catch(err => {
-        console.log(err);
+        err.json()
+          .then(json => {
+            alert(json.error);
+          });
       })
   }, []);
 
@@ -230,7 +233,6 @@ function GameResults() {
             <Bar name="Average Time" dataKey="time" fill="#8884d8" />
           </BarChart>
         </ChartBox>
-
       </ChartsSection>
 
     </GameResultsBody>

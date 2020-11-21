@@ -16,7 +16,6 @@ function EditGame() {
   const [questionChange, setQuestionChange] = useState(true);
 
   // Fetch questions in quiz
-  // Maybe an unecessary fetch
   useEffect(() => {
     const token = localStorage.getItem('token');
     const options = {
@@ -46,7 +45,10 @@ function EditGame() {
         console.log(json);
       })
       .catch(err => {
-        alert(err);
+        err.json()
+          .then(json => {
+            alert(json.error);
+          });
       })
   }, [questionChange]);
 

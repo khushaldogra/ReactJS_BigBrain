@@ -26,17 +26,20 @@ function JoinGame() {
     const path = `${config.basePath}/play/join/${sessionID}`;
     fetch(path, options)
       .then(res => {
+        if(!res.ok) {
+          throw res;
+        }
         return res.json()
       })
       .then(data => {
-        if (data.error) {
-          throw Error(data.error);
-        }
         // Go to the game
         history.push(`/game/${sessionID}/playgame/${data.playerId}`);
       })
       .catch(err => {
-        alert(err);
+        err.json()
+          .then(json => {
+            alert(json.error);
+          });
       })
   }
 
