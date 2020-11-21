@@ -8,6 +8,7 @@ function Register() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [loggedIn, setIsLoggedIn] = context.loggedIn;
 
   const history = useHistory();
   
@@ -39,6 +40,7 @@ function Register() {
       })
       .then(json => {
         localStorage.setItem("token", json.token);
+        setIsLoggedIn(true);
         history.push('/dashboard');
       })
       .catch(err => {

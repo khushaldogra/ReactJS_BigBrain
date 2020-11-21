@@ -67,7 +67,7 @@ function GameResults() {
         'score': score
       })
     }
-    newUserScores.sort((a, b) => { return parseInt(a.score) - parseInt(b.score) });
+    newUserScores.sort((a, b) => { return parseInt(b.score) - parseInt(a.score) });
     // console.log(newUserScores);
     setUserScores(newUserScores);
   }
@@ -93,7 +93,7 @@ function GameResults() {
       newQuestionCorrect.push({
         'name': `Question ${question}`,
         'question': question,
-        'correct': correct / jsonResults.length
+        'correct': (correct / jsonResults.length) * 100
       })
     }
     newQuestionCorrect.sort((a, b) => { return parseInt(a.question) - parseInt(b.question) });
@@ -106,7 +106,12 @@ function GameResults() {
     for (const player of jsonResults) {
       let questionNo = 1;
       for (const answer of player.answers) {
-        const timeSpent = Date.parse(answer.answeredAt) - Date.parse(answer.questionStartedAt);
+        const timeSpent = (Date.parse(answer.answeredAt) - Date.parse(answer.questionStartedAt)) / 100;
+        if (isNaN(timeSpent)) {
+          questionNo++;
+          continue;
+        }
+        console.log(timeSpent);
         if (!(questionNo in questionTimeDic)) {
           questionTimeDic[questionNo] = timeSpent;
         } else {
@@ -126,73 +131,6 @@ function GameResults() {
     newQuestionTime.sort((a, b) => { return parseInt(a.question) - parseInt(b.question) });
     setQuestionTime(newQuestionTime);
   }
-
-  // DUMMY DATA, FILL IN WITH ACTUAL DATA LATER
-  const data = [
-    {
-      "name": "Question 1",
-      "question": 1,
-      "time": 100,
-    },
-    {
-      "name": "Question 2",
-      "question": 2,
-      "time": 50,
-    },
-    {
-      "name": "Question 3",
-      "question": 3,
-      "time": 70,
-    },
-    {
-      "name": "Question 4",
-      "question": 4,
-      "time": 60,
-    },
-    {
-      "name": "Question 5",
-      "question": 5,
-      "time": 70,
-    },
-    {
-      "name": "Question 6",
-      "question": 6,
-      "time": 20,
-    },
-  ]
-
-  const data2 = [
-    {
-      "name": "Question 1",
-      "question": 1,
-      "correct": 100,
-    },
-    {
-      "name": "Question 2",
-      "question": 2,
-      "correct": 50,
-    },
-    {
-      "name": "Question 3",
-      "question": 3,
-      "correct": 70,
-    },
-    {
-      "name": "Question 4",
-      "question": 4,
-      "correct": 60,
-    },
-    {
-      "name": "Question 5",
-      "question": 5,
-      "correct": 70,
-    },
-    {
-      "name": "Question 6",
-      "question": 6,
-      "correct": 20,
-    },
-  ]
 
   return (
     <GameResultsBody>
