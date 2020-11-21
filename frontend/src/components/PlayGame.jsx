@@ -230,7 +230,7 @@ const PlayGamepage = ({id, sessionId}) => {
       
     <br />
     <br />
-    <Button content={"Submit Answer"} onClick={submitAnswer}/>
+    {/* <Button content={"Submit Answer"} onClick={submitAnswer}/> */}
     </div>
     :
     <div>Game not yet started</div>
