@@ -4,7 +4,7 @@ import Landing from './Landing';
 import Login from './Login';
 import Dashboard from './Dashboard';
 import Register from './Register';
-import Admin from './Admin'; // Maybe dont need this
+import Admin from './Admin';
 import JoinGame from './JoinGame';
 import EditGame from './EditGame';
 import PlayGame from './PlayGame';

@@ -140,7 +140,10 @@ function EditQuestion() {
     const newQuestions = getNewQuestions();
     updateQuiz(newQuestions, quizName, thumbnail, id)
       .catch(err => {
-        alert(err);
+        err.json()
+          .then(json => {
+            alert(json.error);
+          });
       })
   }
 
@@ -153,6 +156,7 @@ function EditQuestion() {
     history.push(`/game/edit/${id}`);
   }
 
+  // Adds an answer to question
   const addAnswer = (e) => {
     e.preventDefault();
     let newAnswers = [...answers];
@@ -166,17 +170,16 @@ function EditQuestion() {
         }
       )
     }
-    // console.log(newAnswers);
     setAnswers(newAnswers);
   }
 
+  // Removes an answer from question
   const removeAnswer = (e) => {
     e.preventDefault();
     let newAnswers = [...answers];
     if (answers.length > 2) {
       newAnswers.pop();
     }
-    // console.log(newAnswers);
     setAnswers(newAnswers);
   }
 
