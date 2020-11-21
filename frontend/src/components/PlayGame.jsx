@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { GameButton } from '../styledComponents/PlayGame';
 import {
   Button,
   Container,
@@ -28,33 +29,52 @@ const PlayGamepage = ({id, sessionId}) => {
     const [quizstart, setQuizstart] = useState(0)
     const [timeLeft, setTimeLeft] = useState(0)
     const [correctAns, setCorrectAns] = useState([])
-    const [submittedAns, setSubmittedAns] = useState("")
+    const [correctAnsIds, setCorrectAnsIds] = useState([])
     const [error, setError] = useState("")
+    const [answeridArray, setAnsweridArray] = useState([])
+    const [isAnswerSubmitted, setIsANswerSubmitted] = useState(false)
+    const [activequiz, setActivequiz] = useState(false)
     
     // submit api here 
-    const submitAnswer = () => {
-      //API to submit answer
-      setSubmittedAns("something")
-
+    const submitAnswer = ( index ) => { 
+      let tempArray = [...answeridArray]
+      if(answeridArray.includes(index)){
+        //Remove value from answer id array
+        tempArray = tempArray.filter(id => id!==index)
+        setAnsweridArray(tempArray)
+        // document.getElementById(index).style.background = "#E0E1E2";
+      }else{
+        //Add value to answer id array
+        tempArray.push(index)
+        setAnsweridArray(tempArray)
+        // document.getElementById(index).style.background = "#37E6FE";
+      }
+      console.log(tempArray)
       fetch(config.basePath + '/play/' + playerId + '/answer', {
-        method : 'get',
+        method : 'put',
         headers : {
             'Content-Type' : 'Application/json'
         },
+        body: JSON.stringify({
+          "answerIds": tempArray
+        }),
       })
       .then(res => {
         return res.json()
       })
-      .then(data => {
-        console.log(data)
-        if(!data.error){
-          setCorrectAns(data)
-          setSubmittedAns("something")
-        } else{
-          alert(data.error)
-        }
+      .then(res => {
+        console.log(res)
+        if(!res.error){
+          setIsANswerSubmitted(true)
+      }else{
+        console.log(res.error)
+      }
       })
     }
+
+
+
+
     //component did update
     useEffect(() => {
       //api for active status
@@ -69,7 +89,9 @@ const PlayGamepage = ({id, sessionId}) => {
       })
       .then(res => {
         if (res.started) {
+          setActivequiz(true)
           setError("")
+          // insufficient resources error ***
           fetch(config.basePath + '/play/' + playerId + '/question', {
             method : 'get',
             headers : {
@@ -81,22 +103,37 @@ const PlayGamepage = ({id, sessionId}) => {
           })
           .then(data => {
             if (!data.error) {
-              console.log(data)
+              // console.log(data)
               setCurrentQn(data.question)
               const timeLeftNew = data.question.duration - (new Date() - new Date(data.question.isoTimeLastQuestionStarted))/1000
             
               if (timeLeftNew <= 0) {
                 setTimeLeft(0)
-              } else {
-                setTimeLeft(timeLeftNew)
+                setAnsweridArray([])
+                setQuizstart(quizstart + 1)
               }
-    
+                //API to submit answer
+                //API to fetch answer
+            
+            else {
+              
+              setQuizstart(0)
+              setCorrectAns([])
+              setCorrectAnsIds([])
+              setTimeLeft(timeLeftNew)
             }
+    
+          }
           })
           .catch(err => {
+            // fix error ***
             console.log(err)
           })
         }else{
+          if(activequiz){
+            history.push("/game/join")
+
+          }
           setQuizstart(quizstart + 1)
           setTimeLeft(0)
           setError("Session Not Started")
@@ -104,7 +141,38 @@ const PlayGamepage = ({id, sessionId}) => {
       })
 
 
-    })
+    },[quizstart,timeLeft])
+
+  useEffect(()=>{
+    if(timeLeft == 0){
+    fetch(config.basePath + '/play/' + playerId + '/answer', {
+            method : 'get',
+            headers : {
+                'Content-Type' : 'Application/json'
+            },
+          })
+          .then(res => {
+            return res.json()
+          })
+          .then(data => {
+            console.log(data)
+            if(!data.error){
+              let temp = []
+              setCorrectAnsIds(data.answerIds)
+              data.answerIds.forEach(ansId => {
+                currentQn.answers.forEach(ans=>{
+                  if(ans.answerId == ansId){
+                    temp.push(ans)
+                  }
+                })
+              })
+              setCorrectAns(temp)
+            } else{
+              alert(data.error)
+            }
+          })
+        }
+  },[timeLeft])
 
   return (
     <Container text color='red'>
@@ -137,10 +205,10 @@ const PlayGamepage = ({id, sessionId}) => {
       />
 
       {currentQn.answers.map((answer,index) => 
-        <Button key={index} size="massive" onClick={submitAnswer}>{answer.title}</Button>
+        <GameButton className={"option "+(correctAnsIds.includes(answer.answerId)?"correctOption":(timeLeft==0?"incorrectOption":""))+(answeridArray.includes(answer.answerId)?"activeOption":"")} size='massive' key={index} onClick={() => submitAnswer(answer.answerId)}>{answer.title}</GameButton>
         
         // <Header
-        //   as='h2'
+        //   as='h2's
         //   key={index}
         //   // Answer here ***
 
@@ -152,6 +220,14 @@ const PlayGamepage = ({id, sessionId}) => {
         //   }}
         // />
       )}
+      {timeLeft == 0?
+      <div>Correct answers</div>
+      :null}
+      {correctAns.map((answer,index) => (
+            <div key={index}>{answer.answerId} : {answer.title}</div>
+      ))
+      }
+      
     <br />
     <br />
     <Button content={"Submit Answer"} onClick={submitAnswer}/>

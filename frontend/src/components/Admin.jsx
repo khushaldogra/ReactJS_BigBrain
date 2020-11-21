@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import { Button } from 'semantic-ui-react';
+import { GameHeading, GameSubheading } from '../styledComponents/PlayGame'
 import {
   Button,
   Container,
@@ -91,41 +91,28 @@ const HomepageHeading = ({ session, id }) => {
 
   return (
     <Container text color='red'>
-      <Header
-        as='h1'
-        content='BigBrain Game'
-
-        style={{
-          fontSize: '4em',
-          fontWeight: 'normal',
-          marginBottom: 0,
-          marginTop: '3em',
-        }}
-      />
-      <Header
-        as='h2'
-        content='Join with code!'
-
-        style={{
-          fontSize: '1.7em',
-          fontWeight: 'normal',
-          marginTop: '1.5em',
-        }}
-      />
-      {sessionId}
-      <br/> <br/> 
+      <GameHeading>BigBrain Game</GameHeading>
       {position == -1?
-      <Button primary size='big' onClick={advance}>
-        Start game
-      </Button>
+      <div>
+        <GameSubheading>Join with code!</GameSubheading>
+        <GameSubheading>{sessionId}</GameSubheading>
+        
+        <br/> <br/> 
+        
+        <Button primary size='big' onClick={advance}>
+          Start game
+        </Button>
+      </div>
       :
       <div>
         <div>{quiz.questions[position].name}</div>
 
         <Embed
-        icon='right circle arrow'
-        placeholder='/images/image-16by9.png'
-        url="https://www.youtube.com/watch?v=TwjmAfpvYPc&list=PLHnAh9gM7bwGcdxjzPLjnESAOyyswCd_U&index=1"
+          icon='play'
+          id='TwjmAfpvYPc'
+          placeholder='/images/image-16by9.png'
+          url="https://www.youtube.com/watch?v=TwjmAfpvYPc&list=PLHnAh9gM7bwGcdxjzPLjnESAOyyswCd_U&index=1"
+          source='youtube'
         />
         {quiz.questions[position].answers.map((answer, index) => (
             <Button key={index}>{answer.answerId}</Button>

@@ -6,12 +6,22 @@
 // GET question
 export const quizQuestionPublicReturn = question => {
   console.log('See question: ', question);
-  let answers = question.answers
-  answers.forEach(ans => {
-    ans.correct = null
+  let temp = {
+    "name":question.name,
+    "duration":question.duration,
+    "type":question.type,
+    "answers":[],
+    "videolink": question.videolink,
+    "points": question.points
+  }
+  question.answers.forEach(ans => {
+    temp.answers.push({
+      "answerId":ans.answerId,
+      "title":ans.title,
+      "color":ans.color
+    })
   })
-  question = {...question, answers:answers}
-  return question;
+  return temp;
 };
 
 /*
@@ -21,10 +31,12 @@ export const quizQuestionPublicReturn = question => {
 // GET answer, PUT answer
 export const quizQuestionGetCorrectAnswers = question => {
   let idArray = [];
+  let answers = question.answers
 
-  question.answers.forEach(elem => {
-    if (elem["correct"] === true) {
-      idArray.push(elem["answerId"]);
+ answers.forEach(elem => {
+   console.log(elem)
+    if (elem.correct) {
+      idArray.push(elem.answerId);
     }
   });
   
@@ -39,7 +51,7 @@ export const quizQuestionGetAnswers = question => {
   let idArray = [];
 
   question.answers.forEach(elem => {
-    idArray.push(elem["answerId"]);
+    idArray.push(elem.answerId);
   });
   
   return idArray;

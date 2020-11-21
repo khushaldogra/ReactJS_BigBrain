@@ -12,32 +12,34 @@ function JoinGame() {
     if (sessionID === "" || name === "") {
       alert("Invalid session ID or empty name");
     }
-
-    const payload = {
-      'name': name
-    }
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    }
-    const path = `${config.basePath}/play/join/${sessionID}`;
-    fetch(path, options)
-      .then(res => {
-        return res.json()
-      })
-      .then(data => {
-        if (data.error) {
-          throw Error(data.error);
-        }
-        // Go to the game
-        history.push(`/game/${sessionID}/playgame/${data.playerId}`);
-      })
-      .catch(err => {
-        alert(err);
-      })
+    else {
+      const payload = {
+        'name': name
+      }
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      }
+      const path = `${config.basePath}/play/join/${sessionID}`;
+      fetch(path, options)
+        .then(res => {
+          return res.json()
+        })
+        .then(data => {
+          if (data.error) {
+            alert(data.error);
+          } else {
+            history.push(`/game/${sessionID}/playgame/${data.playerId}`);
+          }
+          // Go to the game
+        })
+        .catch(err => {
+          alert(err);
+        })
+      }
   }
 
   return (

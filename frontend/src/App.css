@@ -19,3 +19,14 @@
   display: block;
   margin: 10px 0px;
 }
+
+
+.activeOption.option.ui.button, .activeOption.option.ui.button:hover {
+  background-color: #37E6FE;
+}
+.correctOption.option.ui.button, .correctOption.option.ui.button:hover{
+  background-color: greenyellow;
+}
+.incorrectOption.option.ui.button, .incorrectOption.option.ui.button:hover{
+  background-color: red;
+}
