@@ -167,10 +167,12 @@ const CardTemplate = (props) => {
         />
         <Card.Header>
           Title:
+          {' '}
           {quiz_info.name}
         </Card.Header>
         <Card.Meta>
           Number of questions:
+          {' '}
           {question}
         </Card.Meta>
         <Card.Description>
