@@ -6,21 +6,21 @@
 // GET question
 export const quizQuestionPublicReturn = question => {
   console.log('See question: ', question);
-  let temp = {
-    "name":question.name,
-    "duration":question.duration,
-    "type":question.type,
-    "answers":[],
-    "videolink": question.videolink,
-    "points": question.points
-  }
+  const temp = {
+    name: question.name,
+    duration: question.duration,
+    type: question.type,
+    answers: [],
+    videolink: question.videolink,
+    points: question.points,
+  };
   question.answers.forEach(ans => {
     temp.answers.push({
-      "answerId":ans.answerId,
-      "title":ans.title,
-      "color":ans.color
-    })
-  })
+      answerId: ans.answerId,
+      title: ans.title,
+      color: ans.color,
+    });
+  });
   return temp;
 };
 
@@ -30,16 +30,16 @@ export const quizQuestionPublicReturn = question => {
 */
 // GET answer, PUT answer
 export const quizQuestionGetCorrectAnswers = question => {
-  let idArray = [];
-  let answers = question.answers
+  const idArray = [];
+  const answers = question.answers;
 
- answers.forEach(elem => {
-   console.log(elem)
+  answers.forEach(elem => {
+    console.log(elem);
     if (elem.correct) {
       idArray.push(elem.answerId);
     }
   });
-  
+
   return idArray;
 };
 
@@ -48,12 +48,12 @@ export const quizQuestionGetCorrectAnswers = question => {
  all of the answers, correct or incorrect.
 */
 export const quizQuestionGetAnswers = question => {
-  let idArray = [];
+  const idArray = [];
 
   question.answers.forEach(elem => {
     idArray.push(elem.answerId);
   });
-  
+
   return idArray;
 };
 
@@ -63,5 +63,5 @@ export const quizQuestionGetAnswers = question => {
 */
 // POST advance
 export const quizQuestionGetDuration = question => {
-  return question["duration"];
+  return question.duration;
 };

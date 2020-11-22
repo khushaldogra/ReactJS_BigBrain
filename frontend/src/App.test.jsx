@@ -1,6 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Menu, Form, Card, Button } from 'semantic-ui-react';
+import {
+  Form, Card,
+} from 'semantic-ui-react';
 import CardTemplate from './components/Card';
 import Register from './components/Register';
 import QuestionCard from './components/QuestionCard';
@@ -16,7 +18,7 @@ jest.mock('react-router-dom', () => ({
   }),
   useParams: () => ({
     id: 0,
-  })
+  }),
 }));
 
 // Mock useContext
@@ -25,42 +27,39 @@ const mockContext = {
   loggedIn: [true, mockSet],
 };
 
-
-const mockObject = 
-{
-  "name": "TRIAL quiz",
-  "owner": "hayden@unsw.edu.au",
-  "questions": [
+const mockObject = {
+  name: 'TRIAL quiz',
+  owner: 'hayden@unsw.edu.au',
+  questions: [
     {
-      "id": 0,
-      "type": "Multiple",
-      "name": "What is the name of the SECOND robot invented?",
-      "duration": 5,
-      "answers": [
+      id: 0,
+      type: 'Multiple',
+      name: 'What is the name of the SECOND robot invented?',
+      duration: 5,
+      answers: [
         {
-          "answerId": "ABC1",
-          "correct": false,
-          "title": "The dog",
-          "colour": "blue"
+          answerId: 'ABC1',
+          correct: false,
+          title: 'The dog',
+          colour: 'blue',
         },
         {
-          "answerId": "ABC1234",
-          "correct": true,
-          "title": "The cat",
-          "colour": "red"
-        }
+          answerId: 'ABC1234',
+          correct: true,
+          title: 'The cat',
+          colour: 'red',
+        },
       ],
-      "videolink": "http://..."
-    }
+      videolink: 'http://...',
+    },
   ],
-  "thumbnail": "https://react.semantic-ui.com/images/wireframe/image.png",
-}
+  thumbnail: 'https://react.semantic-ui.com/images/wireframe/image.png',
+};
 
 describe('Dashboard Card', () => {
-    const card = shallow(<CardTemplate quiz_info={mockObject} />);
-    expect(card.find(Card.Header).text()).toEqual("Title: " + mockObject.name);
+  const card = shallow(<CardTemplate quiz_info={mockObject} />);
+  expect(card.find(Card.Header).text()).toEqual(`Title: ${mockObject.name}`);
 });
-
 
 describe('Register', () => {
   it('Email input onChange', () => {

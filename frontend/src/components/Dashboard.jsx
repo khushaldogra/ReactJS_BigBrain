@@ -96,7 +96,7 @@ const Dashboard = () => {
         {quizzes.map((quiz, index) => (
           <CardTemplate
             key={index}
-            quiz_info={quiz}
+            quizInfo={quiz}
             setCurrentQuizId={setCurrentQuizId}
             setOpenResults={setOpenResults}
             setOpen={setOpen}
