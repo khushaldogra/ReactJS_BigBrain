@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useParams, Link } from 'react-router-dom';
 import { Card } from 'semantic-ui-react';
 import { StyledQuestionCard, ButtonGroup, CardButton } from '../styledComponents/QuestionCard';
-import { updateQuiz } from '../api';
+import updateQuiz from '../api';
 
 function QuestionCard(props) {
   const quizID = useParams().id;

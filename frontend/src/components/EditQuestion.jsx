@@ -6,7 +6,7 @@ import {
   EditQuestionBody, QuestionForm, TitleInput, TitleField, QuestionParameters, ParamColumn,
   ButtonColumn, QuestionAnswers, AnswerField, AnsInput, AnsCheckbox, QuestionButton,
 } from '../styledComponents/EditQuestion';
-import { updateQuiz } from '../api';
+import updateQuiz from '../api';
 
 // Answer input component for a new answer in quiz
 function AnswerInput({ answeridx, answersState, setAnswersState }) {

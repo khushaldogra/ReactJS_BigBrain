@@ -7,7 +7,7 @@ import {
   AddQuestionButton, EditGameBody, QuestionBox, GameOptions,
   ImportLabel, GameDataDiv,
 } from '../styledComponents/EditGame';
-import { updateQuiz } from '../api';
+import updateQuiz from '../api';
 
 function EditGame() {
   const quizID = useParams().id;
