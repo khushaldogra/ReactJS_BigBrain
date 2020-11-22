@@ -1,8 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import {
-  Form, Card,
-} from 'semantic-ui-react';
+import { Form, Card, Image } from 'semantic-ui-react';
 import CardTemplate from './components/Card';
 import Register from './components/Register';
 import QuestionCard from './components/QuestionCard';
@@ -27,40 +25,56 @@ const mockContext = {
   loggedIn: [true, mockSet],
 };
 
-// const mockObject =
-// {
-//   "name": "TRIAL quiz",
-//   "owner": "hayden@unsw.edu.au",
-//   "questions": [
-//     {
-//       "id": 0,
-//       "type": "Multiple",
-//       "name": "What is the name of the SECOND robot invented?",
-//       "duration": 5,
-//       "answers": [
-//         {
-//           "answerId": "ABC1",
-//           "correct": false,
-//           "title": "The dog",
-//           "colour": "blue"
-//         },
-//         {
-//           "answerId": "ABC1234",
-//           "correct": true,
-//           "title": "The cat",
-//           "colour": "red"
-//         }
-//       ],
-//       "videolink": "http://..."
-//     }
-//   ],
-//   "thumbnail": "https://react.semantic-ui.com/images/wireframe/image.png",
-// };
+const mockObject = {
+  name: 'TRIAL quiz',
+  owner: 'hayden@unsw.edu.au',
+  questions: [
+    {
+      id: 0,
+      type: 'Multiple',
+      name: 'What is the name of the SECOND robot invented?',
+      duration: 5,
+      answers: [
+        {
+          answerId: 'ABC1',
+          correct: false,
+          title: 'The dog',
+          colour: 'blue',
+        },
+        {
+          answerId: 'ABC1234',
+          correct: true,
+          title: 'The cat',
+          colour: 'red',
+        },
+      ],
+      videolink: 'http://...',
+    },
+  ],
+  thumbnail: 'https://react.semantic-ui.com/images/wireframe/image.png',
+};
 
-// describe('Dashboard Card', () => {
-//     const card = shallow(<CardTemplate quiz_info={mockObject} />);
-//     expect(card.find(Card.Header).text()).toEqual("Title: " + mockObject.name);
-// });
+describe('Dashboard Card', () => {
+  it('Uses prop thumbnail', () => {
+    const card = shallow(<CardTemplate quiz_info={mockObject} />);
+    expect(card.find(Image).props().src).toEqual(mockObject.thumbnail);
+  });
+
+  it('Has all children', () => {
+    const card = shallow(<CardTemplate quiz_info={mockObject} />);
+    expect(card.find(Card.Content).children()).toHaveLength(8);
+  });
+  // it('Uses prop name', () => {
+  //   const card = shallow(<CardTemplate quiz_info={mockObject} />);
+  //   expect(card.find(Card.Header).text()).toEqual(`Title: ${mockObject.name}`);
+  // });
+
+  // it('Uses question length', () => {
+  //   const card = shallow(<CardTemplate quiz_info={mockObject} />);
+  //   expect(card.find(Card.Header).text())
+  //     .toEqual(`Number of questions: ${mockObject.questions.length}`);
+  // });
+});
 
 describe('Register', () => {
   it('Email input onChange', () => {
