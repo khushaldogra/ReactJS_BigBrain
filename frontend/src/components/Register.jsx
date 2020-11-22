@@ -12,7 +12,8 @@ function Register() {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const context = useContext(StoreContext);
-  const [loggedIn, setIsLoggedIn] = context.loggedIn;
+  // eslint-disable-next-line react/destructuring-assignment
+  const [, setIsLoggedIn] = context.loggedIn;
 
   const history = useHistory();
 

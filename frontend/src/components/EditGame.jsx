@@ -40,11 +40,10 @@ function EditGame() {
         setQuestions(json.questions);
         // Update the question id set
         const existingIDs = new Set();
-        for (const q of json.questions) {
+        json.questions.forEach((q) => {
           existingIDs.add(q.questionId);
-        }
+        });
         setQuestionIDs(existingIDs);
-        console.log(json);
       })
       .catch((err) => {
         err.json()
@@ -52,7 +51,7 @@ function EditGame() {
             alert(json.error);
           });
       });
-  }, [questionChange]);
+  }, [questionChange, quizID]);
 
   // Create an empty question json template
   const emptyQuestion = (id) => ({
@@ -82,7 +81,7 @@ function EditGame() {
   const getQuestionID = () => {
     let n = 0;
     while (questionIDs.has(n)) {
-      n++;
+      n += 1;
     }
     return n;
   };
@@ -112,6 +111,17 @@ function EditGame() {
     return false;
   };
 
+  // Perform the quiz update for file input
+  const importFile = (file) => {
+    updateQuiz(file.questions, file.name, file.thumbnail, quizID)
+      .then(() => {
+        setQuestionChange(!questionChange);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
   // Creates file reader to read json file input
   const handleFileChosen = (e) => {
     const fileReader = new FileReader();
@@ -125,17 +135,6 @@ function EditGame() {
     };
     fileReader.readAsText(e.target.files[0]);
     e.target.value = null;
-  };
-
-  // Perform the quiz update for file input
-  const importFile = (file) => {
-    updateQuiz(file.questions, file.name, file.thumbnail, quizID)
-      .then(() => {
-        setQuestionChange(!questionChange);
-      })
-      .catch((err) => {
-        alert(err);
-      });
   };
 
   return (
