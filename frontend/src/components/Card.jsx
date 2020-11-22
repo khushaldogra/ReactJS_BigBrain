@@ -190,10 +190,10 @@ const CardTemplate = (props) => {
     </Card>
   );
 };
-
+// check this ***
 CardTemplate.propTypes = {
   quizInfo: PropTypes.object.isRequired,
-  setOpen: PropTypes.func,
+  setOpen: PropTypes.func.isRequired,
   setQuizActive: PropTypes.func,
   setOpenResults: PropTypes.func,
   setCurrentQuizId: PropTypes.func,

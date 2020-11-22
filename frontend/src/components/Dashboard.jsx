@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import {
-  Button, Card, Image, Modal, Input,
+  Button, Card, Modal, Input,
 } from 'semantic-ui-react';
 
 import CardTemplate from './Card';
@@ -24,7 +24,7 @@ const Dashboard = () => {
       // alert("Invalid token")
       history.push('/');
     }
-  }, [location]);
+  }, [history, location]);
 
   useEffect(() => {
     // extract data of all games - fetch
@@ -40,7 +40,6 @@ const Dashboard = () => {
         if (data.error) {
           throw Error(data.error);
         }
-        console.log(data.quizzes);
         // console.log(data["quizzes"][0])
         // quizzes = data['quizzes'].map((p,i) => renderCards(p,i))
         setQuizzes(data.quizzes);
@@ -49,8 +48,7 @@ const Dashboard = () => {
         alert(err.message);
       });
   }, [updateGames]);
-  // React lifecycle - component did mount, component did update, component will mount - class components
-  // useeffect - functional components
+
   // dashboard of all games is displayed - display cards
   const addQuiz = () => {
     fetch(`${config.basePath}/admin/quiz/new`, {
@@ -69,7 +67,8 @@ const Dashboard = () => {
         }
         throw Error;
       })
-      .then((quiz) => {
+      // remove quiz var here
+      .then(() => {
         setUpdateGames(!updateGames);
       })
       .catch((err) => {
@@ -93,9 +92,10 @@ const Dashboard = () => {
       <span>Dashboard</span>
       {/* Display cards */}
       <Card.Group>
-        {quizzes.map((quiz, index) => (
+        {/* Removed index from map */}
+        {quizzes.map((quiz) => (
           <CardTemplate
-            key={index}
+            key={quiz.id}
             quizInfo={quiz}
             setCurrentQuizId={setCurrentQuizId}
             setOpenResults={setOpenResults}

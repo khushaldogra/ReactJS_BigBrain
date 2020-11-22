@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import {
-  Button, Form, Grid, Header, Image, Message, Segment,
+  Button, Form, Header, Segment,
 } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 import config from '../config';
@@ -9,6 +9,7 @@ import { useStoreContext } from '../store';
 const Login = () => {
   const history = useHistory();
   const context = useStoreContext();
+  // eslint-disable-next-line
   const [loggedIn, setIsLoggedIn] = context.loggedIn;
 
   const [email, setEmail] = useState('');
@@ -27,9 +28,7 @@ const Login = () => {
       },
 
     })
-      .then((res) =>
-      // if(res.status !== 200)
-        res.json())
+      .then((res) => res.json())
       .then((data) => {
         if (data.error) {
           throw Error(data.error);

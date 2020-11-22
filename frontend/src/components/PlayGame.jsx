@@ -1,24 +1,16 @@
-import React, { useEffect, useState, useInterval } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import {
-  Button,
   Container,
-  Divider,
-  Grid,
   Header,
-  Icon,
-  Image,
-  List,
-  Menu,
   Segment,
-  Sidebar,
   Visibility,
-  Input,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { GameButton } from '../styledComponents/PlayGame';
 import config from '../config';
 
+// fix this line ***
 const PlayGamepage = ({ id, sessionId }) => {
   const { playerId } = useParams();
   const history = useHistory();
@@ -49,7 +41,6 @@ const PlayGamepage = ({ id, sessionId }) => {
       setAnsweridArray(tempArray);
       // document.getElementById(index).style.background = "#37E6FE";
     }
-    console.log(tempArray);
     fetch(`${config.basePath}/play/${playerId}/answer`, {
       method: 'put',
       headers: {
@@ -61,11 +52,8 @@ const PlayGamepage = ({ id, sessionId }) => {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         if (!res.error) {
           setIsANswerSubmitted(true);
-        } else {
-          console.log(res.error);
         }
       });
   };
@@ -91,17 +79,19 @@ const PlayGamepage = ({ id, sessionId }) => {
               'Content-Type': 'Application/json',
             },
           })
-            .then((res) => res.json())
+            .then((resp) => resp.json())
             .then((data) => {
               if (!data.error) {
                 // console.log(data)
                 setCurrentQn(data.question);
-                const timeLeftNew = data.question.duration - (new Date() - new Date(data.question.isoTimeLastQuestionStarted)) / 1000;
+                const timeLeftNew = data.question.duration - (new Date()
+                                      - new Date(data.question.isoTimeLastQuestionStarted)) / 1000;
 
                 if (timeLeftNew <= 0) {
                   setTimeLeft(0);
                   setAnsweridArray([]);
                   setQuizstart(quizstart + 1);
+                  // eslint-disable-next-line
                 }
                 // API to submit answer
                 // API to fetch answer
@@ -115,8 +105,7 @@ const PlayGamepage = ({ id, sessionId }) => {
               }
             })
             .catch((err) => {
-              // fix error ***
-              console.log(err);
+              alert(err);
             });
         } else if (activequiz) {
           history.push(`/results/player/${playerId}/${sessionId}`);
@@ -126,10 +115,10 @@ const PlayGamepage = ({ id, sessionId }) => {
           setError('Session Not Started');
         }
       });
-  }, [quizstart, timeLeft]);
+  }, [activequiz, history, playerId, quizstart, sessionId, timeLeft]);
 
   useEffect(() => {
-    if (timeLeft == 0) {
+    if (timeLeft === 0) {
       fetch(`${config.basePath}/play/${playerId}/answer`, {
         method: 'get',
         headers: {
@@ -138,13 +127,12 @@ const PlayGamepage = ({ id, sessionId }) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           if (!data.error) {
             const temp = [];
             setCorrectAnsIds(data.answerIds);
             data.answerIds.forEach((ansId) => {
               currentQn.answers.forEach((ans) => {
-                if (ans.answerId == ansId) {
+                if (ans.answerId === ansId) {
                   temp.push(ans);
                 }
               });
@@ -167,7 +155,7 @@ const PlayGamepage = ({ id, sessionId }) => {
     //     console.log('here');
     //     history.push('/landing');
     //   })
-  }, [timeLeft]);
+  }, [currentQn.answers, playerId, timeLeft]);
 
   return (
     <Container text color="red">
@@ -221,7 +209,7 @@ const PlayGamepage = ({ id, sessionId }) => {
             //   }}
             // />
           )}
-          {timeLeft == 0
+          {timeLeft === 0
             ? <div>Correct answers</div>
             : null}
           {correctAns.map((answer, index) => (
