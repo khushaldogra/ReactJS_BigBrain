@@ -32,7 +32,7 @@ const HomepageHeading = ({ session, id }) => {
       .then((res) => {
         if (res.stage === quiz.questions.length) {
           // alert('game complete');
-          history.push(`/results/${id}`);
+          history.push(`/results/${sessionId}`);
         } else {
           setPosition(position + 1);
         }
