@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import config from '../config';
 import {
-  PlayerResultsBody, ResultsCard, ResultTitle, ResultInfo, GameResultsButton,
+  PlayerResultsBody, ResultsCard, ResultTitle, ResultInfo,
 } from '../styledComponents/PlayerResults';
 
 function QuestionResult({ json, idx }) {
@@ -33,8 +33,8 @@ function QuestionResult({ json, idx }) {
 
 function PlayerResults() {
   const { playerId } = useParams();
-  const { sessionId } = useParams();
-  const history = useHistory();
+  // const { sessionId } = useParams();
+  // const history = useHistory();
   const [results, setResults] = useState([]);
 
   useEffect(() => {
@@ -60,13 +60,12 @@ function PlayerResults() {
       });
   }, [playerId]);
 
-  const handler = () => {
-    history.push(`/results/${sessionId}`);
-  };
+  // const handler = () => {
+  //   history.push(`/results/${sessionId}`);
+  // };
 
   return (
     <PlayerResultsBody>
-      <GameResultsButton color="blue" onClick={handler}>View Game Results</GameResultsButton>
       {results.map((resultJson, idx) => (
         <QuestionResult
           key={resultJson.answeredAt}

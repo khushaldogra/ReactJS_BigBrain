@@ -1,11 +1,14 @@
 import styled from 'styled-components';
-import { Button, Header, Container } from 'semantic-ui-react';
+import { Button, Header } from 'semantic-ui-react';
 
-// *******
-const GameContainer = styled(Container)`
-  &&& {
-    background-color: #864CBF;
-  }
+const GameContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  background-color: #F69E4E;
+  padding: 2%;
 `;
 
 const GameButton = styled(Button)`

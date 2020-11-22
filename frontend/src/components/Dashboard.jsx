@@ -89,7 +89,8 @@ const Dashboard = () => {
 
   return (
     <div>
-      <span>Dashboard</span>
+      <h1>Dashboard</h1>
+      <br />
       {/* Display cards */}
       <Card.Group>
         {/* Removed index from map */}

@@ -11,10 +11,6 @@ import PropTypes from 'prop-types';
 import { GameHeading, GameSubheading } from '../styledComponents/PlayGame';
 import config from '../config';
 
-// else {
-//       history.push('/game/'+id+'/' + sessionId + '/playgame')
-//     }
-
 // quizID and sessionID
 const HomepageHeading = ({ session, id }) => {
   const sessionId = session;
@@ -22,8 +18,8 @@ const HomepageHeading = ({ session, id }) => {
     questions: [],
   });
   const [position, setPosition] = useState(-1);
-  // const [playerId, setPlayerId] = useState('');
   const history = useHistory();
+
   const advance = () => {
     fetch(`${config.basePath}/admin/quiz/${id}/advance`, {
       method: 'post',
@@ -35,8 +31,8 @@ const HomepageHeading = ({ session, id }) => {
       .then((res) => res.json())
       .then((res) => {
         if (res.stage === quiz.questions.length) {
-          alert('game complete');
-          history.push('/dashboard');
+          // alert('game complete');
+          history.push(`/results/${id}`);
         } else {
           setPosition(position + 1);
         }
@@ -89,29 +85,26 @@ const HomepageHeading = ({ session, id }) => {
         )
         : (
           <div>
-            <div>{quiz.questions[position].name}</div>
-
+            {/* <br /> */}
+            <h2>{quiz.questions[position].name}</h2>
+            {/* <img src={quiz.questions.videolink} alt="quizImage" /> */}
             <Embed
               icon="play"
-              id="TwjmAfpvYPc"
-              placeholder="/images/image-16by9.png"
-              url="https://www.youtube.com/watch?v=TwjmAfpvYPc&list=PLHnAh9gM7bwGcdxjzPLjnESAOyyswCd_U&index=1"
+              id="OrIDTJH2ZZM"
+              url={quiz.questions.videolink}
               source="youtube"
             />
+            <br />
             {quiz.questions[position].answers.map((answer) => (
-              <Button key={answer.answerId}>{answer.answerId}</Button>
+              <Button size="massive" key={answer.answerId}>{answer.answerId}</Button>
             ))}
             <br />
             <br />
             <div>
-              <Button onClick={advance}>Next</Button>
+              <Button size="big" onClick={advance}>Next</Button>
             </div>
           </div>
         )}
-      {/* <Button primary size='huge'>
-        Get Started
-        <Icon name='right arrow' />
-      </Button> */}
     </Container>
   );
 };

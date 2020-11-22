@@ -190,15 +190,16 @@ const CardTemplate = (props) => {
     </Card>
   );
 };
-// check this ***
+
 CardTemplate.propTypes = {
+  // eslint-disable-next-line
   quizInfo: PropTypes.object.isRequired,
   setOpen: PropTypes.func.isRequired,
-  setQuizActive: PropTypes.func,
-  setOpenResults: PropTypes.func,
-  setCurrentQuizId: PropTypes.func,
-  updateGames: PropTypes.bool,
-  setUpdateGames: PropTypes.func,
+  setQuizActive: PropTypes.func.isRequired,
+  setOpenResults: PropTypes.func.isRequired,
+  setCurrentQuizId: PropTypes.func.isRequired,
+  updateGames: PropTypes.bool.isRequired,
+  setUpdateGames: PropTypes.func.isRequired,
 };
 export default CardTemplate;
 

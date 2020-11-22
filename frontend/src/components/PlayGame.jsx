@@ -2,16 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import {
   Container,
-  Header,
   Segment,
   Visibility,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { GameButton } from '../styledComponents/PlayGame';
+import { GameButton, GameHeading, GameSubheading } from '../styledComponents/PlayGame';
 import config from '../config';
 
-// fix this line ***
-const PlayGamepage = ({ id, sessionId }) => {
+// fix this line *** removed id
+const PlayGamepage = ({ sessionId }) => {
   const { playerId } = useParams();
   const history = useHistory();
 
@@ -24,8 +23,10 @@ const PlayGamepage = ({ id, sessionId }) => {
   const [correctAnsIds, setCorrectAnsIds] = useState([]);
   const [error, setError] = useState('');
   const [answeridArray, setAnsweridArray] = useState([]);
-  const [isAnswerSubmitted, setIsANswerSubmitted] = useState(false);
+  // remove if not useful
+  // const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
   const [activequiz, setActivequiz] = useState(false);
+  // let isAnswerSubmitted = false;
 
   // submit api here
   const submitAnswer = (index) => {
@@ -34,12 +35,10 @@ const PlayGamepage = ({ id, sessionId }) => {
       // Remove value from answer id array
       tempArray = tempArray.filter((id) => id !== index);
       setAnsweridArray(tempArray);
-      // document.getElementById(index).style.background = "#E0E1E2";
     } else {
       // Add value to answer id array
       tempArray.push(index);
       setAnsweridArray(tempArray);
-      // document.getElementById(index).style.background = "#37E6FE";
     }
     fetch(`${config.basePath}/play/${playerId}/answer`, {
       method: 'put',
@@ -50,12 +49,13 @@ const PlayGamepage = ({ id, sessionId }) => {
         answerIds: tempArray,
       }),
     })
-      .then((res) => res.json())
-      .then((res) => {
-        if (!res.error) {
-          setIsANswerSubmitted(true);
-        }
-      });
+      .then((res) => res.json());
+    // .then((res) => {
+    //   if (!res.error) {
+    //     // isAnswerSubmitted = true;
+    //     // setIsAnswerSubmitted(true);
+    //   }
+    // });
   };
 
   // component did update
@@ -138,28 +138,15 @@ const PlayGamepage = ({ id, sessionId }) => {
               });
             });
             setCorrectAns(temp);
-          } else {
-            alert(data.error);
           }
         });
     }
-    // const options = {
-    //   method: 'GET',
-    // }
-    // const path = `${config.basePath}/play/${playerId}/results`;
-    // fetch(path, options)
-    //   .then(res => {
-    //     if (!res.ok) {
-    //       throw res;
-    //     }
-    //     console.log('here');
-    //     history.push('/landing');
-    //   })
   }, [currentQn.answers, playerId, timeLeft]);
 
   return (
     <Container text color="red">
-      <Header
+      <GameHeading content="BigBrain Game" />
+      {/* <Header
         as="h1"
         content="BigBrain Game"
 
@@ -169,7 +156,7 @@ const PlayGamepage = ({ id, sessionId }) => {
           marginBottom: 0,
           marginTop: '3em',
         }}
-      />
+      /> */}
       {error !== ''
         ? (
           <div>
@@ -180,40 +167,44 @@ const PlayGamepage = ({ id, sessionId }) => {
         ) : null}
       {currentQn ? (
         <div>
-          <div>{parseInt(timeLeft)}</div>
-          <Header
-
+          <h2>
+            Time remaining:
+            {' '}
+            {parseInt(timeLeft, 10)}
+            {' '}
+            seconds
+          </h2>
+          <h2>{currentQn.type}</h2>
+          <GameSubheading content={currentQn.name} />
+          {/* <Header
             as="h2"
-          // questions here ***
-
             content={currentQn.name}
             style={{
               fontSize: '1.7em',
               fontWeight: 'normal',
               marginTop: '1.5em',
             }}
-          />
-
-          {currentQn.answers.map((answer, index) => <GameButton className={`option ${correctAnsIds.includes(answer.answerId) ? 'correctOption' : (timeLeft == 0 ? 'incorrectOption' : '')}${answeridArray.includes(answer.answerId) ? 'activeOption' : ''}`} size="massive" key={index} onClick={() => submitAnswer(answer.answerId)}>{answer.title}</GameButton>,
-
-            // <Header
-            //   as='h2's
-            //   key={index}
-            //   // Answer here ***
-
-            //   content={answer.title}
-            //   style={{
-            //   fontSize: '1.7em',
-            //   fontWeight: 'normal',
-            //   marginTop: '1.5em',
-            //   }}
-            // />
-          )}
+          /> */}
+          {/* removed index *** */}
+          {currentQn.answers.map((answer) => (
+            <GameButton
+              // eslint-disable-next-line
+              className={`option ${correctAnsIds.includes(answer.answerId) ? 'correctOption'
+                : (timeLeft === 0 ? 'incorrectOption' : '')}${answeridArray.includes(answer.answerId) ? 'activeOption' : ''}`}
+              size="massive"
+              key={answer.answerId}
+              onClick={() => submitAnswer(answer.answerId)}
+            >
+              {answer.title}
+            </GameButton>
+          ))}
+          {/* removed answerId */}
           {timeLeft === 0
             ? <div>Correct answers</div>
             : null}
-          {correctAns.map((answer, index) => (
-            <div key={index}>
+          {/* Removed index */}
+          {correctAns.map((answer) => (
+            <div key={answer.answerId}>
               {answer.answerId}
               {' '}
               :
@@ -221,10 +212,6 @@ const PlayGamepage = ({ id, sessionId }) => {
               {answer.title}
             </div>
           ))}
-
-          <br />
-          <br />
-          {/* <Button content={"Submit Answer"} onClick={submitAnswer}/> */}
         </div>
       )
         : <div>Game not yet started</div>}
@@ -251,42 +238,7 @@ const PlayGame = () => {
 };
 
 export default PlayGame;
-
+// removed id prop
 PlayGamepage.propTypes = {
-  sessionId: PropTypes.string,
-  id: PropTypes.string,
+  sessionId: PropTypes.string.isRequired,
 };
-
-/// currentIndex (state)
-//  of questions question 1  --- next
-
-// every input from user is state
-
-// return {
-//     'type': 'Empty Type',
-//     'question': 'Empty Question',
-//     'time': 0,
-//     'points': 0,
-//     'URL': null,
-//     'answers': ['', '', '', '', '', ''],
-//     'correctAnswers': [false, false, false, false, false, false],
-//     'questionID': id
-//   }
-
-/// start, join, advance position 0
-
-// get qn - timer starts
-// timer status?
-// qn status?
-// when timer complete
-// get qn what happens?
-// get answer
-// quiz advance
-// get next qn
-
-// Players - enter session id and join - get qn, get answer
-// Admin  - has a session id - advance - get quiz info
-
-// iso time started, get qn in infinite loop using useeffect
-// qn duration
-// duration - (currenttime-timestarted) = timeleft in min
