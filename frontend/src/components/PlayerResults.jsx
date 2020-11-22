@@ -33,8 +33,6 @@ function QuestionResult({ json, idx }) {
 
 function PlayerResults() {
   const { playerId } = useParams();
-  // const { sessionId } = useParams();
-  // const history = useHistory();
   const [results, setResults] = useState([]);
 
   useEffect(() => {
@@ -59,10 +57,6 @@ function PlayerResults() {
           });
       });
   }, [playerId]);
-
-  // const handler = () => {
-  //   history.push(`/results/${sessionId}`);
-  // };
 
   return (
     <PlayerResultsBody>

@@ -108,7 +108,7 @@ const PlayGamepage = ({ sessionId }) => {
               alert(err);
             });
         } else if (activequiz) {
-          history.push(`/results/player/${playerId}/${sessionId}`);
+          history.push(`/results/player/${playerId}`);
         } else {
           setQuizstart(quizstart + 1);
           setTimeLeft(0);
