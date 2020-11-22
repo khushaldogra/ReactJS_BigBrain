@@ -1,13 +1,12 @@
 context('Admin flow - happy path', () => {
   beforeEach(() => {
-    // start at register page ***
+    // start at register page
     cy.visit('localhost:3000/register');
   });
 
-  // need to separate ***
   it('Registers, creates a game, starts, ends a game, loads results, login, logout successfully', () => {
     const name = 'Bob Smith';
-    const email = 'bob.smithyeah99@example.com';
+    const email = 'bob.smithyeah9999@example.com';
     const password = 'passw0rd';
 
     cy.get('input[name=email]')
