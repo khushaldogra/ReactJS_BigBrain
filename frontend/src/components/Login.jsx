@@ -16,7 +16,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
 
   const handlerOnsubmit = () => {
-    // fetch - body
     fetch(`${config.basePath}/admin/auth/login`, {
       method: 'post',
       body: JSON.stringify({
@@ -33,7 +32,6 @@ const Login = () => {
         if (data.error) {
           throw Error(data.error);
         }
-        // *****
         localStorage.setItem('token', data.token);
         setIsLoggedIn(true);
         history.push('/dashboard');

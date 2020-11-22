@@ -36,32 +36,12 @@ const CardTemplate = (props) => {
           });
           setTotaltime(time);
         }
-        // fetch to check status of quiz
-        // fetch(config.basePath + '/admin/session/' + quizInfo.active + '/status', {
-        //   method : 'get',
-        //   headers : {
-        //     'Authorization' : 'Bearer ' + localStorage['token'],
-        //     'Content-type': 'application/json'
-        //   }
-        // })
-        // .then(res => res.json())
-        // .then(data => {
-        //   if (data.error) {
-        //     throw Error(data.error)
-        //   }
-        //   console.log(data)
-        //   setQuizActive(data.active)
-        // })
-        // .catch(err => {
-        //   alert(err.message)
-        // })
         if (quizInfo.active != null) {
           setIsPlaying(true);
         }
       });
   }, [quizInfo]);
 
-  // quizInfo.active, quizInfo.id
   const deleteQuiz = () => {
     fetch(`${config.basePath}/admin/quiz/${quizInfo.id}`, {
       method: 'delete',
@@ -75,7 +55,6 @@ const CardTemplate = (props) => {
         }
         throw Error;
       })
-      // removed quizInfo in brackets
       .then(() => {
         setUpdateGames(!updateGames);
       })
@@ -86,8 +65,7 @@ const CardTemplate = (props) => {
 
   const startQuiz = (e) => {
     e.preventDefault();
-    // After starting, call the GET for the quizid to get the sesion ID.
-
+    // after starting, call the GET for the quizid to get the session ID
     // call start quiz
     fetch(`${config.basePath}/admin/quiz/${quizInfo.id}/start`, {
       method: 'post',
@@ -107,7 +85,6 @@ const CardTemplate = (props) => {
             Authorization: `Bearer ${localStorage.token}`,
           },
         })
-        // handle other errors - 500, 404 ***
           .then((res) => res.json())
           .then((quizData) => {
             if (quizData.error) {
@@ -128,7 +105,6 @@ const CardTemplate = (props) => {
       });
   };
 
-  // check this ***
   const stopQuiz = (e) => {
     e.preventDefault();
     // fetch - stop quiz
@@ -160,8 +136,6 @@ const CardTemplate = (props) => {
           floated="right"
           size="mini"
           src={quizInfo.thumbnail}
-          // x icon on card ********
-          // label={{ as: 'a', color: 'red', corner: 'right', icon: 'close' }}
         />
         <Card.Header>
           Title:
@@ -180,7 +154,6 @@ const CardTemplate = (props) => {
         </Card.Description>
         <br />
         <Button icon="pencil alternate" size="small" onClick={() => history.push(`/game/edit/${quizInfo.id}`)} />
-        {/* Padding left style ***  */}
         {isPlaying
 
           ? <Button data-testid="start" className="startButton" icon="pause" color="red" size="small" onClick={stopQuiz} />
@@ -202,6 +175,3 @@ CardTemplate.propTypes = {
   setUpdateGames: PropTypes.func.isRequired,
 };
 export default CardTemplate;
-
-/// quizes - data - dashboard
-// quiz - data - card - changes

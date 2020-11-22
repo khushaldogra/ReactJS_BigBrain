@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import { GameButton, GameHeading, GameSubheading } from '../styledComponents/PlayGame';
 import config from '../config';
 
-// fix this line *** removed id
 const PlayGamepage = ({ sessionId }) => {
   const { playerId } = useParams();
   const history = useHistory();
@@ -23,10 +22,7 @@ const PlayGamepage = ({ sessionId }) => {
   const [correctAnsIds, setCorrectAnsIds] = useState([]);
   const [error, setError] = useState('');
   const [answeridArray, setAnsweridArray] = useState([]);
-  // remove if not useful
-  // const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
   const [activequiz, setActivequiz] = useState(false);
-  // let isAnswerSubmitted = false;
 
   // submit api here
   const submitAnswer = (index) => {
@@ -50,15 +46,8 @@ const PlayGamepage = ({ sessionId }) => {
       }),
     })
       .then((res) => res.json());
-    // .then((res) => {
-    //   if (!res.error) {
-    //     // isAnswerSubmitted = true;
-    //     // setIsAnswerSubmitted(true);
-    //   }
-    // });
   };
 
-  // component did update
   useEffect(() => {
     // api for active status
     fetch(`${config.basePath}/play/${playerId}/status`, {
@@ -72,7 +61,6 @@ const PlayGamepage = ({ sessionId }) => {
         if (res.started) {
           setActivequiz(true);
           setError('');
-          // insufficient resources error ***
           fetch(`${config.basePath}/play/${playerId}/question`, {
             method: 'get',
             headers: {
@@ -82,7 +70,6 @@ const PlayGamepage = ({ sessionId }) => {
             .then((resp) => resp.json())
             .then((data) => {
               if (!data.error) {
-                // console.log(data)
                 setCurrentQn(data.question);
                 const timeLeftNew = data.question.duration - (new Date()
                                       - new Date(data.question.isoTimeLastQuestionStarted)) / 1000;
@@ -93,9 +80,6 @@ const PlayGamepage = ({ sessionId }) => {
                   setQuizstart(quizstart + 1);
                   // eslint-disable-next-line
                 }
-                // API to submit answer
-                // API to fetch answer
-
                 else {
                   setQuizstart(0);
                   setCorrectAns([]);
@@ -146,17 +130,6 @@ const PlayGamepage = ({ sessionId }) => {
   return (
     <Container text color="red">
       <GameHeading content="BigBrain Game" />
-      {/* <Header
-        as="h1"
-        content="BigBrain Game"
-
-        style={{
-          fontSize: '4em',
-          fontWeight: 'normal',
-          marginBottom: 0,
-          marginTop: '3em',
-        }}
-      /> */}
       {error !== ''
         ? (
           <div>
@@ -176,16 +149,6 @@ const PlayGamepage = ({ sessionId }) => {
           </h2>
           <h2>{currentQn.type}</h2>
           <GameSubheading content={currentQn.name} />
-          {/* <Header
-            as="h2"
-            content={currentQn.name}
-            style={{
-              fontSize: '1.7em',
-              fontWeight: 'normal',
-              marginTop: '1.5em',
-            }}
-          /> */}
-          {/* removed index *** */}
           {currentQn.answers.map((answer) => (
             <GameButton
               // eslint-disable-next-line
@@ -198,11 +161,9 @@ const PlayGamepage = ({ sessionId }) => {
               {answer.title}
             </GameButton>
           ))}
-          {/* removed answerId */}
           {timeLeft === 0
             ? <div>Correct answers</div>
             : null}
-          {/* Removed index */}
           {correctAns.map((answer) => (
             <div key={answer.answerId}>
               {answer.answerId}
@@ -238,7 +199,6 @@ const PlayGame = () => {
 };
 
 export default PlayGame;
-// removed id prop
 PlayGamepage.propTypes = {
   sessionId: PropTypes.string.isRequired,
 };

@@ -21,7 +21,6 @@ const Dashboard = () => {
   // stop logged out user from accessing Dashboard
   useEffect(() => {
     if (!localStorage.token) {
-      // alert("Invalid token")
       history.push('/');
     }
   }, [history, location]);
@@ -40,8 +39,6 @@ const Dashboard = () => {
         if (data.error) {
           throw Error(data.error);
         }
-        // console.log(data["quizzes"][0])
-        // quizzes = data['quizzes'].map((p,i) => renderCards(p,i))
         setQuizzes(data.quizzes);
       })
       .catch((err) => {
@@ -67,7 +64,6 @@ const Dashboard = () => {
         }
         throw Error;
       })
-      // remove quiz var here
       .then(() => {
         setUpdateGames(!updateGames);
       })
@@ -76,7 +72,6 @@ const Dashboard = () => {
       });
   };
 
-  // routing props - send session id not through url
   const handleCopyLink = () => {
     navigator.clipboard.writeText(`${window.location.host}/game/${currentQuizId}/${quizActive}`);
     setOpen(false);
@@ -93,7 +88,6 @@ const Dashboard = () => {
       <br />
       {/* Display cards */}
       <Card.Group>
-        {/* Removed index from map */}
         {quizzes.map((quiz) => (
           <CardTemplate
             key={quiz.id}
@@ -166,5 +160,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-// landing page - login - dashboard - pages

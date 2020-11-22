@@ -31,7 +31,6 @@ const HomepageHeading = ({ session, id }) => {
       .then((res) => res.json())
       .then((res) => {
         if (res.stage === quiz.questions.length) {
-          // alert('game complete');
           history.push(`/results/${sessionId}`);
         } else {
           setPosition(position + 1);
@@ -85,7 +84,6 @@ const HomepageHeading = ({ session, id }) => {
         )
         : (
           <div>
-            {/* <br /> */}
             <h2>{quiz.questions[position].name}</h2>
             {/* <img src={quiz.questions.videolink} alt="quizImage" /> */}
             <Embed
