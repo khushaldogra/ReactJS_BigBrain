@@ -9,11 +9,93 @@ import { GameResultsBody, ChartsSection, ChartBox } from '../styledComponents/Ga
 
 function GameResults() {
   const sessionID = useParams().id;
-  const [results, setResults] = useState([]);
-  // const [totalPlayers, setTotalPlayers] = useState(0);
   const [userScores, setUserScores] = useState([]);
   const [questionCorrect, setQuestionCorrect] = useState([]);
   const [questionTime, setQuestionTime] = useState([]);
+
+  // Get list of users and their scores
+  const getUserScores = (jsonResults) => {
+    const userScoresDic = {};
+    jsonResults.forEach((player) => {
+      let correctCount = 0;
+      player.answers.forEach((answer) => {
+        if (answer.correct) {
+          correctCount += 1;
+        }
+      });
+      userScoresDic[player.name] = correctCount;
+    });
+    const newUserScores = [];
+    Object.entries(userScoresDic).forEach(([name, score]) => {
+      newUserScores.push({
+        name,
+        score,
+      });
+    });
+    newUserScores.sort((a, b) => parseInt(b.score, 10) - parseInt(a.score, 10));
+    setUserScores(newUserScores);
+  };
+
+  // Get list of questions and how many correct
+  const getQuestionCorrect = (jsonResults) => {
+    const questionCorrectDic = {};
+    jsonResults.forEach((player) => {
+      let questionNo = 1;
+      player.answers.forEach((answer) => {
+        if (!(questionNo in questionCorrectDic)) {
+          questionCorrectDic[questionNo] = 0;
+        }
+        // If correct answer
+        if (answer.correct) {
+          questionCorrectDic[questionNo] += 1;
+        }
+        questionNo += 1;
+      });
+    });
+    const newQuestionCorrect = [];
+    Object.entries(questionCorrectDic).forEach(([question, correct]) => {
+      newQuestionCorrect.push({
+        name: `Question ${question}`,
+        question,
+        correct: (correct / jsonResults.length) * 100,
+      });
+    });
+    newQuestionCorrect.sort((a, b) => parseInt(a.question, 10) - parseInt(b.question, 10));
+    setQuestionCorrect(newQuestionCorrect);
+  };
+
+  // Get list of questions and time spent on it
+  const getQuestionTime = (jsonResults) => {
+    const questionTimeDic = {};
+    jsonResults.forEach((player) => {
+      let questionNo = 1;
+      player.answers.forEach((answer) => {
+        const timeSpent = (Date.parse(answer.answeredAt)
+                          - Date.parse(answer.questionStartedAt)) / 1000;
+        // eslint-disable-next-line no-restricted-globals
+        if (isNaN(timeSpent)) {
+          questionNo += 1;
+          return;
+        }
+        if (!(questionNo in questionTimeDic)) {
+          questionTimeDic[questionNo] = timeSpent;
+        } else {
+          questionTimeDic[questionNo] += timeSpent;
+        }
+        questionNo += 1;
+      });
+    });
+    const newQuestionTime = [];
+    Object.entries(questionTimeDic).forEach(([question, time]) => {
+      newQuestionTime.push({
+        name: `Question ${question}`,
+        question,
+        time: time / jsonResults.length,
+      });
+    });
+    newQuestionTime.sort((a, b) => parseInt(a.question, 10) - parseInt(b.question, 10));
+    setQuestionTime(newQuestionTime);
+  };
 
   // Fetch session results
   useEffect(() => {
@@ -33,8 +115,6 @@ function GameResults() {
         return res.json();
       })
       .then((json) => {
-        // Set results
-        setResults(json.results); // Maybe don't need
         // Get data lists
         getUserScores(json.results);
         getQuestionCorrect(json.results);
@@ -46,93 +126,7 @@ function GameResults() {
             alert(json.error);
           });
       });
-  }, []);
-
-  // Get list of users and their scores
-  const getUserScores = (jsonResults) => {
-    const userScoresDic = {};
-    for (const player of jsonResults) {
-      // Go through all the answers and count correct
-      let correctCount = 0;
-      for (const answer of player.answers) {
-        if (answer.correct) {
-          correctCount++;
-        }
-      }
-      // Put user in dictionary with number of correct answers
-      userScoresDic[player.name] = correctCount;
-    }
-    const newUserScores = [];
-    for (const [name, score] of Object.entries(userScoresDic)) {
-      newUserScores.push({
-        name,
-        score,
-      });
-    }
-    newUserScores.sort((a, b) => parseInt(b.score) - parseInt(a.score));
-    // console.log(newUserScores);
-    setUserScores(newUserScores);
-  };
-
-  // Get list of questions and how many correct
-  const getQuestionCorrect = (jsonResults) => {
-    const questionCorrectDic = {};
-    for (const player of jsonResults) {
-      let questionNo = 1;
-      for (const answer of player.answers) {
-        if (!(questionNo in questionCorrectDic)) {
-          questionCorrectDic[questionNo] = 0;
-        }
-        // If correct answer
-        if (answer.correct) {
-          questionCorrectDic[questionNo] += 1;
-        }
-        questionNo++;
-      }
-    }
-    const newQuestionCorrect = [];
-    for (const [question, correct] of Object.entries(questionCorrectDic)) {
-      newQuestionCorrect.push({
-        name: `Question ${question}`,
-        question,
-        correct: (correct / jsonResults.length) * 100,
-      });
-    }
-    newQuestionCorrect.sort((a, b) => parseInt(a.question) - parseInt(b.question));
-    setQuestionCorrect(newQuestionCorrect);
-  };
-
-  // Get list of questions and time spent on it
-  const getQuestionTime = (jsonResults) => {
-    const questionTimeDic = {};
-    for (const player of jsonResults) {
-      let questionNo = 1;
-      for (const answer of player.answers) {
-        const timeSpent = (Date.parse(answer.answeredAt) - Date.parse(answer.questionStartedAt)) / 1000;
-        if (isNaN(timeSpent)) {
-          questionNo++;
-          continue;
-        }
-        console.log(timeSpent);
-        if (!(questionNo in questionTimeDic)) {
-          questionTimeDic[questionNo] = timeSpent;
-        } else {
-          questionTimeDic[questionNo] += timeSpent;
-        }
-        questionNo++;
-      }
-    }
-    const newQuestionTime = [];
-    for (const [question, time] of Object.entries(questionTimeDic)) {
-      newQuestionTime.push({
-        name: `Question ${question}`,
-        question,
-        time: time / jsonResults.length,
-      });
-    }
-    newQuestionTime.sort((a, b) => parseInt(a.question) - parseInt(b.question));
-    setQuestionTime(newQuestionTime);
-  };
+  }, [sessionID]);
 
   return (
     <GameResultsBody>

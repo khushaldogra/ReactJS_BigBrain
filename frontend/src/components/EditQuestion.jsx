@@ -4,7 +4,7 @@ import { Form, Dropdown, Checkbox } from 'semantic-ui-react';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import {
   EditQuestionBody, QuestionForm, TitleInput, TitleField, QuestionParameters, ParamColumn,
-  ButtonColumn, QuestionAnswers, AnswerField, AnsInput, AnsCheckbox, QuestionButton,
+  ButtonColumn, QuestionAnswers, AnswerField, AnsInput, AnsCheckbox, QuestionButton, DropdownLabel,
 } from '../styledComponents/EditQuestion';
 import updateQuiz from '../api';
 
@@ -193,7 +193,7 @@ function EditQuestion() {
         <QuestionParameters>
           <ParamColumn>
             <Form.Field>
-              <label htmlFor="question-type">Select Question Type</label>
+              <DropdownLabel>Select Question Type</DropdownLabel>
               <Dropdown
                 id="question-type"
                 placeholder="Select Question Type"
@@ -205,7 +205,7 @@ function EditQuestion() {
               />
             </Form.Field>
             <Form.Field>
-              <label htmlFor="time-limit">Select Time Limit</label>
+              <DropdownLabel>Select Time Limit</DropdownLabel>
               <Dropdown
                 id="time-limit"
                 placeholder="Select Time Limit"
@@ -217,7 +217,7 @@ function EditQuestion() {
               />
             </Form.Field>
             <Form.Field>
-              <label htmlFor="select-points">Select Points</label>
+              <DropdownLabel>Select Points</DropdownLabel>
               <Dropdown
                 id="select-points"
                 placeholder="Select Points"
@@ -231,8 +231,10 @@ function EditQuestion() {
           </ParamColumn>
           <ParamColumn>
             <Form.Field>
-              <label htmlFor="upload-image">Upload Image</label>
-              <input id="upload-image" type="file" onChange={(e) => { setAttach(e.target.files[0]); }} />
+              <label htmlFor="upload-image">
+                Upload Image
+                <input id="upload-image" type="file" onChange={(e) => { setAttach(e.target.files[0]); }} />
+              </label>
             </Form.Field>
             <p>OR</p>
             <Form.Input label="Video URL" type="text" placeholder="URL" onChange={(e) => { setAttach(e.target.value); }} />
@@ -259,9 +261,9 @@ function EditQuestion() {
 }
 
 AnswerInput.propTypes = {
-  answeridx: PropTypes.number,
-  answersState: PropTypes.array,
-  setAnswersState: PropTypes.func,
+  answeridx: PropTypes.number.isRequired,
+  answersState: PropTypes.instanceOf(Array).isRequired,
+  setAnswersState: PropTypes.func.isRequired,
 };
 
 export default EditQuestion;

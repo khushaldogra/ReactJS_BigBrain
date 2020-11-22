@@ -9,7 +9,6 @@ import {
 function QuestionResult({ json, idx }) {
   const timeSpent = (Date.parse(json.answeredAt) - Date.parse(json.questionStartedAt)) / 1000;
   const color = json.correct === true ? 'green' : 'red';
-  console.log(timeSpent);
   return (
     <ResultsCard color={color}>
       <ResultTitle correct={json.correct}>
@@ -51,7 +50,6 @@ function PlayerResults() {
         return res.json();
       })
       .then((json) => {
-        console.log(json);
         setResults(json);
       })
       .catch((err) => {
@@ -60,7 +58,7 @@ function PlayerResults() {
             alert(json.error);
           });
       });
-  }, []);
+  }, [playerId]);
 
   const handler = () => {
     history.push(`/results/${sessionId}`);
@@ -69,14 +67,25 @@ function PlayerResults() {
   return (
     <PlayerResultsBody>
       <GameResultsButton color="blue" onClick={handler}>View Game Results</GameResultsButton>
-      {results.map((resultJson, idx) => (<QuestionResult key={idx} json={resultJson} idx={idx} />))}
+      {results.map((resultJson, idx) => (
+        <QuestionResult
+          key={resultJson.answeredAt}
+          json={resultJson}
+          idx={idx}
+        />
+      ))}
     </PlayerResultsBody>
   );
 }
 
 QuestionResult.propTypes = {
-  json: PropTypes.any,
-  idx: PropTypes.number,
+  json: PropTypes.shape({
+    answerIds: PropTypes.instanceOf(Array),
+    correct: PropTypes.bool,
+    answeredAt: PropTypes.string,
+    questionStartedAt: PropTypes.string,
+  }).isRequired,
+  idx: PropTypes.number.isRequired,
 };
 
 export default PlayerResults;

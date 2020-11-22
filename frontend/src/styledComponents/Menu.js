@@ -7,4 +7,4 @@ const BigBrainMenu = styled(Menu)`
   }
 `;
 
-export { BigBrainMenu };
+export default BigBrainMenu;
