@@ -94,7 +94,7 @@ const HomepageHeading = ({ session, id }) => {
             />
             <br />
             {quiz.questions[position].answers.map((answer) => (
-              <Button size="massive" key={answer.answerId}>{answer.answerId}</Button>
+              <Button size="massive" key={answer.answerId}>{answer.title}</Button>
             ))}
             <br />
             <br />
