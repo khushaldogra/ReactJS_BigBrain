@@ -4,11 +4,11 @@ import {
 } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 import config from '../config';
-import { StoreContext } from '../store';
+import { useStoreContext } from '../store';
 
 const Login = () => {
   const history = useHistory();
-  const context = useContext(StoreContext);
+  const context = useStoreContext();
   const [loggedIn, setIsLoggedIn] = context.loggedIn;
 
   const [email, setEmail] = useState('');

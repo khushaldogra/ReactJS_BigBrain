@@ -5,13 +5,13 @@ import config from '../config';
 import {
   RegisterBody, RegisterSegment, RegisterButton, RegisterTitle,
 } from '../styledComponents/Register';
-import { StoreContext } from '../store';
+import { useStoreContext } from '../store';
 
 function Register() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const context = useContext(StoreContext);
+  const context = useStoreContext();
   const [loggedIn, setIsLoggedIn] = context.loggedIn;
 
   const history = useHistory();
@@ -61,16 +61,22 @@ function Register() {
         <RegisterTitle>Register</RegisterTitle>
         <Form onSubmit={register}>
           <Form.Field>
-            <label htmlFor="register-email">Email</label>
-            <input name="email" id="register-email" type="email" placeholder="Email" value={email} onChange={(e) => { setEmail(e.target.value); }} />
+            <label htmlFor="register-email">
+              Email
+              <input name="email" id="register-email" type="email" placeholder="Email" value={email} onChange={(e) => { setEmail(e.target.value); }} />
+            </label>
           </Form.Field>
           <Form.Field>
-            <label htmlFor="register-name">Name</label>
-            <input name="name" id="register-name" type="text" placeholder="Name" value={name} onChange={(e) => { setName(e.target.value); }} />
+            <label htmlFor="register-name">
+              Name
+              <input name="name" id="register-name" type="text" placeholder="Name" value={name} onChange={(e) => { setName(e.target.value); }} />
+            </label>
           </Form.Field>
           <Form.Field>
-            <label htmlFor="register-password">Password</label>
-            <input name="password" id="register-password" type="password" placeholder="Password" value={password} onChange={(e) => { setPassword(e.target.value); }} />
+            <label htmlFor="register-password">
+              Password
+              <input name="password" id="register-password" type="password" placeholder="Password" value={password} onChange={(e) => { setPassword(e.target.value); }} />
+            </label>
           </Form.Field>
           <RegisterButton type="submit">Sign Up</RegisterButton>
         </Form>

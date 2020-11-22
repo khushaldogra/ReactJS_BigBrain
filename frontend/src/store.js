@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
-export const StoreContext = React.createContext(null);
+export const useStoreContext = () => useContext(StoreContext);
+
+const StoreContext = React.createContext(null);
 
 function StoreProvider({ children }) {
   const [loggedIn, setLoggedIn] = React.useState(localStorage.getItem('token'));
