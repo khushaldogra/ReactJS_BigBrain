@@ -1,8 +1,8 @@
-import React from "react";
-import { shallow } from "enzyme";
+import React from 'react';
+import { shallow } from 'enzyme';
+import { Form, Card } from 'semantic-ui-react';
 import Register from './components/Register';
 import QuestionCard from './components/QuestionCard';
-import { Form, Card } from 'semantic-ui-react';
 import { CardButton } from './styledComponents/QuestionCard';
 
 // Mock React Router Dom
@@ -13,7 +13,7 @@ jest.mock('react-router-dom', () => ({
     push: mockHistoryPush,
   }),
   useParams: () => ({
-    id: 0
+    id: 0,
   }),
 }));
 
@@ -56,10 +56,9 @@ describe('Register', () => {
   });
 
   it('Form submit', () => {
-    let mock = jest.fn();
+    const mock = jest.fn();
     const registerForm = shallow(
-      <Form onSubmit={mock}>
-      </Form>
+      <Form onSubmit={mock} />,
     );
     registerForm.simulate('submit');
     expect(mock).toBeCalledTimes(1);
@@ -67,38 +66,38 @@ describe('Register', () => {
 });
 
 function createDummyCard(dummyjson) {
-  return <QuestionCard json={dummyjson} />
+  return <QuestionCard json={dummyjson} />;
 }
 
 describe('Question Card', () => {
   const dummyQuestion = {
-    "type": "Single Choice",
-    "name": "Question 2",
-    "duration": 10,
-    "points": 1000,
-    "videolink": null,
-    "questionId": 1
-  }
+    type: 'Single Choice',
+    name: 'Question 2',
+    duration: 10,
+    points: 1000,
+    videolink: null,
+    questionId: 1,
+  };
 
   it('Uses json props name', () => {
     const questionCard = shallow(createDummyCard(dummyQuestion));
-    expect(questionCard.find(Card.Header).props()['content']).toEqual(dummyQuestion.name);
-  })
+    expect(questionCard.find(Card.Header).props().content).toEqual(dummyQuestion.name);
+  });
 
   it('Uses json props type', () => {
     const questionCard = shallow(createDummyCard(dummyQuestion));
-    expect(questionCard.find(Card.Meta).at(0).props()['content']).toEqual(dummyQuestion.type);
-  })
+    expect(questionCard.find(Card.Meta).at(0).props().content).toEqual(dummyQuestion.type);
+  });
 
   it('Uses json props points', () => {
     const questionCard = shallow(createDummyCard(dummyQuestion));
-    expect(questionCard.find(Card.Meta).at(1).props()['content']).toEqual(`${dummyQuestion.points} points`);
-  })
+    expect(questionCard.find(Card.Meta).at(1).props().content).toEqual(`${dummyQuestion.points} points`);
+  });
 
   it('CardButton onclick', () => {
-    let mock = jest.fn();
+    const mock = jest.fn();
     const cardButton = shallow(<CardButton onClick={mock}>Delete Question</CardButton>);
     cardButton.simulate('click');
     expect(mock).toBeCalledTimes(1);
-  })
+  });
 });

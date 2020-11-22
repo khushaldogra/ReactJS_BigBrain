@@ -1,8 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { Form } from 'semantic-ui-react'
+import { Form } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 import config from '../config';
-import { RegisterBody, RegisterSegment, RegisterButton, RegisterTitle } from '../styledComponents/Register';
+import {
+  RegisterBody, RegisterSegment, RegisterButton, RegisterTitle,
+} from '../styledComponents/Register';
 import { StoreContext } from '../store';
 
 function Register() {
@@ -13,45 +15,45 @@ function Register() {
   const [loggedIn, setIsLoggedIn] = context.loggedIn;
 
   const history = useHistory();
-  
+
   // Register fetch
   const register = () => {
     if (!email || !name || !password) {
-      alert("Please enter all fields");
+      alert('Please enter all fields');
       return;
     }
     const payload = {
-      'email': email,
-      'password': password,
-      'name': name
-    }
+      email,
+      password,
+      name,
+    };
     const options = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(payload)
-    }
+      body: JSON.stringify(payload),
+    };
     const path = `${config.basePath}/admin/auth/register`;
     fetch(path, options)
-      .then(res => {
+      .then((res) => {
         if (!res.ok) {
           throw res;
         }
         return res.json();
       })
-      .then(json => {
-        localStorage.setItem("token", json.token);
+      .then((json) => {
+        localStorage.setItem('token', json.token);
         setIsLoggedIn(true);
         history.push('/dashboard');
       })
-      .catch(err => {
+      .catch((err) => {
         err.json()
-          .then(json => {
+          .then((json) => {
             alert(json.error);
           });
-      })
-  }
+      });
+  };
 
   return (
     <RegisterBody>
@@ -59,22 +61,22 @@ function Register() {
         <RegisterTitle>Register</RegisterTitle>
         <Form onSubmit={register}>
           <Form.Field>
-            <label htmlFor='register-email'>Email</label>
-            <input name="email" id='register-email' type='email' placeholder='Email' value={email} onChange={(e) => { setEmail(e.target.value) }} />
+            <label htmlFor="register-email">Email</label>
+            <input name="email" id="register-email" type="email" placeholder="Email" value={email} onChange={(e) => { setEmail(e.target.value); }} />
           </Form.Field>
           <Form.Field>
-            <label htmlFor='register-name'>Name</label>
-            <input name="name" id='register-name' type='text' placeholder='Name' value={name} onChange={(e) => { setName(e.target.value) }} />
+            <label htmlFor="register-name">Name</label>
+            <input name="name" id="register-name" type="text" placeholder="Name" value={name} onChange={(e) => { setName(e.target.value); }} />
           </Form.Field>
           <Form.Field>
-            <label htmlFor='register-password'>Password</label>
-            <input name="password" id='register-password' type='password' placeholder='Password' value={password} onChange={(e) => { setPassword(e.target.value) }} />
+            <label htmlFor="register-password">Password</label>
+            <input name="password" id="register-password" type="password" placeholder="Password" value={password} onChange={(e) => { setPassword(e.target.value); }} />
           </Form.Field>
-          <RegisterButton type='submit'>Sign Up</RegisterButton>
+          <RegisterButton type="submit">Sign Up</RegisterButton>
         </Form>
       </RegisterSegment>
     </RegisterBody>
-  )
+  );
 }
 
 export default Register;

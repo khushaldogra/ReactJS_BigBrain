@@ -7,16 +7,16 @@ const LandingBody = styled.div`
   justify-content: center;
   flex-grow: 1;
   background-color: #88c747;
-`
+`;
 
 const MainTitle = styled.h1`
   color: white;
   font-size: 8em;
-`
+`;
 
 const SubTitle = styled.h2`
   color: white;
   font-size: 3em;
-`
+`;
 
-export { LandingBody, MainTitle, SubTitle }
+export { LandingBody, MainTitle, SubTitle };

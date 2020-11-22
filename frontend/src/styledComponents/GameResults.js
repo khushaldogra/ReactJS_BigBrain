@@ -6,7 +6,7 @@ const GameResultsBody = styled.div`
   flex-grow: 1;
   background-color: #f2f2f2;
   padding: 2%;
-`
+`;
 
 const ChartsSection = styled.div`
   display: flex;
@@ -18,7 +18,7 @@ const ChartsSection = styled.div`
     flex-direction: column;
     align-items: center;
   }
-`
+`;
 
 const ChartBox = styled.div`
   background-color: white;
@@ -30,6 +30,6 @@ const ChartBox = styled.div`
   @media (max-width: 700px) {
     width: 390px;
   }
-`
+`;
 
-export { GameResultsBody, ChartsSection, ChartBox }
+export { GameResultsBody, ChartsSection, ChartBox };

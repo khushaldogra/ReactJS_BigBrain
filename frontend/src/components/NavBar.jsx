@@ -12,71 +12,71 @@ function NavBar() {
 
   const handleLogout = () => {
     // call API to logout
-    fetch(config.basePath + '/admin/auth/logout', {
+    fetch(`${config.basePath}/admin/auth/logout`, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': "Bearer " + localStorage["token"]
+        Authorization: `Bearer ${localStorage.token}`,
       },
     })
-      .then(res => {
-        return res.json()
-      })
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         if (data.error) {
           throw Error(data.error);
         }
-        localStorage.removeItem("token");
+        localStorage.removeItem('token');
         setIsLoggedIn(false);
-        //redirect to landing page
-        history.push('/')
+        // redirect to landing page
+        history.push('/');
       })
-      .catch(err => {
-        alert(err.message)
-      })
-  }
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
 
   return (
-  <BigBrainMenu>
+    <BigBrainMenu>
       <Menu.Item
-        onClick={() => {history.push('/')}}
+        onClick={() => { history.push('/'); }}
       >
         Home
       </Menu.Item>
       <Menu.Item
-        onClick={() => {history.push('/game/join')}}
+        onClick={() => { history.push('/game/join'); }}
       >
         Join Game
       </Menu.Item>
-      {!loggedIn ?
-        <>
-          <Menu.Item
-            onClick={() => {history.push('/login')}}
-          >
-            Login
-          </Menu.Item>
-          <Menu.Item
-            onClick={() => {history.push('/register')}}
-          >
-            Register
-          </Menu.Item>
-        </>
-        :
-        <>
-          <Menu.Item
-            onClick={() => {history.push('/dashboard')}}
-          >
-            Dashboard
-          </Menu.Item>
-            <Menu.Item 
+      {!loggedIn
+        ? (
+          <>
+            <Menu.Item
+              onClick={() => { history.push('/login'); }}
+            >
+              Login
+            </Menu.Item>
+            <Menu.Item
+              onClick={() => { history.push('/register'); }}
+            >
+              Register
+            </Menu.Item>
+          </>
+        )
+        : (
+          <>
+            <Menu.Item
+              onClick={() => { history.push('/dashboard'); }}
+            >
+              Dashboard
+            </Menu.Item>
+            <Menu.Item
               onClick={handleLogout}
             >
               Logout
             </Menu.Item>
-        </>
-      }
+          </>
+        )}
     </BigBrainMenu>
-  )
+  );
 }
 
 export default NavBar;

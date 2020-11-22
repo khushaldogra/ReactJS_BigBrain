@@ -7,14 +7,14 @@ function StoreProvider({ children }) {
   const [loggedIn, setLoggedIn] = React.useState(localStorage.getItem('token'));
 
   const store = {
-    loggedIn: [loggedIn, setLoggedIn]
-  }
+    loggedIn: [loggedIn, setLoggedIn],
+  };
 
-  return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
+  return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>;
 }
 
 StoreProvider.propTypes = {
   children: PropTypes.any,
-}
+};
 
 export default StoreProvider;

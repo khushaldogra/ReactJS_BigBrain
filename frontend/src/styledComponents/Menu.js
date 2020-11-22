@@ -5,6 +5,6 @@ const BigBrainMenu = styled(Menu)`
   &&& {
     margin: 0px;
   }
-`
+`;
 
-export { BigBrainMenu }
+export { BigBrainMenu };

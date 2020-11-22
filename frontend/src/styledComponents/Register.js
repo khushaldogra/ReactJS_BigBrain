@@ -8,11 +8,11 @@ const RegisterBody = styled.div`
   background-color: #42bedf;
   flex-grow: 1;
   justify-content: center;
-`
+`;
 
 const RegisterTitle = styled.h1`
   text-align: center;
-`
+`;
 
 const RegisterSegment = styled(Segment)`
   &&& {
@@ -23,11 +23,13 @@ const RegisterSegment = styled(Segment)`
       width: 350px;
     }
   }
-`
+`;
 const RegisterButton = styled(Button)`
   &&& {
     width: 100%;
   }
-`
+`;
 
-export { RegisterBody, RegisterSegment, RegisterButton, RegisterTitle }
+export {
+  RegisterBody, RegisterSegment, RegisterButton, RegisterTitle,
+};

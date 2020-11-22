@@ -16,41 +16,41 @@ function Navigation() {
   return (
     // Routes to a component
     <Switch>
-      <Route exact path='/'>
+      <Route exact path="/">
         <Landing />
       </Route>
-      <Route exact path='/dashboard'>
+      <Route exact path="/dashboard">
         <Dashboard />
       </Route>
-      <Route exact path='/login'>
+      <Route exact path="/login">
         <Login />
       </Route>
-      <Route exact path='/register'>
+      <Route exact path="/register">
         <Register />
       </Route>
-      <Route exact path='/game/join'>
+      <Route exact path="/game/join">
         <JoinGame />
       </Route>
-      <Route exact path='/game/edit/:id'>
+      <Route exact path="/game/edit/:id">
         <EditGame />
       </Route>
-      <Route exact path='/game/edit/:id/:questionId'>
+      <Route exact path="/game/edit/:id/:questionId">
         <EditQuestion />
       </Route>
-      <Route exact path='/game/:id/:sessionId'>
+      <Route exact path="/game/:id/:sessionId">
         <Admin />
       </Route>
-      <Route exact path='/game/:sessionId/playgame/:playerId'>
+      <Route exact path="/game/:sessionId/playgame/:playerId">
         <PlayGame />
       </Route>
-      <Route exact path='/results/player/:playerId/:sessionId'>
-        <PlayerResults/>
+      <Route exact path="/results/player/:playerId/:sessionId">
+        <PlayerResults />
       </Route>
-      <Route exact path='/results/:id'>
+      <Route exact path="/results/:id">
         <GameResults />
       </Route>
     </Switch>
-  )
+  );
 }
 
 export default Navigation;

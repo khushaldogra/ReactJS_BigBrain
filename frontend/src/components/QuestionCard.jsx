@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useParams, Link } from 'react-router-dom';
 import { Card } from 'semantic-ui-react';
-import { StyledQuestionCard, ButtonGroup , CardButton } from '../styledComponents/QuestionCard';
+import { StyledQuestionCard, ButtonGroup, CardButton } from '../styledComponents/QuestionCard';
 import { updateQuiz } from '../api';
 
 function QuestionCard(props) {
   const quizID = useParams().id;
-  const json = props.json;
+  const { json } = props;
 
   // Return new list with question removed
   const getNewQuestions = () => {
@@ -20,7 +20,7 @@ function QuestionCard(props) {
     }
     newQuestions.splice(index, 1);
     return newQuestions;
-  }
+  };
 
   // Deletes a question from quiz
   const deleteQuestion = () => {
@@ -29,13 +29,13 @@ function QuestionCard(props) {
       .then(() => {
         props.setQuestionChange(!props.questionChange);
       })
-      .catch(err => {
+      .catch((err) => {
         err.json()
-          .then(json => {
+          .then((json) => {
             alert(json.error);
           });
-      })
-  }
+      });
+  };
 
   return (
     <StyledQuestionCard>
@@ -51,15 +51,16 @@ function QuestionCard(props) {
             questions: props.questions,
             quizName: props.quizName,
             thumbnail: props.thumbnail,
-            questionJSON: json
-          }
-        }}>
-          <CardButton color='blue'>Edit Question</CardButton>
+            questionJSON: json,
+          },
+        }}
+        >
+          <CardButton color="blue">Edit Question</CardButton>
         </Link>
-        <CardButton color='blue' onClick={deleteQuestion}>Delete Question</CardButton>
+        <CardButton color="blue" onClick={deleteQuestion}>Delete Question</CardButton>
       </ButtonGroup>
     </StyledQuestionCard>
-  )
+  );
 }
 
 QuestionCard.propTypes = {
@@ -68,7 +69,7 @@ QuestionCard.propTypes = {
   setQuestionChange: PropTypes.func,
   questions: PropTypes.array,
   quizName: PropTypes.string,
-  thumbnail: PropTypes.string
-}
+  thumbnail: PropTypes.string,
+};
 
 export default QuestionCard;

@@ -4,23 +4,23 @@ import { Form, Dropdown, Checkbox } from 'semantic-ui-react';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import {
   EditQuestionBody, QuestionForm, TitleInput, TitleField, QuestionParameters, ParamColumn,
-  ButtonColumn, QuestionAnswers, AnswerField, AnsInput, AnsCheckbox, QuestionButton
+  ButtonColumn, QuestionAnswers, AnswerField, AnsInput, AnsCheckbox, QuestionButton,
 } from '../styledComponents/EditQuestion';
 import { updateQuiz } from '../api';
 
 // Answer input component for a new answer in quiz
 function AnswerInput({ answeridx, answersState, setAnswersState }) {
   const handleInput = (e) => {
-    let newAnswers = [...answersState];
+    const newAnswers = [...answersState];
     newAnswers[answeridx].title = e.target.value;
     setAnswersState(newAnswers);
-  }
+  };
 
   const handleCheckbox = () => {
-    let newAnswers = [...answersState];
+    const newAnswers = [...answersState];
     newAnswers[answeridx].correct = !newAnswers[answeridx].correct;
     setAnswersState(newAnswers);
-  }
+  };
 
   return (
     <AnswerField>
@@ -33,13 +33,15 @@ function AnswerInput({ answeridx, answersState, setAnswersState }) {
         />
       </AnsCheckbox>
     </AnswerField>
-  )
+  );
 }
 
 function EditQuestion() {
   const location = useLocation();
   const history = useHistory();
-  const { questions, quizName, thumbnail, questionJSON } = location.state;
+  const {
+    questions, quizName, thumbnail, questionJSON,
+  } = location.state;
   const { id, questionId } = useParams();
 
   const [questionType, setQuestionType] = useState(questionJSON.type);
@@ -59,7 +61,7 @@ function EditQuestion() {
       text: 'Single Choice',
       value: 'Single Choice',
     },
-  ]
+  ];
 
   // List of durations to pick
   const durationList = [
@@ -79,7 +81,7 @@ function EditQuestion() {
       text: '30',
       value: 30,
     },
-  ]
+  ];
 
   // List of points to pick
   const pointsList = [
@@ -95,12 +97,12 @@ function EditQuestion() {
       text: '2000',
       value: 2000,
     },
-  ]
+  ];
 
   // Returns new list with question edited
   const getNewQuestions = () => {
-    let newQuestions = [...questions];
-    for (let json of newQuestions) {
+    const newQuestions = [...questions];
+    for (const json of newQuestions) {
       if (json.questionId === parseInt(questionId)) {
         json.type = questionType;
         json.name = questionName;
@@ -111,7 +113,7 @@ function EditQuestion() {
       }
     }
     return newQuestions;
-  }
+  };
 
   // Error handling for question editing
   const editError = () => {
@@ -133,19 +135,19 @@ function EditQuestion() {
       return true;
     }
     return false;
-  }
+  };
 
   // Fetch to edit question
   const editQuestion = () => {
     const newQuestions = getNewQuestions();
     updateQuiz(newQuestions, quizName, thumbnail, id)
-      .catch(err => {
+      .catch((err) => {
         err.json()
-          .then(json => {
+          .then((json) => {
             alert(json.error);
           });
-      })
-  }
+      });
+  };
 
   // Handle submit button press
   const handleSubmit = () => {
@@ -154,112 +156,113 @@ function EditQuestion() {
     }
     editQuestion();
     history.push(`/game/edit/${id}`);
-  }
+  };
 
   // Adds an answer to question
   const addAnswer = (e) => {
     e.preventDefault();
-    let newAnswers = [...answers];
+    const newAnswers = [...answers];
     if (answers.length < 6) {
       newAnswers.push(
         {
-          'answerId': answers.length,
-          'correct': false,
-          'title': '',
-          'color': null
-        }
-      )
+          answerId: answers.length,
+          correct: false,
+          title: '',
+          color: null,
+        },
+      );
     }
     setAnswers(newAnswers);
-  }
+  };
 
   // Removes an answer from question
   const removeAnswer = (e) => {
     e.preventDefault();
-    let newAnswers = [...answers];
+    const newAnswers = [...answers];
     if (answers.length > 2) {
       newAnswers.pop();
     }
     setAnswers(newAnswers);
-  }
+  };
 
   return (
     <EditQuestionBody>
       <QuestionForm onSubmit={handleSubmit}>
         <TitleField>
-          <TitleInput aria-label="Title" type='text' placeholder='Question' value={questionName} onChange={(e) => { setQuestionName(e.target.value) }} />
+          <TitleInput aria-label="Title" type="text" placeholder="Question" value={questionName} onChange={(e) => { setQuestionName(e.target.value); }} />
         </TitleField>
         <QuestionParameters>
           <ParamColumn>
             <Form.Field>
-              <label htmlFor='question-type'>Select Question Type</label>
+              <label htmlFor="question-type">Select Question Type</label>
               <Dropdown
-                id='question-type'
-                placeholder='Select Question Type'
+                id="question-type"
+                placeholder="Select Question Type"
                 fluid
                 selection
                 value={questionType}
-                onChange={(e, { value }) => { setQuestionType(value) }}
+                onChange={(e, { value }) => { setQuestionType(value); }}
                 options={questionTypes}
               />
             </Form.Field>
             <Form.Field>
-              <label htmlFor='time-limit'>Select Time Limit</label>
+              <label htmlFor="time-limit">Select Time Limit</label>
               <Dropdown
-                id='time-limit'
-                placeholder='Select Time Limit'
+                id="time-limit"
+                placeholder="Select Time Limit"
                 fluid
                 selection
                 value={duration}
-                onChange={(e, { value }) => { setDuration(value) }}
+                onChange={(e, { value }) => { setDuration(value); }}
                 options={durationList}
               />
             </Form.Field>
             <Form.Field>
-              <label htmlFor='select-points'>Select Points</label>
+              <label htmlFor="select-points">Select Points</label>
               <Dropdown
-                id='select-points'
-                placeholder='Select Points'
+                id="select-points"
+                placeholder="Select Points"
                 fluid
                 selection
                 value={points}
-                onChange={(e, { value }) => { setPoints(value) }}
+                onChange={(e, { value }) => { setPoints(value); }}
                 options={pointsList}
               />
             </Form.Field>
           </ParamColumn>
           <ParamColumn>
             <Form.Field>
-              <label htmlFor='upload-image'>Upload Image</label>
-              <input id='upload-image' type="file" onChange={(e) => { setAttach(e.target.files[0]) }} />
+              <label htmlFor="upload-image">Upload Image</label>
+              <input id="upload-image" type="file" onChange={(e) => { setAttach(e.target.files[0]); }} />
             </Form.Field>
             <p>OR</p>
-            <Form.Input label='Video URL' type='text' placeholder='URL' onChange={(e) => { setAttach(e.target.value) }} />
+            <Form.Input label="Video URL" type="text" placeholder="URL" onChange={(e) => { setAttach(e.target.value); }} />
           </ParamColumn>
           <ButtonColumn>
-            <QuestionButton color='blue' onClick={addAnswer}>Add Answer</QuestionButton>
-            <QuestionButton color='blue' onClick={removeAnswer}>Remove Answer</QuestionButton>
+            <QuestionButton color="blue" onClick={addAnswer}>Add Answer</QuestionButton>
+            <QuestionButton color="blue" onClick={removeAnswer}>Remove Answer</QuestionButton>
           </ButtonColumn>
         </QuestionParameters>
         <QuestionAnswers>
           {answers.map((answer, idx) => (
-            <AnswerInput key={answer.answerId}
+            <AnswerInput
+              key={answer.answerId}
               answeridx={idx}
               answersState={answers}
-              setAnswersState={setAnswers} />
+              setAnswersState={setAnswers}
+            />
           ))}
         </QuestionAnswers>
-        <QuestionButton color='blue' type='submit'>Change Question</QuestionButton>
+        <QuestionButton color="blue" type="submit">Change Question</QuestionButton>
       </QuestionForm>
     </EditQuestionBody>
-  )
+  );
 }
 
 AnswerInput.propTypes = {
   answeridx: PropTypes.number,
   answersState: PropTypes.array,
   setAnswersState: PropTypes.func,
-}
-
+};
 
 export default EditQuestion;

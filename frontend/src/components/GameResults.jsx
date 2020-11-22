@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart, Tooltip, Legend, Bar, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import {
+  BarChart, Tooltip, Legend, Bar, CartesianGrid, XAxis, YAxis, ResponsiveContainer,
+} from 'recharts';
 import { useParams } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
 import config from '../config';
@@ -19,18 +21,18 @@ function GameResults() {
     const options = {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    }
+        Authorization: `Bearer ${token}`,
+      },
+    };
     const path = `${config.basePath}/admin/session/${sessionID}/results`;
     fetch(path, options)
-      .then(res => {
+      .then((res) => {
         if (!res.ok) {
           throw res;
         }
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         // Set results
         setResults(json.results); // Maybe don't need
         // Get data lists
@@ -38,17 +40,17 @@ function GameResults() {
         getQuestionCorrect(json.results);
         getQuestionTime(json.results);
       })
-      .catch(err => {
+      .catch((err) => {
         err.json()
-          .then(json => {
+          .then((json) => {
             alert(json.error);
           });
-      })
+      });
   }, []);
 
   // Get list of users and their scores
   const getUserScores = (jsonResults) => {
-    let userScoresDic = {};
+    const userScoresDic = {};
     for (const player of jsonResults) {
       // Go through all the answers and count correct
       let correctCount = 0;
@@ -60,21 +62,21 @@ function GameResults() {
       // Put user in dictionary with number of correct answers
       userScoresDic[player.name] = correctCount;
     }
-    let newUserScores = [];
+    const newUserScores = [];
     for (const [name, score] of Object.entries(userScoresDic)) {
       newUserScores.push({
-        'name': name,
-        'score': score
-      })
+        name,
+        score,
+      });
     }
-    newUserScores.sort((a, b) => { return parseInt(b.score) - parseInt(a.score) });
+    newUserScores.sort((a, b) => parseInt(b.score) - parseInt(a.score));
     // console.log(newUserScores);
     setUserScores(newUserScores);
-  }
+  };
 
   // Get list of questions and how many correct
   const getQuestionCorrect = (jsonResults) => {
-    let questionCorrectDic = {};
+    const questionCorrectDic = {};
     for (const player of jsonResults) {
       let questionNo = 1;
       for (const answer of player.answers) {
@@ -88,21 +90,21 @@ function GameResults() {
         questionNo++;
       }
     }
-    let newQuestionCorrect = [];
+    const newQuestionCorrect = [];
     for (const [question, correct] of Object.entries(questionCorrectDic)) {
       newQuestionCorrect.push({
-        'name': `Question ${question}`,
-        'question': question,
-        'correct': (correct / jsonResults.length) * 100
-      })
+        name: `Question ${question}`,
+        question,
+        correct: (correct / jsonResults.length) * 100,
+      });
     }
-    newQuestionCorrect.sort((a, b) => { return parseInt(a.question) - parseInt(b.question) });
+    newQuestionCorrect.sort((a, b) => parseInt(a.question) - parseInt(b.question));
     setQuestionCorrect(newQuestionCorrect);
-  }
+  };
 
   // Get list of questions and time spent on it
   const getQuestionTime = (jsonResults) => {
-    let questionTimeDic = {};
+    const questionTimeDic = {};
     for (const player of jsonResults) {
       let questionNo = 1;
       for (const answer of player.answers) {
@@ -120,17 +122,17 @@ function GameResults() {
         questionNo++;
       }
     }
-    let newQuestionTime = [];
+    const newQuestionTime = [];
     for (const [question, time] of Object.entries(questionTimeDic)) {
       newQuestionTime.push({
-        'name': `Question ${question}`,
-        'question': question,
-        'time': time / jsonResults.length
-      })
+        name: `Question ${question}`,
+        question,
+        time: time / jsonResults.length,
+      });
     }
-    newQuestionTime.sort((a, b) => { return parseInt(a.question) - parseInt(b.question) });
+    newQuestionTime.sort((a, b) => parseInt(a.question) - parseInt(b.question));
     setQuestionTime(newQuestionTime);
-  }
+  };
 
   return (
     <GameResultsBody>
@@ -178,7 +180,7 @@ function GameResults() {
       </ChartsSection>
 
     </GameResultsBody>
-  )
+  );
 }
 
 export default GameResults;

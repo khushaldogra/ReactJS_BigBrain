@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Card } from 'semantic-ui-react';
 import config from '../config';
 import QuestionCard from './QuestionCard';
-import { Card } from 'semantic-ui-react';
-import { AddQuestionButton, EditGameBody, QuestionBox, GameOptions,
-         ImportLabel, GameDataDiv } from '../styledComponents/EditGame';
+import {
+  AddQuestionButton, EditGameBody, QuestionBox, GameOptions,
+  ImportLabel, GameDataDiv,
+} from '../styledComponents/EditGame';
 import { updateQuiz } from '../api';
 
 function EditGame() {
@@ -21,62 +23,60 @@ function EditGame() {
     const options = {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    }
+        Authorization: `Bearer ${token}`,
+      },
+    };
     const path = `${config.basePath}/admin/quiz/${quizID}`;
     fetch(path, options)
-      .then(res => {
+      .then((res) => {
         if (!res.ok) {
           throw res;
         }
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         setQuizName(json.name);
         setThumbnail(json.thumbnail);
         setQuestions(json.questions);
         // Update the question id set
-        let existingIDs = new Set();
+        const existingIDs = new Set();
         for (const q of json.questions) {
           existingIDs.add(q.questionId);
         }
         setQuestionIDs(existingIDs);
         console.log(json);
       })
-      .catch(err => {
+      .catch((err) => {
         err.json()
-          .then(json => {
+          .then((json) => {
             alert(json.error);
           });
-      })
+      });
   }, [questionChange]);
 
   // Create an empty question json template
-  const emptyQuestion = (id) => {
-    return {
-      'type': 'Empty Type',
-      'name': 'Empty Question',
-      'duration': 0,
-      'points': 0,
-      'videolink': null,
-      'answers': [
-        {
-          'answerId': 0,
-          'correct': false,
-          'title': '',
-          'color': null
-        },
-        {
-          'answerId': 1,
-          'correct': false,
-          'title': '',
-          'color': null
-        }
-      ],
-      'questionId': id
-    }
-  }
+  const emptyQuestion = (id) => ({
+    type: 'Empty Type',
+    name: 'Empty Question',
+    duration: 0,
+    points: 0,
+    videolink: null,
+    answers: [
+      {
+        answerId: 0,
+        correct: false,
+        title: '',
+        color: null,
+      },
+      {
+        answerId: 1,
+        correct: false,
+        title: '',
+        color: null,
+      },
+    ],
+    questionId: id,
+  });
 
   // Return a unique question id
   const getQuestionID = () => {
@@ -85,7 +85,7 @@ function EditGame() {
       n++;
     }
     return n;
-  }
+  };
 
   // Adds an empty question to the quiz
   const addQuestion = () => {
@@ -95,22 +95,22 @@ function EditGame() {
       .then(() => {
         setQuestionChange(!questionChange);
       })
-      .catch(err => {
+      .catch((err) => {
         alert(err);
-      })
-  }
+      });
+  };
 
   // Error checking for json
   const importJSONError = (json) => {
     if (json === undefined) {
-      alert("Undefined JSON");
+      alert('Undefined JSON');
       return true;
-    } else if (json.name === '') {
-      alert("Empty quiz name");
+    } if (json.name === '') {
+      alert('Empty quiz name');
       return true;
     }
     return false;
-  }
+  };
 
   // Creates file reader to read json file input
   const handleFileChosen = (e) => {
@@ -122,7 +122,7 @@ function EditGame() {
         return;
       }
       importFile(json);
-    }
+    };
     fileReader.readAsText(e.target.files[0]);
     e.target.value = null;
   };
@@ -133,35 +133,38 @@ function EditGame() {
       .then(() => {
         setQuestionChange(!questionChange);
       })
-      .catch(err => {
+      .catch((err) => {
         alert(err);
-      })
-  }
+      });
+  };
 
   return (
     <EditGameBody>
       <GameOptions>
-        <AddQuestionButton color='blue' onClick={addQuestion}>Add Question</AddQuestionButton>
+        <AddQuestionButton color="blue" onClick={addQuestion}>Add Question</AddQuestionButton>
         <p>OR</p>
         <GameDataDiv>
-          <ImportLabel htmlFor='game-data-input' id="gd-label">Import File</ImportLabel>
-          <input type='file' id='game-data-input' onChange={(e) => handleFileChosen(e)} />
+          <ImportLabel htmlFor="game-data-input" id="gd-label">Import File</ImportLabel>
+          <input type="file" id="game-data-input" onChange={(e) => handleFileChosen(e)} />
         </GameDataDiv>
       </GameOptions>
       <QuestionBox>
         <Card.Group>
-          {questions.map((q) => (<QuestionCard
-            key={q.questionId}
-            json={q}
-            questionChange={questionChange}
-            setQuestionChange={setQuestionChange}
-            questions={questions} // For fetch
-            quizName={quizName}
-            thumbnail={thumbnail} />))}
+          {questions.map((q) => (
+            <QuestionCard
+              key={q.questionId}
+              json={q}
+              questionChange={questionChange}
+              setQuestionChange={setQuestionChange}
+              questions={questions} // For fetch
+              quizName={quizName}
+              thumbnail={thumbnail}
+            />
+          ))}
         </Card.Group>
       </QuestionBox>
     </EditGameBody>
-  )
+  );
 }
 
 export default EditGame;

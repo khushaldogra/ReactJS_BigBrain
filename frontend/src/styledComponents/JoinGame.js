@@ -9,7 +9,7 @@ const JoinGameBody = styled.div`
   flex-grow: 1;
   background-color: #42bedf;
   padding: 2%;
-`
+`;
 
 const JoinInput = styled(Input)`
   &&& {
@@ -18,12 +18,12 @@ const JoinInput = styled(Input)`
     font-size: 1.5em;
     margin: 10px;
   }
-`
+`;
 
 const BigBrainTitle = styled.h1`
   color: white;
   font-size: 4em;
-`
+`;
 
 const JoinButton = styled(Button)`
   &&& {
@@ -32,6 +32,8 @@ const JoinButton = styled(Button)`
     font-size: 2em;
     margin: 10px;
   }
-`
+`;
 
-export { JoinGameBody, BigBrainTitle, JoinInput, JoinButton }
+export {
+  JoinGameBody, BigBrainTitle, JoinInput, JoinButton,
+};

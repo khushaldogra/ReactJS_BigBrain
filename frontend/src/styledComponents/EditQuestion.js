@@ -7,7 +7,7 @@ const EditQuestionBody = styled.div`
   flex-grow: 1;
   background-color: #f2f2f2;
   padding: 2% 6%;
-`
+`;
 
 const QuestionForm = styled(Form)`
   &&& {
@@ -15,40 +15,40 @@ const QuestionForm = styled(Form)`
     flex-direction: column;
     align-items: center;
   }
-`
+`;
 
 const TitleField = styled(Form.Field)`
   &&& {
     width: 100%;
     font-size: 2em;
   }
-`
+`;
 
 const TitleInput = styled.input`
   height: 100px;
-`
+`;
 
 const QuestionParameters = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
   padding: 0% 2%;
-`
+`;
 
 const ParamColumn = styled.div`
   width: 30%;
-`
+`;
 
 const ButtonColumn = styled(ParamColumn)`
   padding: 20px 10px;
-`
+`;
 
 const QuestionAnswers = styled.div`
   margin: 50px 0px;
   width: 95%;
   display: flex;
   flex-wrap: wrap;
-`
+`;
 
 const AnswerField = styled(Form.Field)`
   &&& {
@@ -68,12 +68,12 @@ const AnswerField = styled(Form.Field)`
       width: 100%;
     }
   }
-`
+`;
 
 const AnsInput = styled.input`
   height: 80%;
   background-color: pink;
-`
+`;
 
 const AnsCheckbox = styled.div`
   display: flex;
@@ -84,7 +84,7 @@ const AnsCheckbox = styled.div`
   margin: 10px;
   height: 80%;
   border: 1px solid lightgrey;
-`
+`;
 
 const QuestionButton = styled(Button)`
   &&& {
@@ -96,9 +96,9 @@ const QuestionButton = styled(Button)`
       font-size: 1.1em;
     }
   }
-`
+`;
 
 export {
   EditQuestionBody, QuestionForm, TitleInput, TitleField, QuestionParameters, ParamColumn,
-  ButtonColumn, QuestionAnswers, AnswerField, AnsInput, AnsCheckbox, QuestionButton
-}
+  ButtonColumn, QuestionAnswers, AnswerField, AnsInput, AnsCheckbox, QuestionButton,
+};

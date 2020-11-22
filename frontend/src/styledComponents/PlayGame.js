@@ -6,7 +6,7 @@ const GameContainer = styled(Container)`
   &&& {
     background-color: #864CBF;
   }
-`
+`;
 
 const GameButton = styled(Button)`
   &&& {
@@ -15,7 +15,7 @@ const GameButton = styled(Button)`
     font-size: 2em;
     margin: 10px;
   }
-`
+`;
 
 const GameHeading = styled(Header)`
   &&& {
@@ -24,7 +24,7 @@ const GameHeading = styled(Header)`
     margin-bottom: 0;
     margin-top: 3em;
   }
-`
+`;
 
 const GameSubheading = styled(Header)`
 &&& {
@@ -32,6 +32,8 @@ const GameSubheading = styled(Header)`
   font-weight: normal;
   margin-top: 1.5em;
 }
-`
+`;
 
-export { GameButton, GameHeading, GameSubheading, GameContainer }
+export {
+  GameButton, GameHeading, GameSubheading, GameContainer,
+};
