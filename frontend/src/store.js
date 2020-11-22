@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
-export const useStoreContext = () => useContext(StoreContext);
-
 const StoreContext = React.createContext(null);
+
+export const useStoreContext = () => useContext(StoreContext);
 
 function StoreProvider({ children }) {
   const [loggedIn, setLoggedIn] = React.useState(localStorage.getItem('token'));
@@ -16,7 +16,7 @@ function StoreProvider({ children }) {
 }
 
 StoreProvider.propTypes = {
-  children: PropTypes.any,
+  children: PropTypes.string.isRequired,
 };
 
 export default StoreProvider;

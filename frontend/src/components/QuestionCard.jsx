@@ -7,17 +7,19 @@ import updateQuiz from '../api';
 
 function QuestionCard(props) {
   const quizID = useParams().id;
-  const { json } = props;
+  const {
+    json, questions, quizName, thumbnail,
+  } = props;
 
   // Return new list with question removed
   const getNewQuestions = () => {
     const newQuestions = [...props.questions];
     let index = 0;
-    for (const question of newQuestions) {
+    newQuestions.forEach((question) => {
       if (question.questionId === json.questionId) {
         index = newQuestions.indexOf(question);
       }
-    }
+    });
     newQuestions.splice(index, 1);
     return newQuestions;
   };
@@ -31,8 +33,8 @@ function QuestionCard(props) {
       })
       .catch((err) => {
         err.json()
-          .then((json) => {
-            alert(json.error);
+          .then((errjson) => {
+            alert(errjson.error);
           });
       });
   };
@@ -48,9 +50,9 @@ function QuestionCard(props) {
         <Link to={{
           pathname: `/game/edit/${quizID}/${json.questionId}`,
           state: {
-            questions: props.questions,
-            quizName: props.quizName,
-            thumbnail: props.thumbnail,
+            questions,
+            quizName,
+            thumbnail,
             questionJSON: json,
           },
         }}
@@ -64,12 +66,17 @@ function QuestionCard(props) {
 }
 
 QuestionCard.propTypes = {
-  json: PropTypes.any,
-  questionChange: PropTypes.bool,
-  setQuestionChange: PropTypes.func,
-  questions: PropTypes.array,
-  quizName: PropTypes.string,
-  thumbnail: PropTypes.string,
+  json: PropTypes.shape({
+    name: PropTypes.string,
+    type: PropTypes.string,
+    points: PropTypes.number,
+    questionId: PropTypes.number,
+  }).isRequired,
+  questionChange: PropTypes.bool.isRequired,
+  setQuestionChange: PropTypes.func.isRequired,
+  questions: PropTypes.instanceOf(Array).isRequired,
+  quizName: PropTypes.string.isRequired,
+  thumbnail: PropTypes.string.isRequired,
 };
 
 export default QuestionCard;

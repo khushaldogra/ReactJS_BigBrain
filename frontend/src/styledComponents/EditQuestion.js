@@ -98,7 +98,11 @@ const QuestionButton = styled(Button)`
   }
 `;
 
+const DropdownLabel = styled.p`
+  font-weight: bold;
+`;
+
 export {
   EditQuestionBody, QuestionForm, TitleInput, TitleField, QuestionParameters, ParamColumn,
-  ButtonColumn, QuestionAnswers, AnswerField, AnsInput, AnsCheckbox, QuestionButton,
+  ButtonColumn, QuestionAnswers, AnswerField, AnsInput, AnsCheckbox, QuestionButton, DropdownLabel,
 };

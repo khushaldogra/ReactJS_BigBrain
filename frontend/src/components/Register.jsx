@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Form } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 import config from '../config';
@@ -12,6 +12,7 @@ function Register() {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const context = useStoreContext();
+  // eslint-disable-next-line
   const [loggedIn, setIsLoggedIn] = context.loggedIn;
 
   const history = useHistory();

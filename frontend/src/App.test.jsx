@@ -15,7 +15,7 @@ jest.mock('react-router-dom', () => ({
   }),
   useParams: () => ({
     id: 0,
-  })
+  }),
 }));
 
 // Mock useContext

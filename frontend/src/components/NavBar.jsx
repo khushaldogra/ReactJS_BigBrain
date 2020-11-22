@@ -1,13 +1,14 @@
-import React, { useEffect, useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { Menu, Button } from 'semantic-ui-react';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { Menu } from 'semantic-ui-react';
 import config from '../config';
-import { BigBrainMenu } from '../styledComponents/Menu';
+import BigBrainMenu from '../styledComponents/Menu';
 import { useStoreContext } from '../store';
 
 function NavBar() {
   const history = useHistory();
   const context = useStoreContext();
+  // eslint-disable-next-line
   const [loggedIn, setIsLoggedIn] = context.loggedIn;
 
   const handleLogout = () => {
