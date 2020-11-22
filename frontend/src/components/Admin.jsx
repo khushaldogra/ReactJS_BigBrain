@@ -98,8 +98,8 @@ const HomepageHeading = ({ session, id }) => {
               url="https://www.youtube.com/watch?v=TwjmAfpvYPc&list=PLHnAh9gM7bwGcdxjzPLjnESAOyyswCd_U&index=1"
               source="youtube"
             />
-            {quiz.questions[position].answers.map((answer, index) => (
-              <Button key={index}>{answer.answerId}</Button>
+            {quiz.questions[position].answers.map((answer) => (
+              <Button key={answer.answerId}>{answer.answerId}</Button>
             ))}
             <br />
             <br />

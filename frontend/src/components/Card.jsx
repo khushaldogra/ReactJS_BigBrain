@@ -9,7 +9,8 @@ import config from '../config';
 const CardTemplate = (props) => {
   const history = useHistory();
   const {
-    quiz_info, setOpen, setQuizActive, setOpenResults, setCurrentQuizId, updateGames, setUpdateGames,
+    quizInfo, setOpen, setQuizActive, setOpenResults, setCurrentQuizId,
+    updateGames, setUpdateGames,
   } = props;
   const [question, setQuestion] = useState(0);
   const [totaltime, setTotaltime] = useState(0);
@@ -17,7 +18,7 @@ const CardTemplate = (props) => {
   const [quiz, setQuiz] = useState({});
 
   useEffect(() => {
-    fetch(`${config.basePath}/admin/quiz/${quiz_info.id}`, {
+    fetch(`${config.basePath}/admin/quiz/${quizInfo.id}`, {
       method: 'get',
       headers: {
         Authorization: `Bearer ${localStorage.token}`,
@@ -26,21 +27,17 @@ const CardTemplate = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.error) {
-
-        }
         setQuiz(data);
         if (data.questions) {
           setQuestion(data.questions.length);
           let time = 0;
-          data.questions.forEach((question) => {
-            time += question.duration;
+          data.questions.forEach((ques) => {
+            time += ques.duration;
           });
           setTotaltime(time);
         }
-        console.log(quiz_info);
         // fetch to check status of quiz
-        // fetch(config.basePath + '/admin/session/' + quiz_info.active + '/status', {
+        // fetch(config.basePath + '/admin/session/' + quizInfo.active + '/status', {
         //   method : 'get',
         //   headers : {
         //     'Authorization' : 'Bearer ' + localStorage['token'],
@@ -58,14 +55,15 @@ const CardTemplate = (props) => {
         // .catch(err => {
         //   alert(err.message)
         // })
-        if (quiz_info.active != null) {
+        if (quizInfo.active != null) {
           setIsPlaying(true);
         }
       });
-  }, []);
+  }, [quizInfo]);
 
+  // quizInfo.active, quizInfo.id
   const deleteQuiz = () => {
-    fetch(`${config.basePath}/admin/quiz/${quiz_info.id}`, {
+    fetch(`${config.basePath}/admin/quiz/${quizInfo.id}`, {
       method: 'delete',
       headers: {
         Authorization: `Bearer ${localStorage.token}`,
@@ -77,7 +75,8 @@ const CardTemplate = (props) => {
         }
         throw Error;
       })
-      .then((quiz) => {
+      // removed quizInfo in brackets
+      .then(() => {
         setUpdateGames(!updateGames);
       })
       .catch((err) => {
@@ -90,7 +89,7 @@ const CardTemplate = (props) => {
     // After starting, call the GET for the quizid to get the sesion ID.
 
     // call start quiz
-    fetch(`${config.basePath}/admin/quiz/${quiz_info.id}/start`, {
+    fetch(`${config.basePath}/admin/quiz/${quizInfo.id}/start`, {
       method: 'post',
       headers: {
         Authorization: `Bearer ${localStorage.token}`,
@@ -102,7 +101,7 @@ const CardTemplate = (props) => {
           throw Error(data.error);
         }
         // call GET for quizId to get session ID
-        fetch(`${config.basePath}/admin/quiz/${quiz_info.id}`, {
+        fetch(`${config.basePath}/admin/quiz/${quizInfo.id}`, {
           method: 'get',
           headers: {
             Authorization: `Bearer ${localStorage.token}`,
@@ -110,14 +109,14 @@ const CardTemplate = (props) => {
         })
         // handle other errors - 500, 404 ***
           .then((res) => res.json())
-          .then((quiz_data) => {
-            if (quiz_data.error) {
-              throw Error(quiz_data.error);
+          .then((quizData) => {
+            if (quizData.error) {
+              throw Error(quizData.error);
             }
-            setQuiz(quiz_data);
+            setQuiz(quizData);
             setIsPlaying(true);
-            setQuizActive(quiz_data.active);
-            setCurrentQuizId(quiz_info.id);
+            setQuizActive(quizData.active);
+            setCurrentQuizId(quizInfo.id);
             setOpen(true);
           })
           .catch((err) => {
@@ -133,7 +132,7 @@ const CardTemplate = (props) => {
   const stopQuiz = (e) => {
     e.preventDefault();
     // fetch - stop quiz
-    fetch(`${config.basePath}/admin/quiz/${quiz_info.id}/end`, {
+    fetch(`${config.basePath}/admin/quiz/${quizInfo.id}/end`, {
       method: 'post',
       headers: {
         Authorization: `Bearer ${localStorage.token}`,
@@ -154,21 +153,20 @@ const CardTemplate = (props) => {
       });
   };
 
-  // get all quizes api - component - state-data - click button - api - add new quiz - added to database - response? (id) - state-data(push resposne) - u cant see card information
   return (
     <Card>
       <Card.Content>
         <Image
           floated="right"
           size="mini"
-          src={quiz_info.thumbnail}
+          src={quizInfo.thumbnail}
           // x icon on card ********
           // label={{ as: 'a', color: 'red', corner: 'right', icon: 'close' }}
         />
         <Card.Header>
           Title:
           {' '}
-          {quiz_info.name}
+          {quizInfo.name}
         </Card.Header>
         <Card.Meta>
           Number of questions:
@@ -181,7 +179,7 @@ const CardTemplate = (props) => {
           {totaltime}
         </Card.Description>
         <br />
-        <Button icon="pencil alternate" size="small" onClick={() => history.push(`/game/edit/${quiz_info.id}`)} />
+        <Button icon="pencil alternate" size="small" onClick={() => history.push(`/game/edit/${quizInfo.id}`)} />
         {/* Padding left style ***  */}
         {isPlaying
 
@@ -194,7 +192,7 @@ const CardTemplate = (props) => {
 };
 
 CardTemplate.propTypes = {
-  quiz_info: PropTypes.object.isRequired,
+  quizInfo: PropTypes.object.isRequired,
   setOpen: PropTypes.func,
   setQuizActive: PropTypes.func,
   setOpenResults: PropTypes.func,
