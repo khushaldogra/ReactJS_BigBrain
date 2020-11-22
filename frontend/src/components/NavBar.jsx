@@ -3,11 +3,11 @@ import { Link, useHistory } from 'react-router-dom';
 import { Menu, Button } from 'semantic-ui-react';
 import config from '../config';
 import { BigBrainMenu } from '../styledComponents/Menu';
-import { StoreContext } from '../store';
+import { useStoreContext } from '../store';
 
 function NavBar() {
   const history = useHistory();
-  const context = useContext(StoreContext);
+  const context = useStoreContext();
   const [loggedIn, setIsLoggedIn] = context.loggedIn;
 
   const handleLogout = () => {

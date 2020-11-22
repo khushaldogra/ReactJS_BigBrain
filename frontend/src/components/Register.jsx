@@ -5,15 +5,14 @@ import config from '../config';
 import {
   RegisterBody, RegisterSegment, RegisterButton, RegisterTitle,
 } from '../styledComponents/Register';
-import { StoreContext } from '../store';
+import { useStoreContext } from '../store';
 
 function Register() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const context = useContext(StoreContext);
-  // eslint-disable-next-line react/destructuring-assignment
-  const [, setIsLoggedIn] = context.loggedIn;
+  const context = useStoreContext();
+  const [loggedIn, setIsLoggedIn] = context.loggedIn;
 
   const history = useHistory();
 

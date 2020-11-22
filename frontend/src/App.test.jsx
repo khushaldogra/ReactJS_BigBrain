@@ -4,6 +4,7 @@ import { Form, Card } from 'semantic-ui-react';
 import Register from './components/Register';
 import QuestionCard from './components/QuestionCard';
 import { CardButton } from './styledComponents/QuestionCard';
+import * as AppContext from './store';
 
 // Mock React Router Dom
 const mockHistoryPush = jest.fn();
@@ -14,11 +15,18 @@ jest.mock('react-router-dom', () => ({
   }),
   useParams: () => ({
     id: 0,
-  }),
+  })
 }));
+
+// Mock useContext
+const mockSet = jest.fn();
+const mockContext = {
+  loggedIn: [true, mockSet],
+};
 
 describe('Register', () => {
   it('Email input onChange', () => {
+    jest.spyOn(AppContext, 'useStoreContext').mockImplementation(() => mockContext);
     const register = shallow(<Register />);
     expect(register.find('input').at(0).prop('value')).toEqual('');
     register.find('input').at(0).simulate('change', { target: { value: 'email@email' } });
@@ -26,6 +34,7 @@ describe('Register', () => {
   });
 
   it('Name input onChange', () => {
+    jest.spyOn(AppContext, 'useStoreContext').mockImplementation(() => mockContext);
     const register = shallow(<Register />);
     expect(register.find('input').at(1).prop('value')).toEqual('');
     register.find('input').at(1).simulate('change', { target: { value: 'name' } });
@@ -33,6 +42,7 @@ describe('Register', () => {
   });
 
   it('Password input onChange', () => {
+    jest.spyOn(AppContext, 'useStoreContext').mockImplementation(() => mockContext);
     const register = shallow(<Register />);
     expect(register.find('input').at(2).prop('value')).toEqual('');
     register.find('input').at(2).simulate('change', { target: { value: 'password' } });
@@ -41,16 +51,19 @@ describe('Register', () => {
 
   // Check labels
   it('Email input has a label', () => {
+    jest.spyOn(AppContext, 'useStoreContext').mockImplementation(() => mockContext);
     const register = shallow(<Register />);
     expect(register.find('label').at(0).prop('htmlFor')).toEqual(register.find('input').at(0).prop('id'));
   });
 
   it('Name input has a label', () => {
+    jest.spyOn(AppContext, 'useStoreContext').mockImplementation(() => mockContext);
     const register = shallow(<Register />);
     expect(register.find('label').at(1).prop('htmlFor')).toEqual(register.find('input').at(1).prop('id'));
   });
 
   it('Password input has a label', () => {
+    jest.spyOn(AppContext, 'useStoreContext').mockImplementation(() => mockContext);
     const register = shallow(<Register />);
     expect(register.find('label').at(2).prop('htmlFor')).toEqual(register.find('input').at(2).prop('id'));
   });

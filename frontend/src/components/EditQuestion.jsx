@@ -101,37 +101,36 @@ function EditQuestion() {
 
   // Returns new list with question edited
   const getNewQuestions = () => {
-    const newQuestions = [...questions];
-    for (const json of newQuestions) {
-      if (json.questionId === parseInt(questionId)) {
-        json.type = questionType;
-        json.name = questionName;
-        json.duration = duration;
-        json.points = points;
-        json.videolink = attach;
-        json.answers = answers;
+    const newQuestions = [...questions].map((json) => {
+      const newjson = { ...json };
+      if (json.questionId === parseInt(questionId, 10)) {
+        newjson.type = questionType;
+        newjson.name = questionName;
+        newjson.duration = duration;
+        newjson.points = points;
+        newjson.videolink = attach;
+        newjson.answers = answers;
       }
-    }
+      return newjson;
+    });
     return newQuestions;
   };
 
   // Error handling for question editing
   const editError = () => {
-    // Empty field error handling?
-
     // Single/Multiple Choice
     let correct = 0;
-    for (const answer of answers) {
+    answers.forEach((answer) => {
       if (answer.correct === true) {
-        correct++;
+        correct += 1;
       }
-    }
+    });
     if (questionType === 'Single Choice' && correct !== 1) {
-      console.log('Please select only 1 answer or select multiple choice');
+      alert('Please select only 1 answer or select multiple choice');
       return true;
     }
     if (questionType === 'Multiple Choice' && correct < 2) {
-      console.log('Please select more than 1 answer or select single choice');
+      alert('Please select more than 1 answer or select single choice');
       return true;
     }
     return false;
