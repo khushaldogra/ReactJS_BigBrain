@@ -71,12 +71,21 @@ QuestionCard.propTypes = {
     type: PropTypes.string,
     points: PropTypes.number,
     questionId: PropTypes.number,
-  }).isRequired,
-  questionChange: PropTypes.bool.isRequired,
-  setQuestionChange: PropTypes.func.isRequired,
-  questions: PropTypes.instanceOf(Array).isRequired,
-  quizName: PropTypes.string.isRequired,
-  thumbnail: PropTypes.string.isRequired,
+  }),
+  questionChange: PropTypes.bool,
+  setQuestionChange: PropTypes.func,
+  questions: PropTypes.instanceOf(Array),
+  quizName: PropTypes.string,
+  thumbnail: PropTypes.string,
+};
+
+QuestionCard.defaultProps = {
+  json: {},
+  questionChange: true,
+  setQuestionChange: () => {},
+  questions: [],
+  quizName: '',
+  thumbnail: '',
 };
 
 export default QuestionCard;

@@ -37,7 +37,7 @@ function NavBar() {
 
   return (
     <BigBrainMenu>
-      <Menu.Item className="home"
+      <Menu.Item
         onClick={() => { history.push('/'); }}
       >
         Home

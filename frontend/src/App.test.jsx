@@ -25,41 +25,40 @@ const mockContext = {
   loggedIn: [true, mockSet],
 };
 
+// const mockObject =
+// {
+//   "name": "TRIAL quiz",
+//   "owner": "hayden@unsw.edu.au",
+//   "questions": [
+//     {
+//       "id": 0,
+//       "type": "Multiple",
+//       "name": "What is the name of the SECOND robot invented?",
+//       "duration": 5,
+//       "answers": [
+//         {
+//           "answerId": "ABC1",
+//           "correct": false,
+//           "title": "The dog",
+//           "colour": "blue"
+//         },
+//         {
+//           "answerId": "ABC1234",
+//           "correct": true,
+//           "title": "The cat",
+//           "colour": "red"
+//         }
+//       ],
+//       "videolink": "http://..."
+//     }
+//   ],
+//   "thumbnail": "https://react.semantic-ui.com/images/wireframe/image.png",
+// };
 
-const mockObject = 
-{
-  "name": "TRIAL quiz",
-  "owner": "hayden@unsw.edu.au",
-  "questions": [
-    {
-      "id": 0,
-      "type": "Multiple",
-      "name": "What is the name of the SECOND robot invented?",
-      "duration": 5,
-      "answers": [
-        {
-          "answerId": "ABC1",
-          "correct": false,
-          "title": "The dog",
-          "colour": "blue"
-        },
-        {
-          "answerId": "ABC1234",
-          "correct": true,
-          "title": "The cat",
-          "colour": "red"
-        }
-      ],
-      "videolink": "http://..."
-    }
-  ],
-  "thumbnail": "https://react.semantic-ui.com/images/wireframe/image.png",
-}
-
-describe('Dashboard Card', () => {
-    const card = shallow(<CardTemplate quiz_info={mockObject} />);
-    expect(card.find(Card.Header).text()).toEqual("Title: " + mockObject.name);
-});
+// describe('Dashboard Card', () => {
+//     const card = shallow(<CardTemplate quiz_info={mockObject} />);
+//     expect(card.find(Card.Header).text()).toEqual("Title: " + mockObject.name);
+// });
 
 
 describe('Register', () => {
