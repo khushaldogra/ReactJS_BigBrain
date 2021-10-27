@@ -16,7 +16,7 @@ Because your MVP is only going to be demonstrated once, your team considers it i
 
 To satisfy modern tastes and expectations you have also decided to ensure that the UI/UX and Accessibility standards are very high.
 
-**This assignment is the process you building the front-end for that MVP to the standards described.** This assignment is closely modelled off the popular game [kahoot](https://kahoot.com/). If you're not familiar with the game, we would recommend spending the time to try it out so that you can get a feel for how this application may function.
+This application is closely modelled off the popular game [kahoot](https://kahoot.com/).
 
 ## 2. The Front-end
 
@@ -24,7 +24,7 @@ Navigate to the `frontend` folder and run `yarn install` to install all of the d
 
 A series of features below need to be implemented in your ReactJS app to operate in conjunction with the backend (section 3).
 
-### 2.1. Feature 1. Admin Auth (10%)
+### 2.1. Feature 1. Admin Auth
 
 #### 2.1.1. Login Screen
  * A unique route must exist for this screen
@@ -41,7 +41,7 @@ A series of features below need to be implemented in your ReactJS app to operate
  * On all screens that require an authorised user, a logout button exists.
  * This logout button, when clicked, returns you to the login screen.
 
-### 2.2. Feature 2. Admin Creating & Editing a Game (20%)
+### 2.2. Feature 2. Admin Creating & Editing a Game
 
 #### 2.2.1. Dashboard
  * A unique route must exist for this screen
@@ -65,7 +65,7 @@ A series of features below need to be implemented in your ReactJS app to operate
    * The ability to optionally attach a URL to a youtube video, or upload a photo, to enhance the question being asked).
    * Anywhere between 2 and 6 answers, that each contain the answer as a string
 
-### 2.3. Feature 3. Admin Start, Stop, Results of game (10%)
+### 2.3. Feature 3. Admin Start, Stop, Results of game
 
 #### 2.3.1. Starting a game
  * On the dashboard page, add the ability to start a stopped game
@@ -84,7 +84,7 @@ A series of features below need to be implemented in your ReactJS app to operate
    * Some chart showing the average response/answer time for each question
    * Any other interesting information you see fit
 
-### 2.4. Feature 4. Player able to join and play game (10%)
+### 2.4. Feature 4. Player able to join and play game
 
 #### 2.4.1. Play Join
  * A unique route must exist for this screen
@@ -104,7 +104,7 @@ A series of features below need to be implemented in your ReactJS app to operate
  * After the final question is answered, a page is displayed showing the key results:
    * The player's performance in each question
 
-### 2.5. Advanced Features (10%) (THIS IS NOT BONUS FEATURES)
+### 2.5. Advanced Features 
  * For `2.2.1`, when a new game is created, the user can optionally upload a .csv or .json (you choose) file containing the full data for a game. The data structure is validated on the frontend before being passed to the backend normally. You should provide a copy of an example data file in your project repo.
  * If you implement this feature, you must attach an example .csv or .json into your repo in the project folder. This file must have name `2.5.json`  or `2.5.csv`. This is so we can actually test that it works while marking.
 
@@ -113,8 +113,6 @@ A series of features below need to be implemented in your ReactJS app to operate
 * Linting must be run from inside the `frontend` folder by running `yarn lint`.
 
 ### 2.7. Testing
-
-As part of this assignment you are required to write some tests for your components (component testing), and for your application as a whole (ui testing).
 
 For **component testing**, you must:
  * Write tests for at least 3 different components
@@ -137,7 +135,7 @@ For **ui testing**, you must:
 
 Tests must be run from inside the `frontend` folder by running `yarn test`.
 
-We recommend (not required) putting put a `TESTING.md` file in the project repo with information about your tets if you feel they need some explanation.
+The `TESTING.md` file in the project repo explains our tests in more detail.
 
 ### 2.8. General Requirements
  * Any routes you create must be intelligently and justifiably named.
