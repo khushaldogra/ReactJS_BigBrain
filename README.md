@@ -10,7 +10,7 @@ A week later you received a tentative $50,000 investment from an [Angel Investor
 
 Shortly after you discussed the functionality and feature set with your friends, and wrote out a RESTful specification / interface together so that you can split up the front-end and back-end work between the group.
 
-You (and optionally another one of your friends) decided to work on building the front-end. You wrote a list of requirements and functionalities your frontend should adhere to (described in `section 2`). You also decided to complete this application in `ReactJS`, a declarative framework for building single page applications. This front-end will interact with a Restful API that your team members are producing, based on the pre-defined interface.
+You (and another one of your friends) decided to work on building the front-end. You have also decided to complete this application in `ReactJS`, a declarative framework for building single page applications. This front-end will interact with a Restful API that your team members are producing, based on the pre-defined interface.
 
 Because your MVP is only going to be demonstrated once, your team considers it imperative that your front-end is thoroughly tested.
 
@@ -21,8 +21,6 @@ This application is closely modelled off the popular game [kahoot](https://kahoo
 ## 2. The Front-end
 
 Navigate to the `frontend` folder and run `yarn install` to install all of the dependencies necessary to run the ReactJS app. Then run `yarn start` to start the ReactJS app.
-
-A series of features below need to be implemented in your ReactJS app to operate in conjunction with the backend (section 3).
 
 ### 2.1. Feature 1. Admin Auth
 
@@ -105,25 +103,17 @@ A series of features below need to be implemented in your ReactJS app to operate
    * The player's performance in each question
 
 ### 2.5. Advanced Features 
- * For `2.2.1`, when a new game is created, the user can optionally upload a .csv or .json (you choose) file containing the full data for a game. The data structure is validated on the frontend before being passed to the backend normally. You should provide a copy of an example data file in your project repo.
- * If you implement this feature, you must attach an example .csv or .json into your repo in the project folder. This file must have name `2.5.json`  or `2.5.csv`. This is so we can actually test that it works while marking.
+ * For `2.2.1`, when a new game is created, the user can optionally upload a .json file containing the full data for a game. The data structure is validated on the frontend before being passed to the backend normally. An example data file (2.5.json) is in the src folder.
 
 ### 2.6. Linting
-
 * Linting must be run from inside the `frontend` folder by running `yarn lint`.
 
 ### 2.7. Testing
+For **component testing** we have:
+ * Tests for 3 different components
 
-For **component testing**, you must:
- * Write tests for at least 3 different components
- * For each of the 3 components, they mustn't have more than 50% similarity (e.g. you can't test a "Card" component and a "BigCard" component, that are virtually the same)
- * Ensure your tests have excellent **coverage** (look at all different use cases and edge cases)
- * Ensure your tests have excellent **clarity** (well commented and code isn't overly complex)
- * Ensure your tests are **designed** well (logical ordering of tests, avoid any tests that aren't necessary or don't add any meaningful value)
- * (We encourage you to only use shallow component rendering)
-
-For **ui testing**, you must:
- * Write a single test for the "happy path" of an admin that is described as:
+For **ui testing**, we have a single test for:
+ * The "happy path" of an admin that is described as:
    1. Registers successfully
    2. Creates a new game successfully
    3. (Not required) Updates the thumbnail and name of the game successfully (yes, it will have no questions)
@@ -137,17 +127,13 @@ Tests must be run from inside the `frontend` folder by running `yarn test`.
 
 The `TESTING.md` file in the project repo explains our tests in more detail.
 
-### 2.8. General Requirements
- * Any routes you create must be intelligently and justifiably named.
-
-### 2.9. Other notes
- * The port you can use to `fetch` data from the backend is defined in `frontend/src/config.json`
- * The data structure of a "question" is open ended - it's not defined explicitly in the backend. Because of this, the backend has 3 wrapper functions defined in `backend/src/custom.js` that it uses to extract meaning from your custom data structure. You will have to implement these as you build out your frontend.
-* For users of typescript, there is an alternatively `.eslintrc` file [being collaborated here](https://hackmd.io/sy1urGgxRpGwOJ0nOkNlUw?both). Do not change it unless given approval on forum.
+### 2.8. Other notes
+ * The port we use to `fetch` data from the backend is defined in `frontend/src/config.json`
+ * The backend has 3 wrapper functions defined in `backend/src/custom.js` that it uses to extract meaning from our custom question data structure. 
 
 ## 3. The Back-end
 
-The backend server exists in your individual repository. After you clone this repo, you must run `npm install` in the project directory once.
+The backend server exists in this individual repository. After you clone this repo, you must run `npm install` in the project directory once.
 
 To run the backend server, simply run `npm run backend` in the project directory. This will start the backend.
 
@@ -155,8 +141,6 @@ Your backend is persistent in terms of data storage. That means the data will re
 
 Once the backend has started, you can view the API documentation by navigating to `http://localhost:[port]` in a web browser.
 
-**The backend is only stubbed for the time being. The routes function, though return 200 with no payload. This will change by the end of the first week**
-
 The port that the backend runs on (and that the frontend can use) is specified in `frontend/src/config.json`.
 
-An insomnia config can be found, and will be updated, [here](http://www.cse.unsw.edu.au/~cs6080/20T3/assignments/ass3/insomnia.json).
+
