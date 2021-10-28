@@ -1,4 +1,4 @@
-# Assessment 3 - ReactJS: BigBrain
+# ReactJS: BigBrain
 
 BigBrain is a lightweight quiz application designed for secondary and tertiary students. This web-based application revolutionises the education market by creating an enjoyable and interactive way to learn content. Users can create and join multi-player quizzes to compete with each other and develop their knowledge. 
 
